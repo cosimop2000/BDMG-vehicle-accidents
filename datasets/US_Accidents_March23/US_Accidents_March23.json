@@ -1,0 +1,38 @@
+{
+    "Input": [
+        {
+            "method": "load_dataset",
+            "input": {
+                "sep": ","
+            }
+        },
+        {
+            "method": "force_execution",
+            "input": {}
+        }
+    ],
+
+    "EDA": [
+
+
+
+
+    ],
+
+    "data_transformation": [
+
+    ],
+
+    "data_cleaning": [
+
+
+    ],
+
+    "output": [
+
+
+
+    ]
+
+
+}
