@@ -2,3 +2,9 @@
 *.log
 src/algorithms/__pycache__
 src/datasets/__pycache__
+
+# Ignore PyCharm files
+.idea/
+
+# Ignore Visual Studio Code settings
+.vscode/
