@@ -2,6 +2,7 @@
 *.log
 src/algorithms/__pycache__
 src/datasets/__pycache__
+src/datasets/modules/__pycache__
 
 # Ignore PyCharm files
 .idea/
