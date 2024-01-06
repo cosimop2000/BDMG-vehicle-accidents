@@ -9,3 +9,6 @@ src/datasets/modules/__pycache__
 
 # Ignore Visual Studio Code settings
 .vscode/
+Pipfile*
+.ipynb_checkpoints
+input
