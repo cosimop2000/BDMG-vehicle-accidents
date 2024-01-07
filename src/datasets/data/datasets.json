@@ -178,7 +178,7 @@
     "type": "csv"
   },
   "US_Accidents_March23": {
-    "path": "datasets/US_Accidents_March23/US_Accidents_March23.csv",
+    "path": "datasets/US_Accidents_March23/test.csv",
     "test": " ",
     "pipe": "datasets/US_Accidents_March23/US_Accidents_March23.json",
     "type": "csv"

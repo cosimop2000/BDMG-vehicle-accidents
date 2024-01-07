@@ -4,6 +4,11 @@
             "method": "load_dataset",
             "input": {
                 "sep": ","
+            },
+             
+            "input_spark": {
+                "sep": ",",
+                "format": "csv"
             }
         },
         {
