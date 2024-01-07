@@ -2,8 +2,10 @@
     "Input": [
         {
             "method": "load_dataset",
-            "input": {
+            "input_pandas": {
                 "sep": ","
+            },
+            "input_vaex": {
             }
         },
         {
@@ -13,7 +15,18 @@
     ],
 
     "EDA": [
-
+        {
+            "method": "get_columns",
+            "input":{}
+        },
+        {
+            "method": "get_stats",
+            "input": {}
+        },
+        {
+            "method": "force_execution",
+            "input": {}
+        }
 
 
 
