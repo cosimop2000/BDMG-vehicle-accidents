@@ -11,6 +11,8 @@ from src.algorithms.utils import timing
 from src.datasets.dataset import Dataset
 from src.algorithms.algorithm import AbstractAlgorithm
 
+import numpy as np
+
 
 class PandasBench(AbstractAlgorithm):
     df_: Union[pd.DataFrame, pd.Series] = None
@@ -665,6 +667,21 @@ class PandasBench(AbstractAlgorithm):
             self.df_ = self.df_.query(query)
             return self.df_
         return self.df_.query(query)
+    
+    @timing
+    def perc_null_values(self):
+        #EDA
+        #print number and percentage of null entries per variable
+
+        for column in self.df_.columns:
+            print('{}: {} ({}%)'.format(column,pd.isnull(self.df_[column]).sum(),
+                                        (pd.isnull(self.df_[column]).sum()/len(self.df_))*100))
+    
+    @timing
+    def check_missing_values(self, col1, col2):
+        #EDA
+        #check to see if missing values are in same rows
+        return self.df_[np.logical_xor(self.df_[col1].isna(),self.df_[col2].isna()) == True]
     
     def force_execution(self):
         pass

@@ -42,6 +42,27 @@
             "input": {}
         },
         {
+            "method": "perc_null_values",
+            "input":{}
+        },
+        {
+            "method":"query",
+            "input_pandas":{
+                "query":"(Start_Lat == End_Lat) & (Start_Lng == End_Lng)"
+            },
+            "input_vaex":{
+                "query":"(Start_Lat == End_Lat) & (Start_Lng == End_Lng)"
+            }
+
+        },
+        {
+            "method":"check_missing_values",
+            "input_pandas":{
+                "col1": "End_Lat",
+                "col2": "End_Lng"
+            }
+        },
+        {
             "method": "force_execution",
             "input": {}
         }

@@ -336,13 +336,13 @@ class VaexBench(AbstractAlgorithm):
         Returns dataframe statistics.
         Only for numeric columns.
         Min value, max value, average value, standard deviation, and standard quantiles.
-        """
+        """        
         df_copy = self.df_.copy()
         for c in self.get_columns():
             if str(df_copy[c].dtype) in {'date32[day]', 'time32[s]'} :
                 df_copy[c] = df_copy[c].astype(str)
-        
-        
+
+                
         return df_copy.describe(strings=False)
 
     #SOLUTION NOT FOUND
@@ -923,6 +923,16 @@ class VaexBench(AbstractAlgorithm):
     
     def drop_by_pattern(self, column, pattern):
         pass
+
+    @timing
+    def perc_null_values(self):
+        #EDA
+        #print number and percentage of null entries per variable
+
+        for column in self.df_.columns:
+            print('{}: {} ({}%)'.format(column,self.df_[column].isna().sum(),
+                                        (self.df_[column].isna().sum()/len(self.df_))*100))
+   
     
     def force_execution(self):
         return self.df_.execute()
