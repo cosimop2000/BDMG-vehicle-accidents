@@ -6,6 +6,24 @@
                 "sep": ","
             },
             "input_vaex": {
+            },
+            "input_polars":{
+
+            },
+            "input_datatable":{
+
+            },
+            "input_spark":{
+
+            },
+            "input_dask":{
+
+            },
+            "input_pyspark_pandas":{
+
+            },
+            "input_modin_ray":{
+                
             }
         },
         {
