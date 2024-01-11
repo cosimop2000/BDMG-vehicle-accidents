@@ -12,7 +12,11 @@ from src.datasets.dataset import Dataset
 from src.algorithms.algorithm import AbstractAlgorithm
 
 import numpy as np
+import geopandas
+import geoplot as gplt
+import geoplot.crs as gcrs
 
+import matplotlib.pyplot as plt
 
 class PandasBench(AbstractAlgorithm):
     df_: Union[pd.DataFrame, pd.Series] = None
@@ -695,8 +699,10 @@ class PandasBench(AbstractAlgorithm):
         return self.df_[[a and b for a,b in zip(self.df_[col1] == 0, self.df_[col2].isna())]][[col3,col4]]
     
     @timing
-    def plot_geo(self,frame,):
-        print(frame)
+    def plot_geo(self,frame,i):
+        contiguous_usa = geopandas.read_file(gplt.datasets.get_path('contiguous_usa'))
+        ax = gplt.polyplot(contiguous_usa,projection=gcrs.AlbersEqualArea(),figsize=(20, 20))
+        gplt.pointplot(frame, ax=ax, hue=frame[i], scale=frame[i], legend=True, legend_var='hue')
         return frame
     
     def force_execution(self):
