@@ -572,15 +572,21 @@ class PandasBench(AbstractAlgorithm):
         return self.df_
 
     @timing
-    def replace(self, columns, to_replace, value, regex):
+    def replace(self, columns, to_replace, value=None, regex=False):
         """
         Replace all occurrencies of to_replace (numeric, string, regex, list, dict) in the provided columns using the provided value
         Regex is a boolean: if true, to_replace is interpreted as a regex
         Columns is a list of column names
         """
-        self.df_[columns] = self.df_[columns].replace(
+        if value is None:
+            self.df_[columns] = self.df_[columns].replace(
+            to_replace=to_replace
+        )
+        else:
+            self.df_[columns] = self.df_[columns].replace(
             to_replace=to_replace, value=value, regex=regex
         )
+        #print(self.df_["Wind_Direction"].unique())
         return self.df_
 
     @timing
@@ -687,6 +693,11 @@ class PandasBench(AbstractAlgorithm):
     def look_for_cases(self, col1, col2, col3, col4):
         # es. looking for cases where Humidity is zero and Percipitation is null
         return self.df_[[a and b for a,b in zip(self.df_[col1] == 0, self.df_[col2].isna())]][[col3,col4]]
+    
+    @timing
+    def plot_geo(self,frame,):
+        print(frame)
+        return frame
     
     def force_execution(self):
         pass

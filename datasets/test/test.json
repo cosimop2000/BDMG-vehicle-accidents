@@ -121,6 +121,7 @@
                 "columns":["Weather_Condition"]
             }
         },
+        
         {
             "method": "force_execution",
             "input": {}
@@ -160,7 +161,38 @@
     ],
 
     "data_cleaning": [
-     
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "West": "W",
+                    "Variable": "VAR",
+                    "South": "S",
+                    "Calm": "CALM",
+                    "East": "E",
+                    "North": "N"
+                }
+            }
+        },
         {
             "method": "force_execution",
             "input": {}
