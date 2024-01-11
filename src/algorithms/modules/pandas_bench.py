@@ -683,6 +683,11 @@ class PandasBench(AbstractAlgorithm):
         #check to see if missing values are in same rows
         return self.df_[np.logical_xor(self.df_[col1].isna(),self.df_[col2].isna()) == True]
     
+    @timing
+    def look_for_cases(self, col1, col2, col3, col4):
+        # es. looking for cases where Humidity is zero and Percipitation is null
+        return self.df_[[a and b for a,b in zip(self.df_[col1] == 0, self.df_[col2].isna())]][[col3,col4]]
+    
     def force_execution(self):
         pass
     
