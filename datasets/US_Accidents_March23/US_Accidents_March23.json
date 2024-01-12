@@ -42,6 +42,161 @@
             "input": {}
         },
         {
+            "method": "perc_null_values",
+            "input":{}
+        },
+        {
+            "method":"query",
+            "input_pandas":{
+                "query":"(Start_Lat == End_Lat) & (Start_Lng == End_Lng)"
+            },
+            "input_vaex":{
+                "query":"(Start_Lat == End_Lat) & (Start_Lng == End_Lng)"
+            }
+
+        },
+        {
+            "method":"check_missing_values",
+            "input_pandas":{
+                "col1": "End_Lat",
+                "col2": "End_Lng"
+            }
+        },
+        {
+            "method":"is_unique",
+            "input_pandas":{
+                "column":"ID"
+            }
+        },
+        {
+            "method":"is_unique",
+            "input_pandas":{
+                "column":"Description"
+            }
+        },
+        {
+            "method":"is_unique",
+            "input_pandas":{
+                "column":"Wind_Direction"
+            }
+        },
+        {
+            "method":"locate_null_values",
+            "input_pandas":{
+                "column":"Airport_Code"
+            }
+        },
+        {
+            "method":"query",
+            "input_pandas":{
+                "query":"`Precipitation(in)` == 0"
+            },
+            "input_vaex":{
+                "query":"`Precipitation(in)` == 0"
+            }
+
+        },
+        {
+            "method":"look_for_cases",
+            "input_pandas":{
+                "col1":"Humidity(%)",
+                "col2":"Precipitation(in)",
+                "col3":"Humidity(%)",
+                "col4":"Precipitation(in)"
+            }
+        },
+        {
+            "method":"look_for_cases",
+            "input_pandas":{
+                "col1":"Wind_Speed(mph)",
+                "col2":"Wind_Chill(F)",
+                "col3":"Wind_Speed(mph)",
+                "col4":"Wind_Chill(F)"
+            }
+        },
+        {
+            "method":"sample_rows",
+            "input_pandas":{
+                "frac": true,
+                "num": 1
+            }
+        },
+        {
+            "method":"sort",
+            "input_pandas":{
+                "columns":["Weather_Condition"]
+            }
+        },
+        {
+            "method":"plot_geo",
+            "input_pandas":{
+                "frame": "gdfs_sample",
+                "i": "Severity",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            }
+        },
+        {
+            "method":"plot_geo",
+            "input_pandas":{
+                "frame": "gdfs_sample",
+                "i": "Temperature(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            }
+        },
+        {
+            "method":"plot_geo",
+            "input_pandas":{
+                "frame": "gdfs_sample",
+                "i": "Wind_Chill(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            }
+        },
+        {
             "method": "force_execution",
             "input": {}
         }
@@ -51,11 +206,149 @@
     ],
 
     "data_transformation": [
+        {
+            "method":"change_date_time_format",
+            "input_pandas":{
+                "column":"Start_Time",
+                "format":"%Y-%m-%d %H:%M:%S"
+            }
+        },
+        {
+            "method":"change_date_time_format",
+            "input_pandas":{
+                "column":"End_Time",
+                "format":"%Y-%m-%d %H:%M:%S"
+            }
+        },
+        {
+            "method":"change_date_time_format",
+            "input_pandas":{
+                "column":"Weather_Timestamp",
+                "format":"%Y-%m-%d %H:%M:%S"
+            }
+        },
+        {
+            "method":"split",
+            "input_pandas":{
+                "column":"Weather_Timestamp",
+                "sep": " ",
+                "splits": 2,
+                "col_names": ["day", "hour"]
+
+            }
+        },
+        {
+            "method":"delete_columns",
+            "input_pandas":{
+                "columns":["ID","Start_Time","End_Time", "Weather_Timestamp"]
+            }
+        },
+        {
+            "method":"calc_column",
+            "input_pandas":{
+                "col_name":"abs_end_lng_change",
+                "columns":["End_Lng"],
+                "f":"lambda x: abs(x)"
+            }
+        },
+        {
+            "method":"calc_column",
+            "input_pandas":{
+                "col_name":"abs_end_lat_change",
+                "columns":["End_Lat"],
+                "f":"lambda x: abs(x)"
+            }
+        },
+        {
+            "method":"simple_imputer",
+            "input_pandas":{
+                "columns":["Temperature(F)","Wind_Chill(F)","Humidity(%)","Pressure(in)","Visibility(mi)","Wind_Speed(mph)","Precipitation(in)"]
+            }
+        },
+        {
+            "method":"pca",
+            "input_pandas":{
+                "data_pca":"data_pca",
+                "req_compile":[
+                    "data_pca"
+                ],
+                "extra_commands":[
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "numerical = ['Start_Lat', 'Start_Lng', 'End_Lat', 'End_Lng', 'Distance(mi)', 'Temperature(F)', 'Wind_Chill(F)', 'Humidity(%)', 'Pressure(in)', 'Visibility(mi)','Wind_Speed(mph)', 'Precipitation(in)']",
+                    "accident_sample = accident_data[numerical].sample(int(len(accident_data)/100))",
+                    "data_pca = (accident_sample - accident_sample.mean(axis=0)) / accident_sample.std(axis=0)"
+                ]
+            }
+        },
+        {
+            "method": "force_execution",
+            "input": {}    
+        }
 
     ],
 
     "data_cleaning": [
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "West": "W",
+                    "Variable": "VAR",
+                    "South": "S",
+                    "Calm": "CALM",
+                    "East": "E",
+                    "North": "N"
+                }
+            }
+        },
+        {
+            "method":"fill_nan",
+            "input_pandas":{
+                "value":"KBTR",
+                "columns":["Airport_Code"]
+            }
+        },
+        {
+            "method":"delete_empty_rows",
+            "input_pandas":{
+                "columns":"all"
+            }
+        },
+        {
+            "method":"split",
+            "input_pandas":{
+                "column":"Zipcode",
+                "sep": "-",
+                "splits": 2,
+                "col_names": ["Zipcode_ok", "Zipcode_not_ok"]
 
+            }
+        },
+        {
+            "method": "force_execution",
+            "input": {}
+        
+        }
 
     ],
 
