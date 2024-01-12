@@ -16,7 +16,11 @@ import geopandas
 import geoplot as gplt
 import geoplot.crs as gcrs
 
+from sklearn.impute import SimpleImputer
+from sklearn.decomposition import PCA
+
 import matplotlib.pyplot as plt
+
 
 class PandasBench(AbstractAlgorithm):
     df_: Union[pd.DataFrame, pd.Series] = None
@@ -454,7 +458,7 @@ class PandasBench(AbstractAlgorithm):
         using the provided sep string as separator
         Col_names is a list of column names
         """
-        self.df_[col_names] = self.df_[column].str.split(sep, splits, expand=True)
+        self.df_[col_names] = self.df_[column].str.split(sep, n=splits, expand=True)
         return self.df_
 
     @timing
@@ -705,6 +709,23 @@ class PandasBench(AbstractAlgorithm):
         gplt.pointplot(frame, ax=ax, hue=frame[i], scale=frame[i], legend=True, legend_var='hue')
         return frame
     
+    @timing
+    def simple_imputer(self, columns):
+        imputer1 = SimpleImputer(missing_values=np.nan, strategy='median')
+        accident_data_median_fit = imputer1.fit_transform(self.df_[columns])
+        accident_data_median = imputer1.transform(accident_data_median_fit)
+
+        self.df_[columns] = pd.DataFrame(accident_data_median)
+        return self.df_
+    
+    @timing
+    def pca(self, data_pca):
+        # Create principal components
+        data_pca = data_pca.dropna()
+        pca = PCA(3)
+        accident_data_pca = pca.fit_transform(data_pca)
+        return accident_data_pca
+
     def force_execution(self):
         pass
     

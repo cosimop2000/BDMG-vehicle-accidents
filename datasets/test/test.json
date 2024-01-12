@@ -75,6 +75,12 @@
             }
         },
         {
+            "method":"is_unique",
+            "input_pandas":{
+                "column":"Wind_Direction"
+            }
+        },
+        {
             "method":"locate_null_values",
             "input_pandas":{
                 "column":"Airport_Code"
@@ -222,6 +228,60 @@
             }
         },
         {
+            "method":"split",
+            "input_pandas":{
+                "column":"Weather_Timestamp",
+                "sep": " ",
+                "splits": 2,
+                "col_names": ["day", "hour"]
+
+            }
+        },
+        {
+            "method":"delete_columns",
+            "input_pandas":{
+                "columns":["ID","Start_Time","End_Time", "Weather_Timestamp"]
+            }
+        },
+        {
+            "method":"calc_column",
+            "input_pandas":{
+                "col_name":"abs_end_lng_change",
+                "columns":["End_Lng"],
+                "f":"lambda x: abs(x)"
+            }
+        },
+        {
+            "method":"calc_column",
+            "input_pandas":{
+                "col_name":"abs_end_lat_change",
+                "columns":["End_Lat"],
+                "f":"lambda x: abs(x)"
+            }
+        },
+        {
+            "method":"simple_imputer",
+            "input_pandas":{
+                "columns":["Temperature(F)","Wind_Chill(F)","Humidity(%)","Pressure(in)","Visibility(mi)","Wind_Speed(mph)","Precipitation(in)"]
+            }
+        },
+        {
+            "method":"pca",
+            "input_pandas":{
+                "data_pca":"data_pca",
+                "req_compile":[
+                    "data_pca"
+                ],
+                "extra_commands":[
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "numerical = ['Start_Lat', 'Start_Lng', 'End_Lat', 'End_Lng', 'Distance(mi)', 'Temperature(F)', 'Wind_Chill(F)', 'Humidity(%)', 'Pressure(in)', 'Visibility(mi)','Wind_Speed(mph)', 'Precipitation(in)']",
+                    "accident_sample = accident_data[numerical].sample(int(len(accident_data)/100))",
+                    "data_pca = (accident_sample - accident_sample.mean(axis=0)) / accident_sample.std(axis=0)"
+                ]
+            }
+        },
+        {
             "method": "force_execution",
             "input": {}    
         }
@@ -259,6 +319,29 @@
                     "East": "E",
                     "North": "N"
                 }
+            }
+        },
+        {
+            "method":"fill_nan",
+            "input_pandas":{
+                "value":"KBTR",
+                "columns":["Airport_Code"]
+            }
+        },
+        {
+            "method":"delete_empty_rows",
+            "input_pandas":{
+                "columns":"all"
+            }
+        },
+        {
+            "method":"split",
+            "input_pandas":{
+                "column":"Zipcode",
+                "sep": "-",
+                "splits": 2,
+                "col_names": ["Zipcode_ok", "Zipcode_not_ok"]
+
             }
         },
         {
