@@ -719,10 +719,10 @@ class PandasBench(AbstractAlgorithm):
         return self.df_
     
     @timing
-    def pca(self, data_pca):
+    def pca(self, data_pca, n_dim=3):
         # Create principal components
         data_pca = data_pca.dropna()
-        pca = PCA(3)
+        pca = PCA(n_dim)
         accident_data_pca = pca.fit_transform(data_pca)
         return accident_data_pca
 
