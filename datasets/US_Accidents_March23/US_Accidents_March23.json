@@ -186,7 +186,7 @@
             },
             "input_vaex":{
                 "frame": "gdfs_sample",
-                "i": "Severity",
+                "i": 2,
                 "req_compile":[
                     "frame"
                 ],
@@ -197,11 +197,12 @@
                     "import matplotlib.pyplot as plt",
                     "import pandas as pd",
                     "import numpy as np",
-                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "import vaex as vx",
+                    "accident_data = vx.read_csv(r'datasets/test/sample.csv')",
                     "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
                     "start_lng = accident_data['Start_Lng'].to_numpy()",
                     "start_lat = accident_data['Start_Lat'].to_numpy()",
-                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(start_lng, start_lat))",
                     "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
                     "print(gdfs_sample)"
 
@@ -232,7 +233,7 @@
             },
             "input_vaex":{
                 "frame": "gdfs_sample",
-                "i": "Temperature(F)",
+                "i": 0,
                 "req_compile":[
                     "frame"
                 ],
@@ -243,11 +244,12 @@
                     "import matplotlib.pyplot as plt",
                     "import pandas as pd",
                     "import numpy as np",
-                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "import vaex as vx",
+                    "accident_data = vx.read_csv(r'datasets/test/sample.csv')",
                     "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
                     "start_lng = accident_data['Start_Lng'].to_numpy()",
                     "start_lat = accident_data['Start_Lat'].to_numpy()",
-                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(start_lng, start_lat))",
                     "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
                     "print(gdfs_sample)"
 
@@ -278,7 +280,7 @@
             },
             "input_vaex":{
                 "frame": "gdfs_sample",
-                "i": "Wind_Chill(F)",
+                "i": 1,
                 "req_compile":[
                     "frame"
                 ],
@@ -289,11 +291,12 @@
                     "import matplotlib.pyplot as plt",
                     "import pandas as pd",
                     "import numpy as np",
-                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "import vaex as vx",
+                    "accident_data = vx.read_csv(r'datasets/test/sample.csv')",
                     "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
                     "start_lng = accident_data['Start_Lng'].to_numpy()",
                     "start_lat = accident_data['Start_Lat'].to_numpy()",
-                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(start_lng, start_lat))",
                     "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
                     "print(gdfs_sample)"
 
