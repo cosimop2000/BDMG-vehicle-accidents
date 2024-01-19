@@ -12,6 +12,7 @@ from typing import Union
 from haversine import haversine
 import pyspark.sql.functions as fn
 from pyspark.sql.functions import *
+from pyspark.sql.functions import col, count
         
 from pyspark.conf import SparkConf
 from pyspark.ml import Pipeline
@@ -981,3 +982,25 @@ class SparkBench(AbstractAlgorithm):
         Export the dataframe in a csv file.
         """
         self.df_.coalesce(1).write.mode("overwrite").save(path, format="parquet", header=True)
+    
+    @timing
+    def perc_null_values(self):
+        #EDA
+        #print number and percentage of null entries per variable
+
+        for column in self.df_.columns:
+            null_count = self.df_.where(col(column).isNull()).count()
+            percentage = (null_count / self.df_.count()) * 100
+            print('{}: {} ({}%)'.format(column, null_count, percentage))
+
+    @timing
+    def check_missing_values(self, col1, col2):
+        #EDA
+        #check to see if missing values are in same rows
+        return self.df_.filter(~((col(col1).isNull() & col(col2).isNull()) | (col(col1).isNotNull() & col(col2).isNotNull())))
+
+    @timing
+    def look_for_cases(self, col1, col2, col3, col4):
+        # es. looking for cases where Humidity is zero and Percipitation is null 
+        return self.df_.filter((col(col1) == 0) & col(col2).isNull()).select(col(col3), col(col4))
+

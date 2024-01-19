@@ -55,6 +55,9 @@
             },
             "input_vaex":{
                 "query":"(Start_Lat == End_Lat) & (Start_Lng == End_Lng)"
+            },
+            "input_spark":{
+                "query":"(fn.col('Start_Lat') == fn.col('End_Lat')) & (fn.col('Start_Lng') == fn.col('End_Lng'))"
             }
 
         },
@@ -67,6 +70,10 @@
             "input_vaex":{
                 "col1": "End_Lat",
                 "col2": "End_Lng"
+            },
+            "input_spark":{
+                "col1": "End_Lat",
+                "col2": "End_Lng"
             }
         },
         {
@@ -75,6 +82,9 @@
                 "column":"ID"
             },
             "input_vaex":{
+                "column":"ID"
+            },
+            "input_spark":{
                 "column":"ID"
             }
         },
@@ -84,6 +94,9 @@
                 "column":"Description"
             },
             "input_vaex":{
+                "column":"Description"
+            },
+            "input_spark":{
                 "column":"Description"
             }
         },
@@ -93,6 +106,9 @@
                 "column":"Wind_Direction"
             },
             "input_vaex":{
+                "column":"Wind_Direction"
+            },
+            "input_spark":{
                 "column":"Wind_Direction"
             }
         },
@@ -103,6 +119,9 @@
             },
             "input_vaex":{
                 "column":"Airport_Code"
+            },
+            "input_spark":{
+                "column":"all"
             }
         },
         {
@@ -112,6 +131,9 @@
             },
             "input_vaex":{
                 "query":"`Precipitation(in)` == 0"
+            },
+            "input_spark":{
+                "query":"fn.col('Precipitation(in)') == 0"
             }
 
         },
@@ -124,6 +146,12 @@
                 "col4":"Precipitation(in)"
             },
             "input_vaex":{
+                "col1":"Humidity(%)",
+                "col2":"Precipitation(in)",
+                "col3":"Humidity(%)",
+                "col4":"Precipitation(in)"     
+            },
+            "input_spark":{
                 "col1":"Humidity(%)",
                 "col2":"Precipitation(in)",
                 "col3":"Humidity(%)",
@@ -143,6 +171,12 @@
                 "col2":"Wind_Chill(F)",
                 "col3":"Wind_Speed(mph)",
                 "col4":"Wind_Chill(F)"    
+            },
+            "input_spark":{
+                "col1":"Wind_Speed(mph)",
+                "col2":"Wind_Chill(F)",
+                "col3":"Wind_Speed(mph)",
+                "col4":"Wind_Chill(F)"    
             }
         },
         {
@@ -154,6 +188,10 @@
             "input_vaex":{
                 "frac": true,
                 "num": 1    
+            },
+            "input_spark":{
+                "frac": true,
+                "num": 1    
             }
         },
         {
@@ -162,6 +200,9 @@
                 "columns":["Weather_Condition"]
             },
             "input_vaex":{
+                "columns":["Weather_Condition"]
+            },
+            "input_spark":{
                 "columns":["Weather_Condition"]
             }
         },
