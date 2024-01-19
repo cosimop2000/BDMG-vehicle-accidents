@@ -11,6 +11,16 @@ from src.algorithms.utils import timing
 from src.datasets.dataset import Dataset
 from src.algorithms.algorithm import AbstractAlgorithm
 
+import numpy as np
+import geopandas
+import geoplot as gplt
+import geoplot.crs as gcrs
+
+from sklearn.impute import SimpleImputer
+from sklearn.decomposition import PCA
+
+import matplotlib.pyplot as plt
+
 
 class PandasBench(AbstractAlgorithm):
     df_: Union[pd.DataFrame, pd.Series] = None
@@ -448,7 +458,7 @@ class PandasBench(AbstractAlgorithm):
         using the provided sep string as separator
         Col_names is a list of column names
         """
-        self.df_[col_names] = self.df_[column].str.split(sep, splits, expand=True)
+        self.df_[col_names] = self.df_[column].str.split(sep, n=splits, expand=True)
         return self.df_
 
     @timing
@@ -570,15 +580,21 @@ class PandasBench(AbstractAlgorithm):
         return self.df_
 
     @timing
-    def replace(self, columns, to_replace, value, regex):
+    def replace(self, columns, to_replace, value=None, regex=False):
         """
         Replace all occurrencies of to_replace (numeric, string, regex, list, dict) in the provided columns using the provided value
         Regex is a boolean: if true, to_replace is interpreted as a regex
         Columns is a list of column names
         """
-        self.df_[columns] = self.df_[columns].replace(
+        if value is None:
+            self.df_[columns] = self.df_[columns].replace(
+            to_replace=to_replace
+        )
+        else:
+            self.df_[columns] = self.df_[columns].replace(
             to_replace=to_replace, value=value, regex=regex
         )
+        #print(self.df_["Wind_Direction"].unique())
         return self.df_
 
     @timing
@@ -666,6 +682,50 @@ class PandasBench(AbstractAlgorithm):
             return self.df_
         return self.df_.query(query)
     
+    @timing
+    def perc_null_values(self):
+        #EDA
+        #print number and percentage of null entries per variable
+
+        for column in self.df_.columns:
+            print('{}: {} ({}%)'.format(column,pd.isnull(self.df_[column]).sum(),
+                                        (pd.isnull(self.df_[column]).sum()/len(self.df_))*100))
+    
+    @timing
+    def check_missing_values(self, col1, col2):
+        #EDA
+        #check to see if missing values are in same rows
+        return self.df_[np.logical_xor(self.df_[col1].isna(),self.df_[col2].isna()) == True]
+    
+    @timing
+    def look_for_cases(self, col1, col2, col3, col4):
+        # es. looking for cases where Humidity is zero and Percipitation is null
+        return self.df_[[a and b for a,b in zip(self.df_[col1] == 0, self.df_[col2].isna())]][[col3,col4]]
+    
+    @timing
+    def plot_geo(self,frame,i):
+        contiguous_usa = geopandas.read_file(gplt.datasets.get_path('contiguous_usa'))
+        ax = gplt.polyplot(contiguous_usa,projection=gcrs.AlbersEqualArea(),figsize=(20, 20))
+        gplt.pointplot(frame, ax=ax, hue=frame[i], scale=frame[i], legend=True, legend_var='hue')
+        return frame
+    
+    @timing
+    def simple_imputer(self, columns):
+        imputer1 = SimpleImputer(missing_values=np.nan, strategy='median')
+        accident_data_median_fit = imputer1.fit_transform(self.df_[columns])
+        accident_data_median = imputer1.transform(accident_data_median_fit)
+
+        self.df_[columns] = pd.DataFrame(accident_data_median)
+        return self.df_
+    
+    @timing
+    def pca(self, data_pca, n_dim=3):
+        # Create principal components
+        data_pca = data_pca.dropna()
+        pca = PCA(n_dim)
+        accident_data_pca = pca.fit_transform(data_pca)
+        return accident_data_pca
+
     def force_execution(self):
         pass
     

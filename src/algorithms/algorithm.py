@@ -603,5 +603,9 @@ class AbstractAlgorithm(abc.ABC):
         """
         pass
 
+    @abc.abstractmethod
+    def perc_null_values(self):
+        pass
+
     class Config:
         arbitrary_types_allowed = True

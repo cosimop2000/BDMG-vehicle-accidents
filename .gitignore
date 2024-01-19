@@ -12,3 +12,5 @@ src/datasets/modules/__pycache__
 Pipfile*
 .ipynb_checkpoints
 input
+
+*.png

@@ -12,4 +12,8 @@ The dataset files, including the JSON files, should be placed in the `datasets` 
 
 To run
 
-python run_algorithm.py --locally --algorithm <algorithm_name> --dataset <dataset_name>
+python3 run_algorithm.py --algorithm <algorithm_name> --dataset <dataset_name> --locally
+
+python3 run_algorithm.py --algorithm <algorithm_name> --dataset <dataset_name> --pipeline --locally
+
+python3 run_algorithm.py --algorithm <algorithm_name> --dataset <dataset_name> --pipeline-step --locally

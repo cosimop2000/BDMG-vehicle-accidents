@@ -12,6 +12,13 @@ from src.datasets.dataset import Dataset
 from haversine import haversine
 from src.algorithms.algorithm import AbstractAlgorithm
 
+import geopandas
+import geoplot as gplt
+import geoplot.crs as gcrs
+
+import matplotlib.pyplot as plt
+from sklearn.impute import SimpleImputer
+from sklearn.decomposition import PCA
 
 class VaexBench(AbstractAlgorithm):
     df_: vx.dataframe.DataFrame = None
@@ -336,13 +343,13 @@ class VaexBench(AbstractAlgorithm):
         Returns dataframe statistics.
         Only for numeric columns.
         Min value, max value, average value, standard deviation, and standard quantiles.
-        """
+        """        
         df_copy = self.df_.copy()
         for c in self.get_columns():
             if str(df_copy[c].dtype) in {'date32[day]', 'time32[s]'} :
                 df_copy[c] = df_copy[c].astype(str)
-        
-        
+
+                
         return df_copy.describe(strings=False)
 
     #SOLUTION NOT FOUND
@@ -757,7 +764,7 @@ class VaexBench(AbstractAlgorithm):
         return self.df_.concat(other)
 
     @timing
-    def replace(self, columns, to_replace, value, regex):
+    def replace(self, columns, to_replace, value=None, regex=False):
         """
         Replace all occurrences of to_replace (numeric, string, regex, list, dict) in the provided columns using the
         provided value
@@ -923,7 +930,65 @@ class VaexBench(AbstractAlgorithm):
     
     def drop_by_pattern(self, column, pattern):
         pass
+
+    @timing
+    def perc_null_values(self):
+        #EDA
+        #print number and percentage of null entries per variable
+
+        for column in self.df_.columns:
+            print('{}: {} ({}%)'.format(column,self.df_[column].isna().sum(),
+                                        (self.df_[column].isna().sum()/len(self.df_))*100))
+        
     
+    @timing
+    def check_missing_values(self,col1, col2):
+        missing_rows = self.df_.filter(
+            (self.df_[col1].isna()) ^ (self.df_[col2].isna()))
+        return missing_rows
+    
+    @timing
+    def look_for_cases(self,col1,col2,col3,col4):
+        temp = (self.df_[col1] == 0) & self.df_[col2].isna()
+        result = self.df_[temp][[col3,col4]]
+        #print(result)
+        return result
+    
+    @timing
+    def plot_geo(self, frame, i):
+        
+        contiguous_usa = geopandas.read_file(gplt.datasets.get_path('contiguous_usa'))
+        ax = gplt.polyplot(contiguous_usa,projection=gcrs.AlbersEqualArea(),figsize=(20, 20))
+        gplt.pointplot(frame, ax=ax, hue=frame[i], scale=frame[i], legend=True, legend_var='hue')
+        return frame
+    
+    @timing
+    def simple_imputer(self, columns):
+        imputer1 = SimpleImputer(missing_values=np.nan, strategy='median')
+        accident_data_median_fit = imputer1.fit_transform(self.df_[columns])
+        accident_data_median = imputer1.transform(accident_data_median_fit)
+
+        a = pd.DataFrame(accident_data_median, columns=columns)
+        for col in columns:
+            self.df_[col] = a[col].values
+        return self.df_
+    
+    @timing
+    def pca(self, data_pca, n_dim=3):
+
+        numerical = data_pca.get_column_names()
+        #print(numerical)
+        scaler = vx.ml.StandardScaler(features=numerical)
+        scaler.fit(data_pca)
+        data_pca = scaler.transform(data_pca)
+
+
+        pca = vx.ml.PCA(features=numerical, n_components=n_dim)
+        pca.fit(data_pca)
+        df_trans = pca.transform(data_pca)
+        return df_trans
+
+
     def force_execution(self):
         return self.df_.execute()
     
