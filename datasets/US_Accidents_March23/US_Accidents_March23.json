@@ -40,6 +40,7 @@
             "method": "get_columns",
             "input":{}
         },
+        
         {
             "method": "get_stats",
             "input": {}
@@ -251,6 +252,55 @@
                     "print(gdfs_sample)"
 
                 ]
+            },
+            "input_spark":{
+                "frame": "gdfs_sample",
+                "i":  "Severity",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import pandas as pd",
+                    "import numpy as np",
+                    "from pyspark.sql import DataFrame, SparkSession",
+                    "from pyspark.sql.functions import col, expr, lit",
+                    "import matplotlib.pyplot as plt",
+                    "import pyspark.sql.functions as fn",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/test.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "l = len(gdf_severity)",
+                    "gdfs_sample = gdf_severity.sample(int(l/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            },
+            "input_spark2":{
+                "frame": "gdfs_sample",
+                "i": "fn.col('Severity')",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import pandas as pd",
+                    "import numpy as np",
+                    "from pyspark.sql import DataFrame, SparkSession",
+                    "from pyspark.sql.functions import col, expr, lit",
+                    "import matplotlib.pyplot as plt",
+                    "import pyspark.sql.functions as fn",
+                    "spark = SparkSession.builder.appName('AccidentData').getOrCreate()",
+                    "accident_data = spark.read.csv(r'datasets/US_Accidents_March23/test.csv', header=True, inferSchema=True)",
+                    "severity_locations = accident_data.select('Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat')",
+                    "severity_locations_with_geometry = severity_locations.withColumn('geometry',lit(None).cast('string'))",
+                    "crs = 'EPSG:4326'",
+                    "gdf_severity = severity_locations_with_geometry.select('Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat',col('geometry').alias('geometry') )",
+                    "gdfs_sample = gdf_severity.sample(withReplacement=False, fraction=0.1, seed=42)",
+                    "print(gdfs_sample)"
+
+                ]
             }
         },
         {
@@ -298,6 +348,31 @@
                     "print(gdfs_sample)"
 
                 ]
+            },
+            "input_spark":{
+                "frame": "gdfs_sample",
+                "i":  "Temperature(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import pandas as pd",
+                    "import numpy as np",
+                    "from pyspark.sql import DataFrame, SparkSession",
+                    "from pyspark.sql.functions import col, expr, lit",
+                    "import matplotlib.pyplot as plt",
+                    "import pyspark.sql.functions as fn",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/test.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "l = len(gdf_severity)",
+                    "gdfs_sample = gdf_severity.sample(int(l/10))",
+                    "print(gdfs_sample)"
+
+                ]
             }
         },
         {
@@ -342,6 +417,31 @@
                     "start_lat = accident_data['Start_Lat'].to_numpy()",
                     "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(start_lng, start_lat))",
                     "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            },
+            "input_spark":{
+                "frame": "gdfs_sample",
+                "i": "Wind_Chill(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import pandas as pd",
+                    "import numpy as np",
+                    "from pyspark.sql import DataFrame, SparkSession",
+                    "from pyspark.sql.functions import col, expr, lit",
+                    "import matplotlib.pyplot as plt",
+                    "import pyspark.sql.functions as fn",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/test.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "l = len(gdf_severity)",
+                    "gdfs_sample = gdf_severity.sample(int(l/10))",
                     "print(gdfs_sample)"
 
                 ]

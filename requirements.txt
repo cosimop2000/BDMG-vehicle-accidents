@@ -14,10 +14,13 @@ ray==2.1.0
 unidist==0.2.2
 geographiclib==2.0
 geopy==2.3.0
+geopandas
+geoplot
 haversine==2.8.0
 ansicolors
 matplotlib
 modin==0.16.2
 pyarrow
 vaex==4.16.0
+
 git+https://github.com/h2oai/datatable

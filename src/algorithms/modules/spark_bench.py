@@ -24,9 +24,11 @@ from src.algorithms.utils import timing
 from src.datasets.dataset import Dataset
 from pyspark.storagelevel import StorageLevel
 from src.algorithms.algorithm import AbstractAlgorithm
-
-
-
+import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+import geopandas
+import geoplot as gplt
+import geoplot.crs as gcrs
 
 class SparkBench(AbstractAlgorithm):
     df_: DataFrame = None
@@ -1003,4 +1005,61 @@ class SparkBench(AbstractAlgorithm):
     def look_for_cases(self, col1, col2, col3, col4):
         # es. looking for cases where Humidity is zero and Percipitation is null 
         return self.df_.filter((col(col1) == 0) & col(col2).isNull()).select(col(col3), col(col4))
+
+    @timing
+    def plot_geo(self,frame,i):
+        # Read GeoJSON file into a DataFrame
+        #contiguous_usa = self.sparkSession.read.json('datasets/US_Accidents_March23/contiguous-usa.geojson')
+        contiguous_usa = geopandas.read_file(gplt.datasets.get_path('contiguous_usa'))
+        ax = gplt.polyplot(contiguous_usa,projection=gcrs.AlbersEqualArea(),figsize=(20, 20))
+        gplt.pointplot(frame, ax=ax, hue=frame[i], scale=frame[i], legend=True, legend_var='hue')
+        
+        #fig, ax = plt.subplots(figsize=(20, 20))
+        #divider = make_axes_locatable(ax)
+        #cax = divider.append_axes("right", size="5%", pad=0.1)
+        # Plot the GeoDataFrame
+        #contiguous_usa.toPandas().plot(ax=ax, color='white', edgecolor='black')
+
+        # Plot points from frame
+        #frame.select(geometry_column, i).toPandas().plot(
+        #    ax=ax,
+        #    markersize=frame[i].toPandas(),
+        #    c=frame[i].toPandas(),
+        #    cmap="viridis",
+        #    legend=True,
+        #    cax=cax,
+        #)
+        return frame
+
+
+
+
+#gdf_severity = spark.read.parquet("path/to/your/parquet/file") --> frame
+#geometry_column = "geometry"
+#severity_column = "Severity" --> quello che gli passo come colonna ovvero i
+
+# Generate a sample DataFrame
+#gdfs_sample = gdf_severity.sample(withReplacement=False, fraction=0.1, seed=42)
+
+# Assuming 'contiguous_usa' is a GeoJSON file
+#contiguous_usa_path = "path/to/contiguous_usa.geojson"
+#contiguous_usa = spark.read.json(contiguous_usa_path)
+
+# Plotting
+#fig, ax = plt.subplots(figsize=(20, 20))
+#divider = make_axes_locatable(ax)
+#cax = divider.append_axes("right", size="5%", pad=0.1)
+
+# Plot the GeoDataFrame
+#contiguous_usa.toPandas().plot(ax=ax, color='white', edgecolor='black')
+
+# Plot points from 'gdfs_sample' DataFrame
+#gdfs_sample.select(geometry_column, severity_column).toPandas().plot(
+#    ax=ax,
+#    markersize=gdfs_sample[severity_column].toPandas(),
+#    c=gdfs_sample[severity_column].toPandas(),
+#    cmap="viridis",
+#    legend=True,
+#    cax=cax,
+#)
 
