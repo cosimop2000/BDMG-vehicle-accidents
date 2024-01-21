@@ -29,6 +29,8 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 import geopandas
 import geoplot as gplt
 import geoplot.crs as gcrs
+from pyspark.ml.feature import Imputer
+
 
 class SparkBench(AbstractAlgorithm):
     df_: DataFrame = None
@@ -512,7 +514,7 @@ class SparkBench(AbstractAlgorithm):
         # use date_format to format the timestamp column as a string
         formatted = fn.date_format(timestamp, format)
         # replace the original column with the formatted column
-        self.df_ = self.df_.withColumn(column, formatted).drop(column)
+        self.df_ = self.df_.withColumn(column, formatted) #.drop(column)
         return self.df_
 
     @timing
@@ -1031,7 +1033,23 @@ class SparkBench(AbstractAlgorithm):
         #)
         return frame
 
+    @timing
+    def simple_imputer(self, columns):
+        #imputer1 = SimpleImputer(missing_values=np.nan, strategy='median')
+        c=columns
+        imputer1 = Imputer(strategy='median', inputCols=columns, outputCols=c)
+        model = imputer1.fit(self.df_)
+        imputed_df = model.transform(self.df_)
+        print("ok sono qui")
+        #accident_data_median_fit = imputer1.fit_transform(self.df_[columns])
+        #accident_data_median = imputer1.transform(accident_data_median_fit)
+        for col in columns: 
+            imputed_df = imputed_df.drop(col).withColumnRenamed(f"{col}_imputed", col)
 
+        print("ora qui")
+        #self.df_[columns] = pd.DataFrame(accident_data_median)
+        #imputed_pandas_df = imputed_df.toPandas()
+        return self.df_
 
 
 #gdf_severity = spark.read.parquet("path/to/your/parquet/file") --> frame

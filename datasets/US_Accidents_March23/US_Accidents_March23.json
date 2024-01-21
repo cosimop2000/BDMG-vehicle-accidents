@@ -466,6 +466,10 @@
             "input_vaex":{
                 "column":"Start_Time",
                 "format":"%Y-%m-%d %H:%M:%S"    
+            },
+            "input_spark":{
+                "column":"Start_Time",
+                "format":"yyyy-MM-dd HH:mm:ss"    
             }
         },
         {
@@ -477,6 +481,10 @@
             "input_vaex":{
                 "column":"End_Time",
                 "format":"%Y-%m-%d %H:%M:%S"    
+            },
+            "input_spark":{
+                "column":"End_Time",
+                "format":"yyyy-MM-dd HH:mm:ss"
             }
         },
         {
@@ -488,6 +496,10 @@
             "input_vaex":{
                 "column":"Weather_Timestamp",
                 "format":"%Y-%m-%d %H:%M:%S"    
+            },
+            "input_spark":{
+                "column":"Weather_Timestamp",
+                "format":"yyyy-MM-dd HH:mm:ss"
             }
         },
         {
@@ -505,6 +517,13 @@
                 "splits": 2,
                 "col_names": ["day", "hour"]
 
+            },
+            "input_spark":{
+                "column":"Weather_Timestamp",
+                "sep": " ",
+                "splits": 2,
+                "col_names": ["day", "hour"]
+
             }
         },
         {
@@ -514,6 +533,9 @@
             },
             "input_vaex":{
                 "columns":["ID","Start_Time","End_Time", "Weather_Timestamp"]
+            },
+            "input_spark":{
+                "columns":["ID","Start_Time","End_Time", "Weather_Timestamp"]
             }
         },
         {
@@ -527,6 +549,11 @@
                 "col_name":"abs_end_lng_change",
                 "columns":["End_Lng"],
                 "f":"lambda x: abs(x)"    
+            },
+            "input_spark":{
+                "col_name":"abs_end_lng_change",
+                "columns":["End_Lng"],
+                "f":"lambda x: abs(x)"
             }
         },
         {
@@ -540,6 +567,11 @@
                 "col_name":"abs_end_lat_change",
                 "columns":["End_Lat"],
                 "f":"lambda x: abs(x)"    
+            },
+            "input_spark":{
+                "col_name":"abs_end_lat_change",
+                "columns":["End_Lat"],
+                "f":"lambda x: abs(x)"
             }
         },
         {
@@ -549,6 +581,9 @@
             },
             "input_vaex":{
                 "columns":["Temperature(F)","Wind_Chill(F)","Humidity(%)","Pressure(in)","Visibility(mi)","Wind_Speed(mph)","Precipitation(in)"]    
+            },
+            "input_spark":{
+                "columns":["Temperature(F)","Wind_Chill(F)","Humidity(%)","Pressure(in)","Visibility(mi)","Wind_Speed(mph)","Precipitation(in)"]
             }
         },
         {
@@ -621,6 +656,21 @@
                     "Rain Shower": "Rain",
                     "Rain Showers": "Rain"
                 }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
             }
         },
         {
@@ -646,6 +696,17 @@
                     "East": "E",
                     "North": "N"
                 }
+            },
+            "input_spark":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "West": "W",
+                    "Variable": "VAR",
+                    "South": "S",
+                    "Calm": "CALM",
+                    "East": "E",
+                    "North": "N"
+                }
             }
         },
         {
@@ -657,6 +718,10 @@
             "input_vaex":{
                 "value":"KBTR",
                 "columns":["Airport_Code"]    
+            },
+            "input_spark":{
+                "value":"KBTR",
+                "columns":["Airport_Code"]
             }
         },
         {
@@ -668,6 +733,10 @@
             "input_vaex":{
                 "value":"CALM",
                 "columns":["Wind_Direction"]    
+            },
+            "input_spark":{
+                "value":"CALM",
+                "columns":["Wind_Direction"]
             }
         },
         {
@@ -679,6 +748,10 @@
             "input_vaex":{
                 "value":"CALM",
                 "columns":["Sunrise_Sunset"]    
+            },
+            "input_spark":{
+                "value":"Day",
+                "columns":["Sunrise_Sunset"]
             }
         },
         {
@@ -687,6 +760,9 @@
                 "columns":"all"
             },
             "input_vaex":{
+                "columns":"all"
+            },
+            "input_spark":{
                 "columns":"all"
             }
         },
@@ -704,6 +780,13 @@
                 "sep": "-",
                 "splits": 2,
                 "col_names": ["Zipcode_ok", "Zipcode_not_ok"]
+            },
+            "input_spark":{
+                "column":"Zipcode",
+                "sep": "-",
+                "splits": 2,
+                "col_names": ["Zipcode_ok", "Zipcode_not_ok"]
+
             }
         },
         {
