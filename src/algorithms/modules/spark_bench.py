@@ -1,7 +1,9 @@
 import os
 import re
-import pandas
+import pandas as pd
+
 from pydantic import NoneIsAllowedError
+from pyspark.ml.linalg import Vectors
 
 import pyspark
 os.environ["PYARROW_IGNORE_TIMEZONE"] = "1"
@@ -30,7 +32,10 @@ import geopandas
 import geoplot as gplt
 import geoplot.crs as gcrs
 from pyspark.ml.feature import Imputer
-
+from pyspark.ml.feature import PCA
+from pyspark.ml.linalg import Vectors
+from pyspark.ml.feature import StandardScaler
+from pyspark.ml.feature import RFormula
 
 class SparkBench(AbstractAlgorithm):
     df_: DataFrame = None
@@ -368,10 +373,14 @@ class SparkBench(AbstractAlgorithm):
             column = self.get_columns()
             
         # Construct the filter condition dynamically using a for loop
-        filter_cond = fn.col(column[0]).isNull()
-        for i in range(1, len(column)):
-            filter_cond = filter_cond | fn.col(column[i]).isNull()
+        #filter_cond = fn.col(column[0]).isNull()
+        #for i in range(1, len(column)):
+        #    filter_cond = filter_cond | fn.col(column[i]).isNull()
 
+        filter_cond = fn.col(column).isNull()
+        for i in range(1, len(column)):
+            filter_cond = filter_cond | fn.col(column).isNull()
+            
         return self.df_.filter(filter_cond)
 
     @timing
@@ -1040,18 +1049,100 @@ class SparkBench(AbstractAlgorithm):
         imputer1 = Imputer(strategy='median', inputCols=columns, outputCols=c)
         model = imputer1.fit(self.df_)
         imputed_df = model.transform(self.df_)
-        print("ok sono qui")
+
         #accident_data_median_fit = imputer1.fit_transform(self.df_[columns])
         #accident_data_median = imputer1.transform(accident_data_median_fit)
         for col in columns: 
             imputed_df = imputed_df.drop(col).withColumnRenamed(f"{col}_imputed", col)
 
-        print("ora qui")
         #self.df_[columns] = pd.DataFrame(accident_data_median)
         #imputed_pandas_df = imputed_df.toPandas()
         return self.df_
 
+    @timing
+    def pca2(self, data_pca, n_dim=3):
+        # Create principal components
+        #data_pca = data_pca.dropna()
+        #data_pca_standardized = self.df_.createDataFrame(data_pca)
+        #data_pca_standardized = data_pca.rdd.map(lambda row: Vectors.dense(row.scaled_features)).toDF(["features"])
 
+        #pca = PCA(k=n_dim, inputCol="features", outputCol="pca_features")
+        #data = RFormula(formula=" ~ {0}".format(" + ".join(data.columns))).fit(data).transform(data)
+        data_pcaa=data_pca #self.sparkSession.createDataFrame(data_pca)
+        #input_columns = data_pcaa.columns.tolist()
+        print(data_pcaa)
+        #print(data_pcaa.show)
+       # data = RFormula(formula=" ~ {0}".format(" + ".join(data_pcaa.columns))).fit(data_pcaa).transform(data_pcaa)
+        
+        print('heheh')
+        pca = PCA(k=n_dim,inputCol=str(data_pcaa.columns), outputCol="pcaFeatures")
+        print('bo')
+        pca.setInputCol("features").fit(data_pcaa).transform(data_pcaa)
+        #assembler = VectorAssembler(inputCols=input_columns, outputCol="features")
+        #data_pcaa = assembler.transform(data_pcaa)
+        #pca_model = pca.fit(data_pca_standardized)
+        #accident_data_pca = pca_model.transform(data_pca_standardized).select("pca_features")
+
+        #accident_data_pca = pca_model.transform(data_pca).select("pca_features")
+        print('qui ci sono')
+        #pca_result = accident_data_pca.toPandas()
+
+        return accident_data_pca
+    
+    @timing
+    def pca3(self, numerical_columns, n_dim=3):
+
+        # Select numerical columns
+        accident_sample = self.df_.select(numerical_columns).sample(False, 0.01, seed=42)
+
+        # Convert to Pandas DataFrame for calculation
+        accident_sample_pandas = accident_sample.toPandas()
+
+        # Calculate mean and standard deviation
+        mean_values = accident_sample_pandas.mean()
+        std_dev_values = accident_sample_pandas.std()
+
+        # Standardize the data
+        for col_name in numerical_columns:
+            self.df_ = self.df_.withColumn(col_name, (col(col_name) - mean_values[col_name]) / std_dev_values[col_name])
+        print('hei')
+        table=self.df_[numerical_columns]
+        # Apply PCA
+        assembler = VectorAssembler(inputCols=table.columns, outputCol="features")
+        df = assembler.transform(table).select("features")
+        print('noo')
+        c=numerical_columns
+        pca = PCA(k=n_dim, inputCol=numerical_columns, outputCol=c)
+        print('nii')
+        pca_model = pca.fit(self.df_)
+        print('test')
+        accident_data_pca = pca_model.transform(self.df_)
+        # Convert to Pandas DataFrame
+        accident_data_pca_pandas = accident_data_pca.toPandas()
+
+        # Rename columns
+        component_names = [f"PC{i+1}" for i in range(n_dim)]
+        accident_data_pca_pandas.columns = component_names
+
+        return accident_data_pca_pandas
+
+    @timing
+    def pca(self, numerical_columns, n_dim=3):
+         
+        accident_data_numerical = self.df_[numerical_columns]
+        print(self.df_)
+        # Sample the data
+        l=len(self.df_) 
+        accident_sample = accident_data_numerical.sample(int(l/ 100))
+
+        # Standardize the sample
+        accident_sample_standardized = (accident_sample - accident_sample.mean(axis=0)) / accident_sample.std(axis=0)
+
+        # Apply PCA
+        pca = PCA(n_components=n_dim)
+        accident_data_pca = pca.fit_transform(accident_sample_standardized)
+
+        return accident_data_pca
 #gdf_severity = spark.read.parquet("path/to/your/parquet/file") --> frame
 #geometry_column = "geometry"
 #severity_column = "Severity" --> quello che gli passo come colonna ovvero i

@@ -122,7 +122,7 @@
                 "column":"Airport_Code"
             },
             "input_spark":{
-                "column":"all"
+                "column":"Airport_Code"
             }
         },
         {
@@ -615,6 +615,10 @@
                     "data_pca = accident_sample.dropna()"
                     
                 ]
+            },
+            "input_spark":{
+                "numerical_columns":["Start_Lat", "Start_Lng", "End_Lat", "End_Lng", "Distance(mi)", "Temperature(F)", "Wind_Chill(F)", "Humidity(%)", "Pressure(in)", "Visibility(mi)","Wind_Speed(mph)", "Precipitation(in)"],
+                "n_dim": 3
             }
         },
         {
