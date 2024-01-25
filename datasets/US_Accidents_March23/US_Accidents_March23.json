@@ -338,30 +338,6 @@
 
                 ]
             },
-            "input_spark2":{
-                "frame": "gdfs_sample",
-                "i": "fn.col('Severity')",
-                "req_compile":[
-                    "frame"
-                ],
-                "extra_commands":[
-                    "import pandas as pd",
-                    "import numpy as np",
-                    "from pyspark.sql import DataFrame, SparkSession",
-                    "from pyspark.sql.functions import col, expr, lit",
-                    "import matplotlib.pyplot as plt",
-                    "import pyspark.sql.functions as fn",
-                    "spark = SparkSession.builder.appName('AccidentData').getOrCreate()",
-                    "accident_data = spark.read.csv(r'datasets/US_Accidents_March23/test.csv', header=True, inferSchema=True)",
-                    "severity_locations = accident_data.select('Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat')",
-                    "severity_locations_with_geometry = severity_locations.withColumn('geometry',lit(None).cast('string'))",
-                    "crs = 'EPSG:4326'",
-                    "gdf_severity = severity_locations_with_geometry.select('Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat',col('geometry').alias('geometry') )",
-                    "gdfs_sample = gdf_severity.sample(withReplacement=False, fraction=0.1, seed=42)",
-                    "print(gdfs_sample)"
-
-                ]
-            },
             "input_polars":{
                 "frame": "gdfs_sample",
                 "i": "Severity",
@@ -757,8 +733,18 @@
                 ]
             },
             "input_spark":{
-                "numerical_columns":["Start_Lat", "Start_Lng", "End_Lat", "End_Lng", "Distance(mi)", "Temperature(F)", "Wind_Chill(F)", "Humidity(%)", "Pressure(in)", "Visibility(mi)","Wind_Speed(mph)", "Precipitation(in)"],
-                "n_dim": 3
+                "data_pca":"data_pca",
+                "n_dim": 3,
+                "req_compile":[
+                    "data_pca"
+                ],
+                "extra_commands":[
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
+                    "numerical = ['Start_Lat', 'Start_Lng', 'End_Lat', 'End_Lng', 'Distance(mi)', 'Temperature(F)', 'Wind_Chill(F)', 'Humidity(%)', 'Pressure(in)', 'Visibility(mi)','Wind_Speed(mph)', 'Precipitation(in)']",
+                    "accident_sample = accident_data[numerical].sample(int(len(accident_data)/100))",
+                    "data_pca = (accident_sample - accident_sample.mean(axis=0)) / accident_sample.std(axis=0)"
+                ]
             }
         },
         {
