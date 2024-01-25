@@ -63,7 +63,6 @@
             "input_polars": {
                 "query": "(accident_data['Start_Lat'] == accident_data['End_Lat']) & (accident_data['Start_Lng'] == accident_data['End_Lng'])"
             }
-
         },
         {
             "method":"check_missing_values",
