@@ -269,7 +269,7 @@
                     "from pyspark.sql.functions import col, expr, lit",
                     "import matplotlib.pyplot as plt",
                     "import pyspark.sql.functions as fn",
-                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/test.csv')",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
                     "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
                     "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
                     "l = len(gdf_severity)",
@@ -365,7 +365,7 @@
                     "from pyspark.sql.functions import col, expr, lit",
                     "import matplotlib.pyplot as plt",
                     "import pyspark.sql.functions as fn",
-                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/test.csv')",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
                     "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
                     "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
                     "l = len(gdf_severity)",
@@ -437,7 +437,7 @@
                     "from pyspark.sql.functions import col, expr, lit",
                     "import matplotlib.pyplot as plt",
                     "import pyspark.sql.functions as fn",
-                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/test.csv')",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
                     "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
                     "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
                     "l = len(gdf_severity)",
@@ -617,8 +617,18 @@
                 ]
             },
             "input_spark":{
-                "numerical_columns":["Start_Lat", "Start_Lng", "End_Lat", "End_Lng", "Distance(mi)", "Temperature(F)", "Wind_Chill(F)", "Humidity(%)", "Pressure(in)", "Visibility(mi)","Wind_Speed(mph)", "Precipitation(in)"],
-                "n_dim": 3
+                "data_pca":"data_pca",
+                "req_compile":[
+                    "data_pca"
+                ],
+                "extra_commands":[
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
+                    "numerical = ['Start_Lat', 'Start_Lng', 'End_Lat', 'End_Lng', 'Distance(mi)', 'Temperature(F)', 'Wind_Chill(F)', 'Humidity(%)', 'Pressure(in)', 'Visibility(mi)','Wind_Speed(mph)', 'Precipitation(in)']",
+                    "accident_sample = accident_data[numerical].sample(int(len(accident_data)/100))",
+                    "data_pca = (accident_sample - accident_sample.mean(axis=0)) / accident_sample.std(axis=0)",
+
+                ]
             }
         },
         {
@@ -663,6 +673,15 @@
             },
             "input_spark":{
                 "columns":["Weather_Condition"],
+                "value": "Thunderstorm",
+                "regex": "False",
+                "to_replace": "Thunder"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
                 "to_replace": {
                     "Thunder": "Thunderstorm",
                     "T-Storm": "Thunderstorm",
@@ -675,6 +694,339 @@
                     "Rain Shower": "Rain",
                     "Rain Showers": "Rain"
                 }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm",
+                "regex": "False",
+                "to_replace": "T-Storm"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm / Windy",
+                "regex": "False",
+                "to_replace": "T-Storm / Windy"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm / Windy",
+                "regex": "False",
+                "to_replace": "Thunder / Windy"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Heavy Rain",
+                "regex": "False",
+                "to_replace": "Heavy Rain Shower"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Heavy Rain",
+                "regex": "False",
+                "to_replace": "Heavy Rain Showers"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Light Rain",
+                "regex": "False",
+                "to_replace": "Light Rain Shower"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Light Rain",
+                "regex": "False",
+                "to_replace": "Light Rain Showers"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Rain",
+                "regex": "False",
+                "to_replace": "Rain Shower"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm",
+                    "T-Storm": "Thunderstorm",
+                    "T-Storm / Windy": "Thunderstorm / Windy",
+                    "Thunder / Windy": "Thunderstorm / Windy",
+                    "Heavy Rain Shower": "Heavy Rain",
+                    "Heavy Rain Showers": "Heavy Rain",
+                    "Light Rain Shower": "Light Rain",
+                    "Light Rain Showers": "Light Rain",
+                    "Rain Shower": "Rain",
+                    "Rain Showers": "Rain"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Rain",
+                "regex": "False",
+                "to_replace": "Rain Showers"
             }
         },
         {
@@ -703,6 +1055,15 @@
             },
             "input_spark":{
                 "columns":["Wind_Direction"],
+                "value": "W",
+                "regex": "False",
+                "to_replace": "West"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Wind_Direction"],
                 "to_replace": {
                     "West": "W",
                     "Variable": "VAR",
@@ -711,6 +1072,147 @@
                     "East": "E",
                     "North": "N"
                 }
+            },
+            "input_vaex":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "West": "W",
+                    "Variable": "VAR",
+                    "South": "S",
+                    "Calm": "CALM",
+                    "East": "E",
+                    "North": "N"
+                }
+            },
+            "input_spark":{
+                "columns":["Wind_Direction"],
+                "value": "VAR",
+                "regex": "False",
+                "to_replace": "Variable"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "West": "W",
+                    "Variable": "VAR",
+                    "South": "S",
+                    "Calm": "CALM",
+                    "East": "E",
+                    "North": "N"
+                }
+            },
+            "input_vaex":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "West": "W",
+                    "Variable": "VAR",
+                    "South": "S",
+                    "Calm": "CALM",
+                    "East": "E",
+                    "North": "N"
+                }
+            },
+            "input_spark":{
+                "columns":["Wind_Direction"],
+                "value": "S",
+                "regex": "False",
+                "to_replace": "South"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "West": "W",
+                    "Variable": "VAR",
+                    "South": "S",
+                    "Calm": "CALM",
+                    "East": "E",
+                    "North": "N"
+                }
+            },
+            "input_vaex":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "West": "W",
+                    "Variable": "VAR",
+                    "South": "S",
+                    "Calm": "CALM",
+                    "East": "E",
+                    "North": "N"
+                }
+            },
+            "input_spark":{
+                "columns":["Wind_Direction"],
+                "value": "CALM",
+                "regex": "False",
+                "to_replace": "Calm"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "West": "W",
+                    "Variable": "VAR",
+                    "South": "S",
+                    "Calm": "CALM",
+                    "East": "E",
+                    "North": "N"
+                }
+            },
+            "input_vaex":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "West": "W",
+                    "Variable": "VAR",
+                    "South": "S",
+                    "Calm": "CALM",
+                    "East": "E",
+                    "North": "N"
+                }
+            },
+            "input_spark":{
+                "columns":["Wind_Direction"],
+                "value": "E",
+                "regex": "False",
+                "to_replace": "East"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "West": "W",
+                    "Variable": "VAR",
+                    "South": "S",
+                    "Calm": "CALM",
+                    "East": "E",
+                    "North": "N"
+                }
+            },
+            "input_vaex":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "West": "W",
+                    "Variable": "VAR",
+                    "South": "S",
+                    "Calm": "CALM",
+                    "East": "E",
+                    "North": "N"
+                }
+            },
+            "input_spark":{
+                "columns":["Wind_Direction"],
+                "value": "N",
+                "regex": "False",
+                "to_replace": "North"
             }
         },
         {
