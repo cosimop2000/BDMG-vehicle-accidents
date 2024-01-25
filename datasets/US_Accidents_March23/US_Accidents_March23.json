@@ -187,6 +187,31 @@
             "method":"look_for_cases",
             "input_pandas":{
                 "col1":"Wind_Speed(mph)",
+                "col2":"Wind_Direction",
+                "col3":"Wind_Speed(mph)",
+                "col4":"Wind_Direction"
+            },
+            "input_vaex":{
+                "col1":"Wind_Speed(mph)",
+                "col2":"Wind_Direction",
+                "col3":"Wind_Speed(mph)",
+                "col4":"Wind_Direction"
+            },
+            "input_spark":{
+                "col1":"Wind_Speed(mph)",
+                "col2":"Wind_Direction",
+                "col3":"Wind_Speed(mph)",
+                "col4":"Wind_Direction"
+            },
+            "input_polars": {
+                "col1": "Wind_Speed(mph)",
+                "col2": "Wind_Direction"
+            }
+        },
+        {
+            "method":"look_for_cases",
+            "input_pandas":{
+                "col1":"Wind_Speed(mph)",
                 "col2":"Wind_Chill(F)",
                 "col3":"Wind_Speed(mph)",
                 "col4":"Wind_Chill(F)"
@@ -221,6 +246,10 @@
             "input_spark":{
                 "frac": true,
                 "num": 1    
+            },
+            "input_polars": {
+                "frac": true,
+                "num": 1
             }
         },
         {
@@ -233,6 +262,9 @@
             },
             "input_spark":{
                 "columns":["Weather_Condition"]
+            },
+            "input_polars": {
+                "columns": ["Weather_Condition"]
             }
         },
         {
@@ -329,6 +361,26 @@
                     "print(gdfs_sample)"
 
                 ]
+            },
+            "input_polars":{
+                "frame": "gdfs_sample",
+                "i": "Severity",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/test.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
             }
         },
         {
@@ -398,6 +450,26 @@
                     "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
                     "l = len(gdf_severity)",
                     "gdfs_sample = gdf_severity.sample(int(l/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            },
+            "input_polars":{
+                "frame": "gdfs_sample",
+                "i": "Temperature(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/test.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
                     "print(gdfs_sample)"
 
                 ]
@@ -473,6 +545,26 @@
                     "print(gdfs_sample)"
 
                 ]
+            },
+            "input_polars":{
+                "frame": "gdfs_sample",
+                "i": "Wind_Chill(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/test.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
             }
         },
         {
@@ -498,6 +590,10 @@
             "input_spark":{
                 "column":"Start_Time",
                 "format":"yyyy-MM-dd HH:mm:ss"    
+            },
+            "input_polars": {
+                "column": "Start_Time",
+                "format": "%Y-%m-%d %H:%M:%S"
             }
         },
         {
@@ -513,6 +609,10 @@
             "input_spark":{
                 "column":"End_Time",
                 "format":"yyyy-MM-dd HH:mm:ss"
+            },
+            "input_polars": {
+                "column": "End_Time",
+                "format": "%Y-%m-%d %H:%M:%S"
             }
         },
         {
@@ -528,6 +628,10 @@
             "input_spark":{
                 "column":"Weather_Timestamp",
                 "format":"yyyy-MM-dd HH:mm:ss"
+            },
+            "input_polars": {
+                "column": "Weather_Timestamp",
+                "format": "%Y-%m-%d %H:%M:%S"
             }
         },
         {
@@ -551,7 +655,12 @@
                 "sep": " ",
                 "splits": 2,
                 "col_names": ["day", "hour"]
-
+            },
+            "input_polars":{
+                "column":"Weather_Timestamp",
+                "sep": " ",
+                "splits": 2,
+                "col_names": ["day", "hour"]
             }
         },
         {
@@ -563,6 +672,9 @@
                 "columns":["ID","Start_Time","End_Time", "Weather_Timestamp"]
             },
             "input_spark":{
+                "columns":["ID","Start_Time","End_Time", "Weather_Timestamp"]
+            },
+            "input_polars":{
                 "columns":["ID","Start_Time","End_Time", "Weather_Timestamp"]
             }
         },

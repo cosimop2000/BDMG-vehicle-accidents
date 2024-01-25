@@ -2,6 +2,10 @@ import contextlib
 from os import fchdir
 import unicodedata
 from typing import Union
+
+import geopandas
+import geoplot as gplt
+import geoplot.crs as gcrs
 from haversine import haversine
 import pandas as pd
 import polars as pl
@@ -504,7 +508,7 @@ class PolarsBench(AbstractAlgorithm):
         :param splits number of splits, limit the number of splits
         :param col_names name of the new columns
         """
-        self.seriesDF = self.df_[column].str.split(sep, False)
+        self.seriesDF = self.df_.collect().select(pl.col(column).cast(pl.Utf8).str.split(sep, False))
         self.data = {}
         self.index = 0
         for cols in col_names:
@@ -649,7 +653,7 @@ class PolarsBench(AbstractAlgorithm):
         :param frac percentage or exact number of samples to take
         :param num if set to True uses frac as a percentage, otherwise frac is used as a number
         """
-        return self.df_.sample(frac=num / 100) if frac else self.df_.sample(n=num)
+        return self.df_.collect().sample(frac=num / 100) if frac else self.df_.sample(n=num)
 
     @timing
     def append(self, other, ignore_index):
@@ -807,6 +811,13 @@ class PolarsBench(AbstractAlgorithm):
     def look_for_cases(self, col1, col2):
         # looking for cases where Humidity is zero and Precipitation is null (i.e., precipitation should be set to zero)
         return self.df_.filter((pl.col(col1) == 0) & pl.col(col2).is_null()).select([col1, col2])
+
+    @timing
+    def plot_geo(self,frame,i):
+        contiguous_usa = geopandas.read_file(gplt.datasets.get_path('contiguous_usa'))
+        ax = gplt.polyplot(contiguous_usa,projection=gcrs.AlbersEqualArea(),figsize=(20, 20))
+        gplt.pointplot(frame, ax=ax, hue=frame[i], scale=frame[i], legend=True, legend_var='hue')
+        return frame
 
     def force_execution(self):
         self.df_.collect()
