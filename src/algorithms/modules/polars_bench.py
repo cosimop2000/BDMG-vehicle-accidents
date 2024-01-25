@@ -171,7 +171,7 @@ class PolarsBench(AbstractAlgorithm):
         Check the uniqueness of all values contained in the provided column_name
         :param column column to check
         """
-        return self.df_[column].is_unique().all()
+        return self.df_.collect()[column].is_unique().all()
 
     @timing
     def delete_columns(self, columns):
@@ -796,7 +796,18 @@ class PolarsBench(AbstractAlgorithm):
             self.df_ = self.df_.filter(query)
             return self.df_
         return self.df_.filter(query)
-        
+
+    @timing
+    def check_missing_values(self, col1, col2):
+        # EDA
+        # check to see if missing values are in same rows
+        return self.df_.filter((pl.col(col1).is_null()) & (pl.col(col2).is_null())).collect()
+
+    @timing
+    def look_for_cases(self, col1, col2):
+        # looking for cases where Humidity is zero and Precipitation is null (i.e., precipitation should be set to zero)
+        return self.df_.filter((pl.col(col1) == 0) & pl.col(col2).is_null()).select([col1, col2])
+
     def force_execution(self):
         self.df_.collect()
     
@@ -805,4 +816,7 @@ class PolarsBench(AbstractAlgorithm):
         self.df_.collect()
         
     def set_construtor_args(self, args):
+        pass
+
+    def perc_null_values(self):
         pass

@@ -9,7 +9,7 @@
             "input_vaex": {
             },
             "input_polars":{
-
+                "sep": ","
             },
             "input_datatable":{
 
@@ -59,6 +59,9 @@
             },
             "input_spark":{
                 "query":"(fn.col('Start_Lat') == fn.col('End_Lat')) & (fn.col('Start_Lng') == fn.col('End_Lng'))"
+            },
+            "input_polars": {
+                "query": "(accident_data['Start_Lat'] == accident_data['End_Lat']) & (accident_data['Start_Lng'] == accident_data['End_Lng'])"
             }
 
         },
@@ -75,6 +78,10 @@
             "input_spark":{
                 "col1": "End_Lat",
                 "col2": "End_Lng"
+            },
+            "input_polars": {
+                "col1": "End_Lat",
+                "col2": "End_Lng"
             }
         },
         {
@@ -87,6 +94,9 @@
             },
             "input_spark":{
                 "column":"ID"
+            },
+            "input_polars": {
+                "column": "ID"
             }
         },
         {
@@ -99,6 +109,9 @@
             },
             "input_spark":{
                 "column":"Description"
+            },
+            "input_polars": {
+                "column": "Description"
             }
         },
         {
@@ -111,6 +124,9 @@
             },
             "input_spark":{
                 "column":"Wind_Direction"
+            },
+            "input_polars": {
+                "column": "Wind_Direction"
             }
         },
         {
@@ -123,6 +139,9 @@
             },
             "input_spark":{
                 "column":"Airport_Code"
+            },
+            "input_polars": {
+                "column": "Airport_Code"
             }
         },
         {
@@ -135,8 +154,10 @@
             },
             "input_spark":{
                 "query":"fn.col('Precipitation(in)') == 0"
+            },
+            "input_polars": {
+                "query": "pl.col('Precipitation(in)') == 0"
             }
-
         },
         {
             "method":"look_for_cases",
@@ -157,6 +178,10 @@
                 "col2":"Precipitation(in)",
                 "col3":"Humidity(%)",
                 "col4":"Precipitation(in)"     
+            },
+            "input_polars": {
+                "col1": "Humidity(%)",
+                "col2": "Precipitation(in)"
             }
         },
         {
@@ -178,6 +203,10 @@
                 "col2":"Wind_Chill(F)",
                 "col3":"Wind_Speed(mph)",
                 "col4":"Wind_Chill(F)"    
+            },
+            "input_polars": {
+                "col1": "Wind_Speed(mph)",
+                "col2": "Wind_Chill(F)"
             }
         },
         {
@@ -615,10 +644,6 @@
                     "data_pca = accident_sample.dropna()"
                     
                 ]
-            },
-            "input_spark":{
-                "numerical_columns":["Start_Lat", "Start_Lng", "End_Lat", "End_Lng", "Distance(mi)", "Temperature(F)", "Wind_Chill(F)", "Humidity(%)", "Pressure(in)", "Visibility(mi)","Wind_Speed(mph)", "Precipitation(in)"],
-                "n_dim": 3
             }
         },
         {
