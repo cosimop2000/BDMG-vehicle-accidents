@@ -3,6 +3,7 @@
 src/algorithms/__pycache__
 src/datasets/__pycache__
 src/datasets/modules/__pycache__
+src/algorithms/modules/__pychache__
 
 # Ignore PyCharm files
 .idea/
