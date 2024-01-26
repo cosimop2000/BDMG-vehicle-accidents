@@ -688,6 +688,7 @@ class PandasBench(AbstractAlgorithm):
         #print number and percentage of null entries per variable
 
         for column in self.df_.columns:
+            print(len(self.df_))
             print('{}: {} ({}%)'.format(column,pd.isnull(self.df_[column]).sum(),
                                         (pd.isnull(self.df_[column]).sum()/len(self.df_))*100))
     

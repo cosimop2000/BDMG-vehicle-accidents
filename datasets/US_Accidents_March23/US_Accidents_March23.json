@@ -12,7 +12,7 @@
                 "sep": ","
             },
             "input_datatable":{
-
+                "sep": ","
             },
             "input_spark":{
                 "sep": ",",
@@ -62,6 +62,9 @@
             },
             "input_polars": {
                 "query": "(accident_data['Start_Lat'] == accident_data['End_Lat']) & (accident_data['Start_Lng'] == accident_data['End_Lng'])"
+            },
+            "input_datatable":{
+                "query":"(f.Start_Lat == f.End_Lat) & (f.Start_Lng == f.End_Lng)"
             }
         },
         {
@@ -79,6 +82,10 @@
                 "col2": "End_Lng"
             },
             "input_polars": {
+                "col1": "End_Lat",
+                "col2": "End_Lng"
+            },
+            "input_datatable":{
                 "col1": "End_Lat",
                 "col2": "End_Lng"
             }

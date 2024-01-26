@@ -12,6 +12,7 @@ from typing import Union
 from haversine import haversine
 import pandas as pd
 import datatable as dt
+from datatable import f
 import numpy as np
 import h5py
 from src.algorithms.utils import timing
@@ -707,6 +708,25 @@ class DataTableBench(AbstractAlgorithm):
             self.df_ = self.df_[eval(query), :]
             return self.df_
         return self.df_[eval(query), :]
+    
+    @timing
+    def perc_null_values(self):
+    # EDA
+    # print number and percentage of null entries per variable
+
+        for column in self.df_.names:
+            null_count = self.df_[:, f[column].countna()].to_list()[0][0]
+            total_count = self.df_.nrows
+            percentage = (null_count / total_count) * 100
+            print('{}: {} ({}%)'.format(column, null_count, percentage))
+    
+    
+    def check_missing_values(self, col1, col2):
+        missing_col1 = self.df_[col1].isna()
+        missing_col2 = self.df_[col2].isna()
+
+        result = missing_col1 & missing_col2
+        return result
     
     def force_execution(self):
         self.df_.materialize()
