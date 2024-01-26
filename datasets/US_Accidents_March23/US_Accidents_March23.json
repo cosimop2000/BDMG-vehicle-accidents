@@ -760,31 +760,13 @@
             "input_pandas":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "Thunder": "Thunderstorm"
                 }
             },
             "input_vaex":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "Thunder": "Thunderstorm"
                 }
             },
             "input_spark":{
@@ -799,31 +781,13 @@
             "input_pandas":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "T-Storm": "Thunderstorm"
                 }
             },
             "input_vaex":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "T-Storm": "Thunderstorm"
                 }
             },
             "input_spark":{
@@ -838,31 +802,13 @@
             "input_pandas":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "T-Storm / Windy": "Thunderstorm / Windy"
                 }
             },
             "input_vaex":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "T-Storm / Windy": "Thunderstorm / Windy"
                 }
             },
             "input_spark":{
@@ -877,31 +823,13 @@
             "input_pandas":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "Thunder / Windy": "Thunderstorm / Windy"
                 }
             },
             "input_vaex":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "Thunder / Windy": "Thunderstorm / Windy"
                 }
             },
             "input_spark":{
@@ -916,31 +844,13 @@
             "input_pandas":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "Heavy Rain Shower": "Heavy Rain"
                 }
             },
             "input_vaex":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "Heavy Rain Shower": "Heavy Rain"
                 }
             },
             "input_spark":{
@@ -955,31 +865,13 @@
             "input_pandas":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "Heavy Rain Showers": "Heavy Rain"
                 }
             },
             "input_vaex":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "Heavy Rain Showers": "Heavy Rain"
                 }
             },
             "input_spark":{
@@ -994,31 +886,13 @@
             "input_pandas":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "Light Rain Shower": "Light Rain"
                 }
             },
             "input_vaex":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "Light Rain Shower": "Light Rain"
                 }
             },
             "input_spark":{
@@ -1033,31 +907,13 @@
             "input_pandas":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "Light Rain Showers": "Light Rain"
                 }
             },
             "input_vaex":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "Light Rain Showers": "Light Rain"
                 }
             },
             "input_spark":{
@@ -1072,31 +928,13 @@
             "input_pandas":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "Rain Shower": "Rain"
                 }
             },
             "input_vaex":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
-                    "Rain Showers": "Rain"
+                    "Rain Shower": "Rain"
                 }
             },
             "input_spark":{
@@ -1111,30 +949,12 @@
             "input_pandas":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
                     "Rain Showers": "Rain"
                 }
             },
             "input_vaex":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
                     "Rain Showers": "Rain"
                 }
             },
@@ -1150,23 +970,13 @@
             "input_pandas":{
                 "columns":["Wind_Direction"],
                 "to_replace": {
-                    "West": "W",
-                    "Variable": "VAR",
-                    "South": "S",
-                    "Calm": "CALM",
-                    "East": "E",
-                    "North": "N"
+                    "West": "W"
                 }
             },
             "input_vaex":{
                 "columns":["Wind_Direction"],
                 "to_replace": {
-                    "West": "W",
-                    "Variable": "VAR",
-                    "South": "S",
-                    "Calm": "CALM",
-                    "East": "E",
-                    "North": "N"
+                    "West": "W"
                 }
             },
             "input_spark":{
@@ -1181,23 +991,13 @@
             "input_pandas":{
                 "columns":["Wind_Direction"],
                 "to_replace": {
-                    "West": "W",
-                    "Variable": "VAR",
-                    "South": "S",
-                    "Calm": "CALM",
-                    "East": "E",
-                    "North": "N"
+                    "Variable": "VAR"
                 }
             },
             "input_vaex":{
                 "columns":["Wind_Direction"],
                 "to_replace": {
-                    "West": "W",
-                    "Variable": "VAR",
-                    "South": "S",
-                    "Calm": "CALM",
-                    "East": "E",
-                    "North": "N"
+                    "Variable": "VAR"
                 }
             },
             "input_spark":{
@@ -1212,23 +1012,13 @@
             "input_pandas":{
                 "columns":["Wind_Direction"],
                 "to_replace": {
-                    "West": "W",
-                    "Variable": "VAR",
-                    "South": "S",
-                    "Calm": "CALM",
-                    "East": "E",
-                    "North": "N"
+                    "South": "S"
                 }
             },
             "input_vaex":{
                 "columns":["Wind_Direction"],
                 "to_replace": {
-                    "West": "W",
-                    "Variable": "VAR",
-                    "South": "S",
-                    "Calm": "CALM",
-                    "East": "E",
-                    "North": "N"
+                    "South": "S"
                 }
             },
             "input_spark":{
@@ -1243,23 +1033,13 @@
             "input_pandas":{
                 "columns":["Wind_Direction"],
                 "to_replace": {
-                    "West": "W",
-                    "Variable": "VAR",
-                    "South": "S",
-                    "Calm": "CALM",
-                    "East": "E",
-                    "North": "N"
+                    "Calm": "CALM"
                 }
             },
             "input_vaex":{
                 "columns":["Wind_Direction"],
                 "to_replace": {
-                    "West": "W",
-                    "Variable": "VAR",
-                    "South": "S",
-                    "Calm": "CALM",
-                    "East": "E",
-                    "North": "N"
+                    "Calm": "CALM"
                 }
             },
             "input_spark":{
@@ -1274,23 +1054,13 @@
             "input_pandas":{
                 "columns":["Wind_Direction"],
                 "to_replace": {
-                    "West": "W",
-                    "Variable": "VAR",
-                    "South": "S",
-                    "Calm": "CALM",
-                    "East": "E",
-                    "North": "N"
+                    "East": "E"
                 }
             },
             "input_vaex":{
                 "columns":["Wind_Direction"],
                 "to_replace": {
-                    "West": "W",
-                    "Variable": "VAR",
-                    "South": "S",
-                    "Calm": "CALM",
-                    "East": "E",
-                    "North": "N"
+                    "East": "E"
                 }
             },
             "input_spark":{
@@ -1305,22 +1075,12 @@
             "input_pandas":{
                 "columns":["Wind_Direction"],
                 "to_replace": {
-                    "West": "W",
-                    "Variable": "VAR",
-                    "South": "S",
-                    "Calm": "CALM",
-                    "East": "E",
                     "North": "N"
                 }
             },
             "input_vaex":{
                 "columns":["Wind_Direction"],
                 "to_replace": {
-                    "West": "W",
-                    "Variable": "VAR",
-                    "South": "S",
-                    "Calm": "CALM",
-                    "East": "E",
                     "North": "N"
                 }
             },
