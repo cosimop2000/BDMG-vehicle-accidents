@@ -608,7 +608,15 @@ class DataTableBench(AbstractAlgorithm):
         - if true, num is the percentage of rows to be returned
         - if false, num is the exact number of rows to be returned
         """
-        return self.df_[:, :, dt.sample(frac=num / 100)] if frac else self.df_[:, :, dt.sample(n=num)]
+        num_rows = self.df_.nrows
+
+        if frac:
+            sample_size = int(num_rows * num / 100)
+        else:
+            sample_size = min(num, num_rows)
+
+        indices = np.random.permutation(num_rows)[:sample_size]
+        return self.df_[indices, :]
 
     @timing
     def append(self, other, ignore_index):

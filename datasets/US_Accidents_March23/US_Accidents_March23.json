@@ -309,6 +309,9 @@
             },
             "input_polars": {
                 "columns": ["Weather_Condition"]
+            },
+            "input_datatable":{
+                "columns":["Weather_Condition"]
             }
         },
         {
