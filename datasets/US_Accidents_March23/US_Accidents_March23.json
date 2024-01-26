@@ -103,6 +103,9 @@
             },
             "input_polars": {
                 "column": "ID"
+            },
+            "input_datatable":{
+                "column":"ID"
             }
         },
         {
@@ -118,6 +121,9 @@
             },
             "input_polars": {
                 "column": "Description"
+            },
+            "input_datatable":{
+                "column":"Description"
             }
         },
         {
@@ -132,6 +138,9 @@
                 "column":"Wind_Direction"
             },
             "input_polars": {
+                "column": "Wind_Direction"
+            },
+            "input_datatable": {
                 "column": "Wind_Direction"
             }
         },
@@ -148,6 +157,9 @@
             },
             "input_polars": {
                 "column": "Airport_Code"
+            },
+            "input_datatable": {
+                "column": "Airport_Code"
             }
         },
         {
@@ -163,6 +175,9 @@
             },
             "input_polars": {
                 "query": "pl.col('Precipitation(in)') == 0"
+            },
+            "input_datatable":{
+                "query":"f['Precipitation(in)'] == 0"
             }
         },
         {
@@ -188,6 +203,12 @@
             "input_polars": {
                 "col1": "Humidity(%)",
                 "col2": "Precipitation(in)"
+            },
+            "input_datatable":{
+                "col1":"Humidity(%)",
+                "col2":"Precipitation(in)",
+                "col3":"Humidity(%)",
+                "col4":"Precipitation(in)"     
             }
         },
         {
@@ -213,6 +234,12 @@
             "input_polars": {
                 "col1": "Wind_Speed(mph)",
                 "col2": "Wind_Direction"
+            },
+            "input_datatable":{
+                "col1":"Wind_Speed(mph)",
+                "col2":"Wind_Direction",
+                "col3":"Wind_Speed(mph)",
+                "col4":"Wind_Direction"
             }
         },
         {
@@ -238,6 +265,12 @@
             "input_polars": {
                 "col1": "Wind_Speed(mph)",
                 "col2": "Wind_Chill(F)"
+            },
+            "input_datatable":{
+                "col1":"Wind_Speed(mph)",
+                "col2":"Wind_Chill(F)",
+                "col3":"Wind_Speed(mph)",
+                "col4":"Wind_Chill(F)"
             }
         },
         {
@@ -255,6 +288,10 @@
                 "num": 1    
             },
             "input_polars": {
+                "frac": true,
+                "num": 1
+            },
+            "input_datatable":{
                 "frac": true,
                 "num": 1
             }

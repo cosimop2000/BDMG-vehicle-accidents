@@ -12,6 +12,7 @@ from typing import Union
 from haversine import haversine
 import pandas as pd
 import datatable as dt
+from datatable import isna
 from datatable import f
 import numpy as np
 import h5py
@@ -150,7 +151,8 @@ class DataTableBench(AbstractAlgorithm):
         """
         Check the uniqueness of all values contained in the provided column_name
         """
-        pass
+        return  self.df_[:, dt.count(dt.f[column]) > 1, dt.by(column)]
+
 
     @timing
     def delete_columns(self, columns):
@@ -606,7 +608,7 @@ class DataTableBench(AbstractAlgorithm):
         - if true, num is the percentage of rows to be returned
         - if false, num is the exact number of rows to be returned
         """
-        pass
+        return self.df_[:, :, dt.sample(frac=num / 100)] if frac else self.df_[:, :, dt.sample(n=num)]
 
     @timing
     def append(self, other, ignore_index):
@@ -720,12 +722,16 @@ class DataTableBench(AbstractAlgorithm):
             percentage = (null_count / total_count) * 100
             print('{}: {} ({}%)'.format(column, null_count, percentage))
     
-    
+    @timing   
     def check_missing_values(self, col1, col2):
-        missing_col1 = self.df_[col1].isna()
-        missing_col2 = self.df_[col2].isna()
 
-        result = missing_col1 & missing_col2
+        df_missing = self.df_[(dt.countna(dt.f[col1]) != dt.countna(dt.f[col2])), :]
+        return df_missing
+    
+    @timing
+    def look_for_cases(self, col1, col2, col3, col4):
+        # es. looking for cases where Humidity is zero and Percipitation is null
+        result = self.df_[(dt.f[col1] == 0) & dt.isna(dt.f[col2]), [col3, col4]]
         return result
     
     def force_execution(self):
