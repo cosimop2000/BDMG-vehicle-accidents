@@ -6,6 +6,7 @@ from typing import Union
 import geopandas
 import geoplot as gplt
 import geoplot.crs as gcrs
+import numpy as np
 from haversine import haversine
 import pandas as pd
 import polars as pl
@@ -13,6 +14,9 @@ from src.algorithms.utils import timing
 from src.datasets.dataset import Dataset
 
 from src.algorithms.algorithm import AbstractAlgorithm
+
+from sklearn.impute import SimpleImputer
+from sklearn.decomposition import PCA
 
 
 class PolarsBench(AbstractAlgorithm):
@@ -184,7 +188,7 @@ class PolarsBench(AbstractAlgorithm):
         Columns is a list of column names
         :param columns columns to delete
         """
-        
+
         self.df_ = self.df_.drop(columns)
 
         return self.df_
@@ -508,13 +512,13 @@ class PolarsBench(AbstractAlgorithm):
         :param splits number of splits, limit the number of splits
         :param col_names name of the new columns
         """
-        self.seriesDF = self.df_.collect().select(pl.col(column).cast(pl.Utf8).str.split(sep, False))
-        self.data = {}
-        self.index = 0
-        for cols in col_names:
-            self.data[cols] = [item[self.index] for item in self.seriesDF]
-            self.index = self.index + 1
-        self.df_ = pl.DataFrame(self.data).lazy()
+
+        split_columns = [
+            pl.col(column).cast(pl.Utf8).str.split(" ", False).arr.get(i).alias(col_names[i])
+            for i in range(len(col_names))
+        ]
+
+        self.df_ = self.df_.with_columns(split_columns)
         return self.df_
 
     @timing
@@ -588,12 +592,8 @@ class PolarsBench(AbstractAlgorithm):
         """
         if type(f) == str:
             f = eval(f)
-            
-        self.df_ = self.df_.with_column(pl.struct(columns).apply(f).alias(col_name))
-        #new_col = selected.apply(f)
-        #print(new_col.collect())
-        #print(self.df_.with_column(pl.struct(columns).apply(f)).collect())
-        #self.df_ = self.df_.with_column(pl.struct(columns).apply(f).alias(col_name))
+
+        self.df_ = self.df_.with_columns(pl.col(columns).apply(f).alias(col_name))
         return self.df_
 
     @timing
@@ -805,7 +805,7 @@ class PolarsBench(AbstractAlgorithm):
     def check_missing_values(self, col1, col2):
         # EDA
         # check to see if missing values are in same rows
-        return self.df_.filter((pl.col(col1).is_null()) & (pl.col(col2).is_null())).collect()
+        return self.df_.select((pl.col(col1).is_null()) & (pl.col(col2).is_null())).collect()
 
     @timing
     def look_for_cases(self, col1, col2):
@@ -818,6 +818,18 @@ class PolarsBench(AbstractAlgorithm):
         ax = gplt.polyplot(contiguous_usa,projection=gcrs.AlbersEqualArea(),figsize=(20, 20))
         gplt.pointplot(frame, ax=ax, hue=frame[i], scale=frame[i], legend=True, legend_var='hue')
         return frame
+
+    @timing
+    def simple_imputer(self, columns):
+
+        for column in columns:
+            # Compute the median of the column
+            median_value = self.df_.select(pl.col(column).median()).collect().to_numpy()[0][0]
+            # Fill missing values with the computed median
+            self.df_ = self.df_.with_column(pl.col(column).fill_nan(median_value))
+
+        return self.df_
+
 
     def force_execution(self):
         self.df_.collect()
