@@ -5,16 +5,18 @@
             "input_pandas": {
                 "sep": ","
             },
+
             "input_vaex": {
             },
             "input_polars":{
-
+                "sep": ","
             },
             "input_datatable":{
-
+                "sep": ","
             },
             "input_spark":{
-
+                "sep": ",",
+                "format": "csv"
             },
             "input_dask":{
 
@@ -24,6 +26,7 @@
             },
             "input_modin_ray":{
                 
+
             }
         },
         {
@@ -37,6 +40,7 @@
             "method": "get_columns",
             "input":{}
         },
+        
         {
             "method": "get_stats",
             "input": {}
@@ -52,8 +56,16 @@
             },
             "input_vaex":{
                 "query":"(Start_Lat == End_Lat) & (Start_Lng == End_Lng)"
+            },
+            "input_spark":{
+                "query":"(fn.col('Start_Lat') == fn.col('End_Lat')) & (fn.col('Start_Lng') == fn.col('End_Lng'))"
+            },
+            "input_polars": {
+                "query": "(accident_data['Start_Lat'] == accident_data['End_Lat']) & (accident_data['Start_Lng'] == accident_data['End_Lng'])"
+            },
+            "input_datatable":{
+                "query":"(f.Start_Lat == f.End_Lat) & (f.Start_Lng == f.End_Lng)"
             }
-
         },
         {
             "method":"check_missing_values",
@@ -64,6 +76,18 @@
             "input_vaex":{
                 "col1": "End_Lat",
                 "col2": "End_Lng"
+            },
+            "input_spark":{
+                "col1": "End_Lat",
+                "col2": "End_Lng"
+            },
+            "input_polars": {
+                "col1": "End_Lat",
+                "col2": "End_Lng"
+            },
+            "input_datatable":{
+                "col1": "End_Lat",
+                "col2": "End_Lng"
             }
         },
         {
@@ -73,6 +97,12 @@
             },
             "input_vaex":{
                 "column":"ID"
+            },
+            "input_spark":{
+                "column":"ID"
+            },
+            "input_polars": {
+                "column": "ID"
             }
         },
         {
@@ -82,6 +112,12 @@
             },
             "input_vaex":{
                 "column":"Description"
+            },
+            "input_spark":{
+                "column":"Description"
+            },
+            "input_polars": {
+                "column": "Description"
             }
         },
         {
@@ -91,6 +127,12 @@
             },
             "input_vaex":{
                 "column":"Wind_Direction"
+            },
+            "input_spark":{
+                "column":"Wind_Direction"
+            },
+            "input_polars": {
+                "column": "Wind_Direction"
             }
         },
         {
@@ -100,6 +142,12 @@
             },
             "input_vaex":{
                 "column":"Airport_Code"
+            },
+            "input_spark":{
+                "column":"Airport_Code"
+            },
+            "input_polars": {
+                "column": "Airport_Code"
             }
         },
         {
@@ -109,8 +157,13 @@
             },
             "input_vaex":{
                 "query":"`Precipitation(in)` == 0"
+            },
+            "input_spark":{
+                "query":"fn.col('Precipitation(in)') == 0"
+            },
+            "input_polars": {
+                "query": "pl.col('Precipitation(in)') == 0"
             }
-
         },
         {
             "method":"look_for_cases",
@@ -125,6 +178,41 @@
                 "col2":"Precipitation(in)",
                 "col3":"Humidity(%)",
                 "col4":"Precipitation(in)"     
+            },
+            "input_spark":{
+                "col1":"Humidity(%)",
+                "col2":"Precipitation(in)",
+                "col3":"Humidity(%)",
+                "col4":"Precipitation(in)"     
+            },
+            "input_polars": {
+                "col1": "Humidity(%)",
+                "col2": "Precipitation(in)"
+            }
+        },
+        {
+            "method":"look_for_cases",
+            "input_pandas":{
+                "col1":"Wind_Speed(mph)",
+                "col2":"Wind_Direction",
+                "col3":"Wind_Speed(mph)",
+                "col4":"Wind_Direction"
+            },
+            "input_vaex":{
+                "col1":"Wind_Speed(mph)",
+                "col2":"Wind_Direction",
+                "col3":"Wind_Speed(mph)",
+                "col4":"Wind_Direction"
+            },
+            "input_spark":{
+                "col1":"Wind_Speed(mph)",
+                "col2":"Wind_Direction",
+                "col3":"Wind_Speed(mph)",
+                "col4":"Wind_Direction"
+            },
+            "input_polars": {
+                "col1": "Wind_Speed(mph)",
+                "col2": "Wind_Direction"
             }
         },
         {
@@ -140,6 +228,16 @@
                 "col2":"Wind_Chill(F)",
                 "col3":"Wind_Speed(mph)",
                 "col4":"Wind_Chill(F)"    
+            },
+            "input_spark":{
+                "col1":"Wind_Speed(mph)",
+                "col2":"Wind_Chill(F)",
+                "col3":"Wind_Speed(mph)",
+                "col4":"Wind_Chill(F)"    
+            },
+            "input_polars": {
+                "col1": "Wind_Speed(mph)",
+                "col2": "Wind_Chill(F)"
             }
         },
         {
@@ -151,6 +249,14 @@
             "input_vaex":{
                 "frac": true,
                 "num": 1    
+            },
+            "input_spark":{
+                "frac": true,
+                "num": 1    
+            },
+            "input_polars": {
+                "frac": true,
+                "num": 1
             }
         },
         {
@@ -160,6 +266,12 @@
             },
             "input_vaex":{
                 "columns":["Weather_Condition"]
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"]
+            },
+            "input_polars": {
+                "columns": ["Weather_Condition"]
             }
         },
         {
@@ -203,6 +315,51 @@
                     "start_lng = accident_data['Start_Lng'].to_numpy()",
                     "start_lat = accident_data['Start_Lat'].to_numpy()",
                     "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(start_lng, start_lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            },
+            "input_spark":{
+                "frame": "gdfs_sample",
+                "i":  "Severity",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import pandas as pd",
+                    "import numpy as np",
+                    "from pyspark.sql import DataFrame, SparkSession",
+                    "from pyspark.sql.functions import col, expr, lit",
+                    "import matplotlib.pyplot as plt",
+                    "import pyspark.sql.functions as fn",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "l = len(gdf_severity)",
+                    "gdfs_sample = gdf_severity.sample(int(l/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            },
+            "input_polars":{
+                "frame": "gdfs_sample",
+                "i": "Severity",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/test.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
                     "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
                     "print(gdfs_sample)"
 
@@ -254,6 +411,51 @@
                     "print(gdfs_sample)"
 
                 ]
+            },
+            "input_spark":{
+                "frame": "gdfs_sample",
+                "i":  "Temperature(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import pandas as pd",
+                    "import numpy as np",
+                    "from pyspark.sql import DataFrame, SparkSession",
+                    "from pyspark.sql.functions import col, expr, lit",
+                    "import matplotlib.pyplot as plt",
+                    "import pyspark.sql.functions as fn",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "l = len(gdf_severity)",
+                    "gdfs_sample = gdf_severity.sample(int(l/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            },
+            "input_polars":{
+                "frame": "gdfs_sample",
+                "i": "Temperature(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/test.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
             }
         },
         {
@@ -301,6 +503,51 @@
                     "print(gdfs_sample)"
 
                 ]
+            },
+            "input_spark":{
+                "frame": "gdfs_sample",
+                "i": "Wind_Chill(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import pandas as pd",
+                    "import numpy as np",
+                    "from pyspark.sql import DataFrame, SparkSession",
+                    "from pyspark.sql.functions import col, expr, lit",
+                    "import matplotlib.pyplot as plt",
+                    "import pyspark.sql.functions as fn",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "l = len(gdf_severity)",
+                    "gdfs_sample = gdf_severity.sample(int(l/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            },
+            "input_polars":{
+                "frame": "gdfs_sample",
+                "i": "Wind_Chill(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/test.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
             }
         },
         {
@@ -322,6 +569,14 @@
             "input_vaex":{
                 "column":"Start_Time",
                 "format":"%Y-%m-%d %H:%M:%S"    
+            },
+            "input_spark":{
+                "column":"Start_Time",
+                "format":"yyyy-MM-dd HH:mm:ss"    
+            },
+            "input_polars": {
+                "column": "Start_Time",
+                "format": "%Y-%m-%d %H:%M:%S"
             }
         },
         {
@@ -333,6 +588,14 @@
             "input_vaex":{
                 "column":"End_Time",
                 "format":"%Y-%m-%d %H:%M:%S"    
+            },
+            "input_spark":{
+                "column":"End_Time",
+                "format":"yyyy-MM-dd HH:mm:ss"
+            },
+            "input_polars": {
+                "column": "End_Time",
+                "format": "%Y-%m-%d %H:%M:%S"
             }
         },
         {
@@ -344,6 +607,14 @@
             "input_vaex":{
                 "column":"Weather_Timestamp",
                 "format":"%Y-%m-%d %H:%M:%S"    
+            },
+            "input_spark":{
+                "column":"Weather_Timestamp",
+                "format":"yyyy-MM-dd HH:mm:ss"
+            },
+            "input_polars": {
+                "column": "Weather_Timestamp",
+                "format": "%Y-%m-%d %H:%M:%S"
             }
         },
         {
@@ -361,6 +632,18 @@
                 "splits": 2,
                 "col_names": ["day", "hour"]
 
+            },
+            "input_spark":{
+                "column":"Weather_Timestamp",
+                "sep": " ",
+                "splits": 2,
+                "col_names": ["day", "hour"]
+            },
+            "input_polars":{
+                "column":"Weather_Timestamp",
+                "sep": " ",
+                "splits": 2,
+                "col_names": ["day", "hour"]
             }
         },
         {
@@ -370,32 +653,48 @@
             },
             "input_vaex":{
                 "columns":["ID","Start_Time","End_Time", "Weather_Timestamp"]
+            },
+            "input_spark":{
+                "columns":["ID","Start_Time","End_Time", "Weather_Timestamp"]
+            },
+            "input_polars":{
+                "columns":["ID","Start_Time","End_Time", "Weather_Timestamp"]
             }
         },
         {
             "method":"calc_column",
             "input_pandas":{
                 "col_name":"abs_end_lng_change",
-                "columns":["End_Lng"],
-                "f":"lambda x: abs(x)"
+                "columns":["End_Lng", "Start_Lng"],
+                "f":"lambda x, y: abs(x - y)"
             },
             "input_vaex":{
                 "col_name":"abs_end_lng_change",
-                "columns":["End_Lng"],
-                "f":"lambda x: abs(x)"    
+                "columns":["End_Lng", "Start_Lng"],
+                "f":"lambda x, y: abs(x - y)"    
+            },
+            "input_spark":{
+                "col_name":"abs_end_lng_change",
+                "columns":["End_Lng", "Start_Lng"],
+                "f":"lambda x, y: abs(x - y)"
             }
         },
         {
             "method":"calc_column",
             "input_pandas":{
                 "col_name":"abs_end_lat_change",
-                "columns":["End_Lat"],
-                "f":"lambda x: abs(x)"
+                "columns":["End_Lat", "Start_Lat"],
+                "f":"lambda x, y: abs(x - y)"
             },
             "input_vaex":{
                 "col_name":"abs_end_lat_change",
-                "columns":["End_Lat"],
-                "f":"lambda x: abs(x)"    
+                "columns":["End_Lat", "Start_Lat"],
+                "f":"lambda x, y: abs(x - y)"    
+            },
+            "input_spark":{
+                "col_name":"abs_end_lat_change",
+                "columns":["End_Lat", "Start_Lat"],
+                "f":"lambda x, y: abs(x - y)"
             }
         },
         {
@@ -405,6 +704,9 @@
             },
             "input_vaex":{
                 "columns":["Temperature(F)","Wind_Chill(F)","Humidity(%)","Pressure(in)","Visibility(mi)","Wind_Speed(mph)","Precipitation(in)"]    
+            },
+            "input_spark":{
+                "columns":["Temperature(F)","Wind_Chill(F)","Humidity(%)","Pressure(in)","Visibility(mi)","Wind_Speed(mph)","Precipitation(in)"]
             }
         },
         {
@@ -436,6 +738,20 @@
                     "data_pca = accident_sample.dropna()"
                     
                 ]
+            },
+            "input_spark":{
+                "data_pca":"data_pca",
+                "n_dim": 3,
+                "req_compile":[
+                    "data_pca"
+                ],
+                "extra_commands":[
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
+                    "numerical = ['Start_Lat', 'Start_Lng', 'End_Lat', 'End_Lng', 'Distance(mi)', 'Temperature(F)', 'Wind_Chill(F)', 'Humidity(%)', 'Pressure(in)', 'Visibility(mi)','Wind_Speed(mph)', 'Precipitation(in)']",
+                    "accident_sample = accident_data[numerical].sample(int(len(accident_data)/100))",
+                    "data_pca = (accident_sample - accident_sample.mean(axis=0)) / accident_sample.std(axis=0)"
+                ]
             }
         },
         {
@@ -451,32 +767,209 @@
             "input_pandas":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
+                    "Thunder": "Thunderstorm"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder": "Thunderstorm"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm",
+                "regex": "False",
+                "to_replace": "Thunder"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "T-Storm": "Thunderstorm"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "T-Storm": "Thunderstorm"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm",
+                "regex": "False",
+                "to_replace": "T-Storm"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "T-Storm / Windy": "Thunderstorm / Windy"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "T-Storm / Windy": "Thunderstorm / Windy"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm / Windy",
+                "regex": "False",
+                "to_replace": "T-Storm / Windy"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder / Windy": "Thunderstorm / Windy"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Thunder / Windy": "Thunderstorm / Windy"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm / Windy",
+                "regex": "False",
+                "to_replace": "Thunder / Windy"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Heavy Rain Shower": "Heavy Rain"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Heavy Rain Shower": "Heavy Rain"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Heavy Rain",
+                "regex": "False",
+                "to_replace": "Heavy Rain Shower"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Heavy Rain Showers": "Heavy Rain"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Heavy Rain Showers": "Heavy Rain"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Heavy Rain",
+                "regex": "False",
+                "to_replace": "Heavy Rain Showers"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Light Rain Shower": "Light Rain"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Light Rain Shower": "Light Rain"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Light Rain",
+                "regex": "False",
+                "to_replace": "Light Rain Shower"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Light Rain Showers": "Light Rain"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Light Rain Showers": "Light Rain"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Light Rain",
+                "regex": "False",
+                "to_replace": "Light Rain Showers"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Rain Shower": "Rain"
+                }
+            },
+            "input_vaex":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
+                    "Rain Shower": "Rain"
+                }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Rain",
+                "regex": "False",
+                "to_replace": "Rain Shower"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Weather_Condition"],
+                "to_replace": {
                     "Rain Showers": "Rain"
                 }
             },
             "input_vaex":{
                 "columns":["Weather_Condition"],
                 "to_replace": {
-                    "Thunder": "Thunderstorm",
-                    "T-Storm": "Thunderstorm",
-                    "T-Storm / Windy": "Thunderstorm / Windy",
-                    "Thunder / Windy": "Thunderstorm / Windy",
-                    "Heavy Rain Shower": "Heavy Rain",
-                    "Heavy Rain Showers": "Heavy Rain",
-                    "Light Rain Shower": "Light Rain",
-                    "Light Rain Showers": "Light Rain",
-                    "Rain Shower": "Rain",
                     "Rain Showers": "Rain"
                 }
+            },
+            "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Rain",
+                "regex": "False",
+                "to_replace": "Rain Showers"
             }
         },
         {
@@ -484,24 +977,125 @@
             "input_pandas":{
                 "columns":["Wind_Direction"],
                 "to_replace": {
-                    "West": "W",
-                    "Variable": "VAR",
-                    "South": "S",
-                    "Calm": "CALM",
-                    "East": "E",
+                    "West": "W"
+                }
+            },
+            "input_vaex":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "West": "W"
+                }
+            },
+            "input_spark":{
+                "columns":["Wind_Direction"],
+                "value": "W",
+                "regex": "False",
+                "to_replace": "West"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "Variable": "VAR"
+                }
+            },
+            "input_vaex":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "Variable": "VAR"
+                }
+            },
+            "input_spark":{
+                "columns":["Wind_Direction"],
+                "value": "VAR",
+                "regex": "False",
+                "to_replace": "Variable"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "South": "S"
+                }
+            },
+            "input_vaex":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "South": "S"
+                }
+            },
+            "input_spark":{
+                "columns":["Wind_Direction"],
+                "value": "S",
+                "regex": "False",
+                "to_replace": "South"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "Calm": "CALM"
+                }
+            },
+            "input_vaex":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "Calm": "CALM"
+                }
+            },
+            "input_spark":{
+                "columns":["Wind_Direction"],
+                "value": "CALM",
+                "regex": "False",
+                "to_replace": "Calm"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "East": "E"
+                }
+            },
+            "input_vaex":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
+                    "East": "E"
+                }
+            },
+            "input_spark":{
+                "columns":["Wind_Direction"],
+                "value": "E",
+                "regex": "False",
+                "to_replace": "East"
+            }
+        },
+        {
+            "method":"replace",
+            "input_pandas":{
+                "columns":["Wind_Direction"],
+                "to_replace": {
                     "North": "N"
                 }
             },
             "input_vaex":{
                 "columns":["Wind_Direction"],
                 "to_replace": {
-                    "West": "W",
-                    "Variable": "VAR",
-                    "South": "S",
-                    "Calm": "CALM",
-                    "East": "E",
                     "North": "N"
                 }
+            },
+            "input_spark":{
+                "columns":["Wind_Direction"],
+                "value": "N",
+                "regex": "False",
+                "to_replace": "North"
             }
         },
         {
@@ -513,6 +1107,10 @@
             "input_vaex":{
                 "value":"KBTR",
                 "columns":["Airport_Code"]    
+            },
+            "input_spark":{
+                "value":"KBTR",
+                "columns":["Airport_Code"]
             }
         },
         {
@@ -524,6 +1122,10 @@
             "input_vaex":{
                 "value":"CALM",
                 "columns":["Wind_Direction"]    
+            },
+            "input_spark":{
+                "value":"CALM",
+                "columns":["Wind_Direction"]
             }
         },
         {
@@ -533,8 +1135,12 @@
                 "columns":["Sunrise_Sunset"]
             },
             "input_vaex":{
-                "value":"CALM",
+                "value":"Day",
                 "columns":["Sunrise_Sunset"]    
+            },
+            "input_spark":{
+                "value":"Day",
+                "columns":["Sunrise_Sunset"]
             }
         },
         {
@@ -543,6 +1149,9 @@
                 "columns":"all"
             },
             "input_vaex":{
+                "columns":"all"
+            },
+            "input_spark":{
                 "columns":"all"
             }
         },
@@ -560,6 +1169,13 @@
                 "sep": "-",
                 "splits": 2,
                 "col_names": ["Zipcode_ok", "Zipcode_not_ok"]
+            },
+            "input_spark":{
+                "column":"Zipcode",
+                "sep": "-",
+                "splits": 2,
+                "col_names": ["Zipcode_ok", "Zipcode_not_ok"]
+
             }
         },
         {

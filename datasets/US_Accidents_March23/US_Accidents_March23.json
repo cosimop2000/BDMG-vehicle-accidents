@@ -666,7 +666,7 @@
             "input_pandas":{
                 "col_name":"abs_end_lng_change",
                 "columns":["End_Lng", "Start_Lng"],
-                "f":"lambda x, y: abs(x - y)"
+                "f":"lambda row: abs(row['End_Lng'] - row['Start_Lng'])"
             },
             "input_vaex":{
                 "col_name":"abs_end_lng_change",
@@ -684,7 +684,7 @@
             "input_pandas":{
                 "col_name":"abs_end_lat_change",
                 "columns":["End_Lat", "Start_Lat"],
-                "f":"lambda x, y: abs(x - y)"
+                "f":"lambda row: abs(row['End_Lat'] - row['Start_Lat'])"
             },
             "input_vaex":{
                 "col_name":"abs_end_lat_change",
