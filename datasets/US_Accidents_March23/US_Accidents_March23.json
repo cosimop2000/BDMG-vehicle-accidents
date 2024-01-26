@@ -658,36 +658,36 @@
             "method":"calc_column",
             "input_pandas":{
                 "col_name":"abs_end_lng_change",
-                "columns":["End_Lng"],
-                "f":"lambda x: abs(x)"
+                "columns":["End_Lng", "Start_Lng"],
+                "f":"lambda x, y: abs(x - y)"
             },
             "input_vaex":{
                 "col_name":"abs_end_lng_change",
-                "columns":["End_Lng"],
-                "f":"lambda x: abs(x)"    
+                "columns":["End_Lng", "Start_Lng"],
+                "f":"lambda x, y: abs(x - y)"    
             },
             "input_spark":{
                 "col_name":"abs_end_lng_change",
-                "columns":["End_Lng"],
-                "f":"lambda x: abs(x)"
+                "columns":["End_Lng", "Start_Lng"],
+                "f":"lambda x, y: abs(x - y)"
             }
         },
         {
             "method":"calc_column",
             "input_pandas":{
                 "col_name":"abs_end_lat_change",
-                "columns":["End_Lat"],
-                "f":"lambda x: abs(x)"
+                "columns":["End_Lat", "Start_Lat"],
+                "f":"lambda x, y: abs(x - y)"
             },
             "input_vaex":{
                 "col_name":"abs_end_lat_change",
-                "columns":["End_Lat"],
-                "f":"lambda x: abs(x)"    
+                "columns":["End_Lat", "Start_Lat"],
+                "f":"lambda x, y: abs(x - y)"    
             },
             "input_spark":{
                 "col_name":"abs_end_lat_change",
-                "columns":["End_Lat"],
-                "f":"lambda x: abs(x)"
+                "columns":["End_Lat", "Start_Lat"],
+                "f":"lambda x, y: abs(x - y)"
             }
         },
         {
@@ -1128,7 +1128,7 @@
                 "columns":["Sunrise_Sunset"]
             },
             "input_vaex":{
-                "value":"CALM",
+                "value":"Day",
                 "columns":["Sunrise_Sunset"]    
             },
             "input_spark":{
