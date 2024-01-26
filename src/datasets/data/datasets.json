@@ -182,5 +182,11 @@
     "test": " ",
     "pipe": "datasets/US_Accidents_March23/US_Accidents_March23.json",
     "type": "csv"
+  },
+  "test": {
+    "path": "datasets/US_Accidents_March23/sample.csv",
+    "test": " ",
+    "pipe": "datasets/US_Accidents_March23/US_Accidents_March23.json",
+    "type": "csv"  
   }
 }
