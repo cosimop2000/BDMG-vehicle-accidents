@@ -830,6 +830,14 @@ class PolarsBench(AbstractAlgorithm):
 
         return self.df_
 
+    @timing
+    def pca(self, data_pca, n_dim=3):
+        # Create principal components
+        # data_pca = data_pca.dropna()
+        data_pca = data_pca.filter(pl.all([pl.col(column).is_not_null() for column in data_pca.columns]))
+        pca = PCA(n_dim)
+        accident_data_pca = pca.fit_transform(data_pca)
+        return accident_data_pca
 
     def force_execution(self):
         self.df_.collect()

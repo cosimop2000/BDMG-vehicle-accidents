@@ -805,6 +805,20 @@
                     "accident_sample = accident_data[numerical].sample(int(len(accident_data)/100))",
                     "data_pca = (accident_sample - accident_sample.mean(axis=0)) / accident_sample.std(axis=0)"
                 ]
+            },
+            "input_polars":{
+                "data_pca":"data_pca",
+                "n_dim": 3,
+                "req_compile":[
+                    "data_pca"
+                ],
+                "extra_commands":[
+                    "import polars as pl",
+                    "accident_data = pl.read_csv(r'datasets/test/sample.csv')",
+                    "numerical = ['Start_Lat', 'Start_Lng', 'End_Lat', 'End_Lng', 'Distance(mi)', 'Temperature(F)', 'Wind_Chill(F)', 'Humidity(%)', 'Pressure(in)', 'Visibility(mi)','Wind_Speed(mph)', 'Precipitation(in)']",
+                    "accident_sample = accident_data[numerical].sample(int(len(accident_data)/100))",
+                    "data_pca = accident_sample.select([((pl.col(column) - accident_sample.select(pl.col(column).mean()).get_column(column).to_numpy()[0]) / accident_sample.select(pl.col(column).std()).get_column(column).to_numpy()[0]).alias(column) for column in accident_sample.columns])"
+                ]
             }
         },
         {
