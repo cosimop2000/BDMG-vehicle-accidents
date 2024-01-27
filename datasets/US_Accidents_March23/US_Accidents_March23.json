@@ -848,6 +848,12 @@
                 "value": "Thunderstorm",
                 "regex": "False",
                 "to_replace": "Thunder"
+            },
+            "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm",
+                "regex": "False",
+                "to_replace": "Thunder"
             }
         },
         {
@@ -865,6 +871,12 @@
                 }
             },
             "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm",
+                "regex": "False",
+                "to_replace": "T-Storm"
+            },
+            "input_polars":{
                 "columns":["Weather_Condition"],
                 "value": "Thunderstorm",
                 "regex": "False",
@@ -890,6 +902,12 @@
                 "value": "Thunderstorm / Windy",
                 "regex": "False",
                 "to_replace": "T-Storm / Windy"
+            },
+            "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm / Windy",
+                "regex": "False",
+                "to_replace": "T-Storm / Windy"
             }
         },
         {
@@ -907,6 +925,12 @@
                 }
             },
             "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm / Windy",
+                "regex": "False",
+                "to_replace": "Thunder / Windy"
+            },
+            "input_polars":{
                 "columns":["Weather_Condition"],
                 "value": "Thunderstorm / Windy",
                 "regex": "False",
@@ -932,6 +956,12 @@
                 "value": "Heavy Rain",
                 "regex": "False",
                 "to_replace": "Heavy Rain Shower"
+            },
+            "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Heavy Rain",
+                "regex": "False",
+                "to_replace": "Heavy Rain Shower"
             }
         },
         {
@@ -949,6 +979,12 @@
                 }
             },
             "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Heavy Rain",
+                "regex": "False",
+                "to_replace": "Heavy Rain Showers"
+            },
+            "input_polars":{
                 "columns":["Weather_Condition"],
                 "value": "Heavy Rain",
                 "regex": "False",
@@ -974,6 +1010,12 @@
                 "value": "Light Rain",
                 "regex": "False",
                 "to_replace": "Light Rain Shower"
+            },
+            "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Light Rain",
+                "regex": "False",
+                "to_replace": "Light Rain Shower"
             }
         },
         {
@@ -991,6 +1033,12 @@
                 }
             },
             "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Light Rain",
+                "regex": "False",
+                "to_replace": "Light Rain Showers"
+            },
+            "input_polars":{
                 "columns":["Weather_Condition"],
                 "value": "Light Rain",
                 "regex": "False",
@@ -1016,6 +1064,12 @@
                 "value": "Rain",
                 "regex": "False",
                 "to_replace": "Rain Shower"
+            },
+            "input_polars":{
+               "columns":["Weather_Condition"],
+                "value": "Rain",
+                "regex": "False",
+                "to_replace": "Rain Shower"
             }
         },
         {
@@ -1033,6 +1087,12 @@
                 }
             },
             "input_spark":{
+                "columns":["Weather_Condition"],
+                "value": "Rain",
+                "regex": "False",
+                "to_replace": "Rain Showers"
+            },
+            "input_polars":{
                 "columns":["Weather_Condition"],
                 "value": "Rain",
                 "regex": "False",
@@ -1058,6 +1118,12 @@
                 "value": "W",
                 "regex": "False",
                 "to_replace": "West"
+            },
+            "input_polars":{
+                "columns":["Wind_Direction"],
+                "value": "W",
+                "regex": "False",
+                "to_replace": "West"
             }
         },
         {
@@ -1075,6 +1141,12 @@
                 }
             },
             "input_spark":{
+                "columns":["Wind_Direction"],
+                "value": "VAR",
+                "regex": "False",
+                "to_replace": "Variable"
+            },
+            "input_polars":{
                 "columns":["Wind_Direction"],
                 "value": "VAR",
                 "regex": "False",
@@ -1100,6 +1172,12 @@
                 "value": "S",
                 "regex": "False",
                 "to_replace": "South"
+            },
+            "input_polars":{
+                "columns":["Wind_Direction"],
+                "value": "S",
+                "regex": "False",
+                "to_replace": "South"
             }
         },
         {
@@ -1117,6 +1195,12 @@
                 }
             },
             "input_spark":{
+                "columns":["Wind_Direction"],
+                "value": "CALM",
+                "regex": "False",
+                "to_replace": "Calm"
+            },
+            "input_polars":{
                 "columns":["Wind_Direction"],
                 "value": "CALM",
                 "regex": "False",
@@ -1142,6 +1226,12 @@
                 "value": "E",
                 "regex": "False",
                 "to_replace": "East"
+            },
+            "input_polars":{
+                "columns":["Wind_Direction"],
+                "value": "E",
+                "regex": "False",
+                "to_replace": "East"
             }
         },
         {
@@ -1159,6 +1249,12 @@
                 }
             },
             "input_spark":{
+                "columns":["Wind_Direction"],
+                "value": "N",
+                "regex": "False",
+                "to_replace": "North"
+            },
+            "input_polars":{
                 "columns":["Wind_Direction"],
                 "value": "N",
                 "regex": "False",
