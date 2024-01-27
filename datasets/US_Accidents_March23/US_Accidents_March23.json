@@ -1274,6 +1274,10 @@
             "input_spark":{
                 "value":"KBTR",
                 "columns":["Airport_Code"]
+            },
+            "input_polars":{
+                "value":"KBTR",
+                "columns":["Airport_Code"]
             }
         },
         {
@@ -1287,6 +1291,10 @@
                 "columns":["Wind_Direction"]    
             },
             "input_spark":{
+                "value":"CALM",
+                "columns":["Wind_Direction"]
+            },
+            "input_polars":{
                 "value":"CALM",
                 "columns":["Wind_Direction"]
             }
@@ -1304,6 +1312,10 @@
             "input_spark":{
                 "value":"Day",
                 "columns":["Sunrise_Sunset"]
+            },
+            "input_polars":{
+                "value":"Day",
+                "columns":["Sunrise_Sunset"]
             }
         },
         {
@@ -1315,6 +1327,9 @@
                 "columns":"all"
             },
             "input_spark":{
+                "columns":"all"
+            },
+            "input_polars":{
                 "columns":"all"
             }
         },
@@ -1338,7 +1353,12 @@
                 "sep": "-",
                 "splits": 2,
                 "col_names": ["Zipcode_ok", "Zipcode_not_ok"]
-
+            },
+            "input_polars":{
+                "column":"Zipcode",
+                "sep": "-",
+                "splits": 2,
+                "col_names": ["Zipcode_ok", "Zipcode_not_ok"]
             }
         },
         {
