@@ -1,12 +1,8 @@
 from unicodedata import name
 import warnings
 import os
-os.environ["PYARROW_IGNORE_TIMEZONE"] = "1"
-os.environ['HADOOP_HOME_WARN_SUPPRESS'] = "1"
-os.environ['HADOOP_ROOT_LOGGER'] = "WARN"
-
-warnings.filterwarnings('ignore')
 import re
+import numpy as np
 from typing import Union
 from haversine import haversine
 import pyspark.pandas as pd
@@ -15,13 +11,27 @@ from src.algorithms.utils import timing
 from src.datasets.dataset import Dataset
 from src.algorithms.algorithm import AbstractAlgorithm
 
+import geopandas
+import geoplot as gplt
+import geoplot.crs as gcrs
+
+from sklearn.impute import SimpleImputer
+from sklearn.decomposition import PCA
+
+os.environ["PYARROW_IGNORE_TIMEZONE"] = "1"
+os.environ['HADOOP_HOME_WARN_SUPPRESS'] = "1"
+os.environ['HADOOP_ROOT_LOGGER'] = "WARN"
+
+warnings.filterwarnings('ignore')
+
 
 class PandasPysparkBench(AbstractAlgorithm):
     df_: Union[pd.DataFrame, pd.Series] = None
     backup_: Union[pd.DataFrame, pd.Series] = None
-    ds_ : Dataset = None
+    ds_: Dataset = None
     name = "pyspark_pandas"
-    def __init__(self, name:str, mem: str = None, cpu: int = None, pipeline: bool = False):
+
+    def __init__(self, name: str, mem: str = None, cpu: int = None, pipeline: bool = False):
         self.mem_ = mem
         self.cpu_ = cpu
         self.pipeline = pipeline
@@ -32,13 +42,12 @@ class PandasPysparkBench(AbstractAlgorithm):
         builder = builder.config("spark.sql.debug.maxToStringFields", 100)
         builder = builder.config("spark.driver.memory", "32g")
         builder = builder.config("spark.driver.maxResultSize", "-1")
-        
+
         # Pandas API on Spark automatically uses this Spark session with the configurations set.
         builder = builder.getOrCreate()
-                
+
         # suppress WARN messages log level OFF
         builder = builder.sparkContext.setLogLevel("OFF")
-        
 
     def backup(self):
         """
@@ -74,7 +83,7 @@ class PandasPysparkBench(AbstractAlgorithm):
         self.ds_ = ds
         path = ds.dataset_attribute.path
         format = ds.dataset_attribute.type
-        
+
         if format == "csv":
             self.df_ = self.read_csv(path, **kwargs)
         elif format == "excel":
@@ -89,7 +98,7 @@ class PandasPysparkBench(AbstractAlgorithm):
             self.df_ = self.read_hdf5(path, **kwargs)
         elif format == "xml":
             self.df_ = self.read_xml(path, **kwargs)
-        
+
         return self.df_
 
     def read_sql(self, query, conn, **kwargs):
@@ -113,7 +122,7 @@ class PandasPysparkBench(AbstractAlgorithm):
         """
         self.df_ = pd.read_csv(path, **kwargs)
         return self.df_
-    
+
     def read_hdf5(self, path, **kwargs):
         """
         Given a connection and a query
@@ -124,7 +133,7 @@ class PandasPysparkBench(AbstractAlgorithm):
         except:
             keys = list(h5py.File(path, 'r').keys())
             store = pd.HDFStore(path)
-            self.df_ = store[keys[0]]         
+            self.df_ = store[keys[0]]
         return self.df_
 
     def read_xml(self, path, **kwargs):
@@ -196,9 +205,9 @@ class PandasPysparkBench(AbstractAlgorithm):
         Columns is a list of two column names; separator and name are strings
         """
         self.df_[name] = (
-            self.df_[columns[0]].astype(str)
-            + separator
-            + self.df_[columns[1]].astype(str)
+                self.df_[columns[0]].astype(str)
+                + separator
+                + self.df_[columns[1]].astype(str)
         )
         return self.df_
 
@@ -257,23 +266,23 @@ class PandasPysparkBench(AbstractAlgorithm):
         Returns the rows of the dataframe that have values
         in the provided column lower or higher than the values
         of the lower/upper quantile.
-        """       
+        """
         import numpy as np
-        
+
         if column == "all":
             column = self.df_.select_dtypes(include=np.number).columns.tolist()
 
         # Calculate the percentile values for each column
-        percentiles = np.percentile(self.df_[column].values, [(lower_quantile*100), (upper_quantile*100)], axis=0)
-        
+        percentiles = np.percentile(self.df_[column].values, [(lower_quantile * 100), (upper_quantile * 100)], axis=0)
+
         numpy_array = self.df_[column].values
         lt_values = numpy_array < percentiles[0]
         gt_values = numpy_array > percentiles[1]
-        
+
         # get index of rows with outliers
         index = np.where(lt_values | gt_values)[0]
         return self.df_.iloc[index]
-    
+
     @timing
     def get_columns_types(self):
         """
@@ -317,12 +326,12 @@ class PandasPysparkBench(AbstractAlgorithm):
         current_dtypes = self.get_columns_types()
         new_dtypes = (
             self.df_.apply(pd.to_numeric, errors="ignore")
-            .dtypes.apply(lambda x: x.name)
-            .to_dict()
+                .dtypes.apply(lambda x: x.name)
+                .to_dict()
         )
 
-        return [{"col": k, "current_dtype": current_dtypes[k], "suggested_dtype": new_dtypes[k],} 
-                for k in current_dtypes.keys() 
+        return [{"col": k, "current_dtype": current_dtypes[k], "suggested_dtype": new_dtypes[k], }
+                for k in current_dtypes.keys()
                 if new_dtypes[k] != current_dtypes[k]]
 
     @timing
@@ -424,10 +433,10 @@ class PandasPysparkBench(AbstractAlgorithm):
         and the dictionary to aggregate ("sum", "mean", "count") the values for each column: {"col1": "sum"}
         (see pivot_table in pandas documentation)
         """
-        if (str(type(columns))== 'list') and (len(columns) > 1):
+        if (str(type(columns)) == 'list') and (len(columns) > 1):
             print("Only one column can be used as columns")
             columns = [columns[0]]
-        return  self.df_.pivot_table(
+        return self.df_.pivot_table(
             index=index, values=values, columns=columns[0], aggfunc=aggfunc
         ).reset_index()
 
@@ -452,7 +461,7 @@ class PandasPysparkBench(AbstractAlgorithm):
         Delete the rows with null values for all provided Columns
         Columns is a list of column names
         """
-        if columns=="all":
+        if columns == "all":
             columns = self.get_columns()
         with pd.option_context('compute.ops_on_diff_frames', True):
             self.df_ = self.df_[~self.df_[columns].isnull().any()]
@@ -465,7 +474,7 @@ class PandasPysparkBench(AbstractAlgorithm):
         using the provided sep string as separator
         Col_names is a list of column names
         """
-        self.df_[col_names] = self.df_[column].str.split(sep, splits, expand=True)
+        self.df_[col_names] = self.df_[column].astype(str).str.split(pat=sep, n=splits, expand=True)
         return self.df_
 
     @timing
@@ -487,10 +496,10 @@ class PandasPysparkBench(AbstractAlgorithm):
         for column in columns:
             self.df_[column] = (
                 self.df_[column]
-                .str.normalize("NFKD")
-                .str.encode("ascii", errors="ignore")
-                .str.decode("utf-8")
-                
+                    .str.normalize("NFKD")
+                    .str.encode("ascii", errors="ignore")
+                    .str.decode("utf-8")
+
             )
         return self.df_
 
@@ -517,13 +526,13 @@ class PandasPysparkBench(AbstractAlgorithm):
         Calculate the new column col_name by applying
         the function f to the whole dataframe
         """
-        if not columns:
-            columns = self.get_columns()
-        if type(f) == str:
-            f = eval(f)
-        with pd.option_context('compute.ops_on_diff_frames', True):
-            self.df_[col_name] = self.df_[columns].apply(f, axis=1)
-        
+        # if not columns:
+        #     columns = self.get_columns()
+        # if type(f) == str:
+        #     f = eval(f)
+        # with pd.option_context('compute.ops_on_diff_frames', True):
+        self.df_[col_name] = f
+
         return self.df_
 
     @timing
@@ -537,8 +546,8 @@ class PandasPysparkBench(AbstractAlgorithm):
         The result is stored in the current dataframe.
         """
         self.df_ = self.df_.merge(other, left_on=left_on, right_on=right_on, how=how, **kwargs)
-        return self.df_  
-    
+        return self.df_
+
     @timing
     def groupby(self, columns, f, cast=None):
         """
@@ -550,9 +559,8 @@ class PandasPysparkBench(AbstractAlgorithm):
         if cast:
             for column, t in cast.items():
                 self.df_[column] = self.df_[column].astype(t)
-                
+
         return self.df_.groupby(columns).agg(f)
-    
 
     @timing
     def categorical_encoding(self, columns):
@@ -562,7 +570,7 @@ class PandasPysparkBench(AbstractAlgorithm):
         """
         for column in columns:
             self.df_[column] = self.df_[column].astype("category").cat.codes
-            #self.df_[column] = self.df_[column].cat.codes
+            # self.df_[column] = self.df_[column].cat.codes
         return self.df_
 
     @timing
@@ -586,14 +594,18 @@ class PandasPysparkBench(AbstractAlgorithm):
         return self.df_
 
     @timing
-    def replace(self, columns, to_replace, value, regex):
+    def replace(self, columns, to_replace, value, regex=False):
         """
         Replace all occurrencies of to_replace (numeric, string, regex, list, dict) in the provided columns using the provided value
         Regex is a boolean: if true, to_replace is interpreted as a regex
         Columns is a list of column names
         """
+        # self.df_[columns] = self.df_[columns].replace(
+        #     to_replace=to_replace, value=value, regex=regex
+        # )
+
         self.df_[columns] = self.df_[columns].replace(
-            to_replace=to_replace, value=value, regex=regex
+            to_replace=to_replace, value=value
         )
         return self.df_
 
@@ -645,9 +657,9 @@ class PandasPysparkBench(AbstractAlgorithm):
         Duplicate columns are those which have same values for each row.
         """
         cols = self.df_.columns.values
-        return [(cols[i], cols[j]) 
-                for i in range(len(cols)) 
-                for j in range(i + 1, len(cols)) 
+        return [(cols[i], cols[j])
+                for i in range(len(cols))
+                for j in range(i + 1, len(cols))
                 if self.df_[cols[i]].equals(self.df_[cols[j]])]
 
     @timing
@@ -669,24 +681,71 @@ class PandasPysparkBench(AbstractAlgorithm):
         :param query: a string with the query conditions, e.g. "col1 > 1 & col2 < 10"
         :return: subset of the dataframe that correspond to the selection conditions
         """
+
         if type(query) == list:
             for q in query:
                 self.df_.query(q, inplace=inplace)
-                
+
             return self.df_
-          
+
         return self.df_.query(query, inplace=inplace)
-    
+
+    @timing
+    def perc_null_values(self):
+        # EDA
+        # print number and percentage of null entries per variable
+
+        print(len(self.df_))
+        for column in self.df_.columns:
+            print('{}: {} ({}%)'.format(column, pd.isnull(self.df_[column]).sum(),
+                                        (pd.isnull(self.df_[column]).sum() / len(self.df_)) * 100))
+
+    @timing
+    def check_missing_values(self, col1, col2):
+        # EDA
+        # check to see if missing values are in same rows
+        return self.df_[np.logical_xor(self.df_[col1].isna(), self.df_[col2].isna())]
+
+    @timing
+    def look_for_cases(self, col1, col2):
+        # es. looking for cases where Humidity is zero and Percipitation is null
+        return self.df_[(self.df_[col1] == 0) & self.df_[col2].isna()][[col1, col2]]
+
+    @timing
+    def plot_geo(self, frame, i):
+        contiguous_usa = geopandas.read_file(gplt.datasets.get_path('contiguous_usa'))
+        ax = gplt.polyplot(contiguous_usa, projection=gcrs.AlbersEqualArea(), figsize=(20, 20))
+        gplt.pointplot(frame, ax=ax, hue=frame[i], scale=frame[i], legend=True, legend_var='hue')
+        return frame
+
+    @timing
+    def simple_imputer(self, columns):
+        with pd.option_context('compute.ops_on_diff_frames', True):
+            imputer1 = SimpleImputer(missing_values=np.nan, strategy='median')
+            accident_data_median_fit = imputer1.fit_transform(self.df_.to_pandas()[columns])
+            accident_data_median = imputer1.transform(accident_data_median_fit)
+
+            self.df_[columns] = pd.DataFrame(accident_data_median)
+        return self.df_
+
+    @timing
+    def pca(self, data_pca, n_dim=3):
+        # Create principal components
+        data_pca = data_pca.dropna()
+        pca = PCA(n_dim)
+        accident_data_pca = pca.fit_transform(data_pca)
+        return accident_data_pca
+
     def force_execution(self):
         self.df_.count()
-    
+
     @timing
     def done(self):
         pass
-        
+
     def set_construtor_args(self, args):
         pass
-    
+
     @timing
     def to_parquet(self, path="./pipeline_output/pyspark_pandas_output.parquet", **kwargs):
         """

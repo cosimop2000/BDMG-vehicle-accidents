@@ -22,7 +22,8 @@
 
             },
             "input_pyspark_pandas":{
-
+                "sep": ",",
+                "format": "csv"
             },
             "input_modin_ray":{
                 
@@ -61,10 +62,13 @@
                 "query":"(fn.col('Start_Lat') == fn.col('End_Lat')) & (fn.col('Start_Lng') == fn.col('End_Lng'))"
             },
             "input_polars": {
-                "query": "(accident_data['Start_Lat'] == accident_data['End_Lat']) & (accident_data['Start_Lng'] == accident_data['End_Lng'])"
+                "query": "(self.df_['Start_Lat'] == self.df_['End_Lat']) & (self.df_['Start_Lng'] == self.df_['End_Lng'])"
             },
             "input_datatable":{
                 "query":"(f.Start_Lat == f.End_Lat) & (f.Start_Lng == f.End_Lng)"
+            },
+            "input_pyspark_pandas":{
+                "query":"(Start_Lat == End_Lat) and (Start_Lng == End_Lng)"
             }
         },
         {
@@ -88,6 +92,10 @@
             "input_datatable":{
                 "col1": "End_Lat",
                 "col2": "End_Lng"
+            },
+            "input_pyspark_pandas":{
+                "col1": "End_Lat",
+                "col2": "End_Lng"
             }
         },
         {
@@ -105,6 +113,9 @@
                 "column": "ID"
             },
             "input_datatable":{
+                "column":"ID"
+            },
+            "input_pyspark_pandas":{
                 "column":"ID"
             }
         },
@@ -124,6 +135,9 @@
             },
             "input_datatable":{
                 "column":"Description"
+            },
+            "input_pyspark_pandas":{
+                "column":"Description"
             }
         },
         {
@@ -142,6 +156,9 @@
             },
             "input_datatable": {
                 "column": "Wind_Direction"
+            },
+            "input_pyspark_pandas":{
+                "column":"Wind_Direction"
             }
         },
         {
@@ -159,6 +176,9 @@
                 "column": "Airport_Code"
             },
             "input_datatable": {
+                "column": "Airport_Code"
+            },
+            "input_pyspark_pandas": {
                 "column": "Airport_Code"
             }
         },
@@ -178,6 +198,9 @@
             },
             "input_datatable":{
                 "query":"f['Precipitation(in)'] == 0"
+            },
+            "input_pyspark_pandas": {
+                "query": "`Precipitation(in)` == 0"
             }
         },
         {
@@ -209,6 +232,10 @@
                 "col2":"Precipitation(in)",
                 "col3":"Humidity(%)",
                 "col4":"Precipitation(in)"     
+            },
+            "input_pyspark_pandas": {
+                "col1": "Humidity(%)",
+                "col2": "Precipitation(in)"
             }
         },
         {
@@ -240,6 +267,10 @@
                 "col2":"Wind_Direction",
                 "col3":"Wind_Speed(mph)",
                 "col4":"Wind_Direction"
+            },
+            "input_pyspark_pandas": {
+                "col1": "Wind_Speed(mph)",
+                "col2": "Wind_Direction"
             }
         },
         {
@@ -271,6 +302,10 @@
                 "col2":"Wind_Chill(F)",
                 "col3":"Wind_Speed(mph)",
                 "col4":"Wind_Chill(F)"
+            },
+            "input_pyspark_pandas": {
+                "col1": "Wind_Speed(mph)",
+                "col2": "Wind_Chill(F)"
             }
         },
         {
@@ -294,6 +329,10 @@
             "input_datatable":{
                 "frac": true,
                 "num": 1
+            },
+            "input_pyspark_pandas":{
+                "frac": true,
+                "num": 1
             }
         },
         {
@@ -311,6 +350,9 @@
                 "columns": ["Weather_Condition"]
             },
             "input_datatable":{
+                "columns":["Weather_Condition"]
+            },
+            "input_pyspark_pandas":{
                 "columns":["Weather_Condition"]
             }
         },
@@ -398,6 +440,26 @@
                     "import matplotlib.pyplot as plt",
                     "import pandas as pd",
                     "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/test.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            },
+            "input_pyspark_pandas":{
+                "frame": "gdfs_sample",
+                "i": "Severity",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
                     "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
                     "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
                     "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
@@ -496,6 +558,26 @@
                     "print(gdfs_sample)"
 
                 ]
+            },
+            "input_pyspark_pandas":{
+                "frame": "gdfs_sample",
+                "i": "Temperature(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
             }
         },
         {
@@ -588,6 +670,26 @@
                     "print(gdfs_sample)"
 
                 ]
+            },
+            "input_pyspark_pandas":{
+                "frame": "gdfs_sample",
+                "i": "Wind_Chill(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
             }
         },
         {
@@ -617,6 +719,10 @@
             "input_polars": {
                 "column": "Start_Time",
                 "format": "%Y-%m-%d %H:%M:%S"
+            },
+            "input_pyspark_pandas": {
+                "column": "Start_Time",
+                "format": "%Y-%m-%d %H:%M:%S"
             }
         },
         {
@@ -636,6 +742,10 @@
             "input_polars": {
                 "column": "End_Time",
                 "format": "%Y-%m-%d %H:%M:%S"
+            },
+            "input_pyspark_pandas": {
+                "column": "End_Time",
+                "format": "%Y-%m-%d %H:%M:%S"
             }
         },
         {
@@ -653,6 +763,10 @@
                 "format":"yyyy-MM-dd HH:mm:ss"
             },
             "input_polars": {
+                "column": "Weather_Timestamp",
+                "format": "%Y-%m-%d %H:%M:%S"
+            },
+            "input_pyspark_pandas": {
                 "column": "Weather_Timestamp",
                 "format": "%Y-%m-%d %H:%M:%S"
             }
@@ -684,6 +798,13 @@
                 "sep": " ",
                 "splits": 2,
                 "col_names": ["day", "hour"]
+            },
+            "input_pyspark_pandas":{
+                "column":"Weather_Timestamp",
+                "sep": " ",
+                "splits": 2,
+                "col_names": ["day", "hour"]
+
             }
         },
         {
@@ -698,6 +819,9 @@
                 "columns":["ID","Start_Time","End_Time", "Weather_Timestamp"]
             },
             "input_polars":{
+                "columns": ["ID","Start_Time","End_Time", "Weather_Timestamp"]
+            },
+            "input_pyspark_pandas":{
                 "columns": ["ID","Start_Time","End_Time", "Weather_Timestamp"]
             }
         },
@@ -722,6 +846,11 @@
                 "col_name":"abs_end_lng_change",
                 "columns":["End_Lng"],
                 "f":"lambda x: abs(x)"
+            },
+            "input_pyspark_pandas":{
+                "col_name":"abs_end_lng_change",
+                "columns":["End_Lng", "Start_Lng"],
+                "f":"(df['End_Lng'] - df['Start_Lng']).abs()"
             }
         },
         {
@@ -745,6 +874,11 @@
                 "col_name":"abs_end_lat_change",
                 "columns":["End_Lat"],
                 "f":"lambda x: abs(x)"
+            },
+            "input_pyspark_pandas":{
+                "col_name":"abs_end_lat_change",
+                "columns":["End_Lat", "Start_Lat"],
+                "f":"(df['End_Lat'] - df['Start_Lat']).abs()"
             }
         },
         {
@@ -759,6 +893,9 @@
                 "columns":["Temperature(F)","Wind_Chill(F)","Humidity(%)","Pressure(in)","Visibility(mi)","Wind_Speed(mph)","Precipitation(in)"]
             },
             "input_polars":{
+                "columns":["Temperature(F)","Wind_Chill(F)","Humidity(%)","Pressure(in)","Visibility(mi)","Wind_Speed(mph)","Precipitation(in)"]
+            },
+            "input_pyspark_pandas":{
                 "columns":["Temperature(F)","Wind_Chill(F)","Humidity(%)","Pressure(in)","Visibility(mi)","Wind_Speed(mph)","Precipitation(in)"]
             }
         },
@@ -819,6 +956,20 @@
                     "accident_sample = accident_data[numerical].sample(int(len(accident_data)/100))",
                     "data_pca = accident_sample.select([((pl.col(column) - accident_sample.select(pl.col(column).mean()).get_column(column).to_numpy()[0]) / accident_sample.select(pl.col(column).std()).get_column(column).to_numpy()[0]).alias(column) for column in accident_sample.columns])"
                 ]
+            },
+            "input_pyspark_pandas":{
+                "data_pca":"data_pca",
+                "n_dim": 3,
+                "req_compile":[
+                    "data_pca"
+                ],
+                "extra_commands":[
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "numerical = ['Start_Lat', 'Start_Lng', 'End_Lat', 'End_Lng', 'Distance(mi)', 'Temperature(F)', 'Wind_Chill(F)', 'Humidity(%)', 'Pressure(in)', 'Visibility(mi)','Wind_Speed(mph)', 'Precipitation(in)']",
+                    "accident_sample = accident_data[numerical].sample(frac= len(accident_data)/100 / len(accident_data))",
+                    "data_pca = accident_sample.dropna()"
+                ]
             }
         },
         {
@@ -854,6 +1005,12 @@
                 "value": "Thunderstorm",
                 "regex": "False",
                 "to_replace": "Thunder"
+            },
+            "input_pyspark_pandas":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm",
+                "regex": "False",
+                "to_replace": "Thunder"
             }
         },
         {
@@ -877,6 +1034,12 @@
                 "to_replace": "T-Storm"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm",
+                "regex": "False",
+                "to_replace": "T-Storm"
+            },
+            "input_pyspark_pandas":{
                 "columns":["Weather_Condition"],
                 "value": "Thunderstorm",
                 "regex": "False",
@@ -904,6 +1067,12 @@
                 "to_replace": "T-Storm / Windy"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm / Windy",
+                "regex": "False",
+                "to_replace": "T-Storm / Windy"
+            },
+            "input_pyspark_pandas":{
                 "columns":["Weather_Condition"],
                 "value": "Thunderstorm / Windy",
                 "regex": "False",
@@ -931,6 +1100,12 @@
                 "to_replace": "Thunder / Windy"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm / Windy",
+                "regex": "False",
+                "to_replace": "Thunder / Windy"
+            },
+            "input_pyspark_pandas":{
                 "columns":["Weather_Condition"],
                 "value": "Thunderstorm / Windy",
                 "regex": "False",
@@ -958,6 +1133,12 @@
                 "to_replace": "Heavy Rain Shower"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Heavy Rain",
+                "regex": "False",
+                "to_replace": "Heavy Rain Shower"
+            },
+            "input_pyspark_pandas":{
                 "columns":["Weather_Condition"],
                 "value": "Heavy Rain",
                 "regex": "False",
@@ -985,6 +1166,12 @@
                 "to_replace": "Heavy Rain Showers"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Heavy Rain",
+                "regex": "False",
+                "to_replace": "Heavy Rain Showers"
+            },
+            "input_pyspark_pandas":{
                 "columns":["Weather_Condition"],
                 "value": "Heavy Rain",
                 "regex": "False",
@@ -1012,6 +1199,12 @@
                 "to_replace": "Light Rain Shower"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Light Rain",
+                "regex": "False",
+                "to_replace": "Light Rain Shower"
+            },
+            "input_pyspark_pandas":{
                 "columns":["Weather_Condition"],
                 "value": "Light Rain",
                 "regex": "False",
@@ -1039,6 +1232,12 @@
                 "to_replace": "Light Rain Showers"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Light Rain",
+                "regex": "False",
+                "to_replace": "Light Rain Showers"
+            },
+            "input_pyspark_pandas":{
                 "columns":["Weather_Condition"],
                 "value": "Light Rain",
                 "regex": "False",
@@ -1070,6 +1269,12 @@
                 "value": "Rain",
                 "regex": "False",
                 "to_replace": "Rain Shower"
+            },
+            "input_pyspark_pandas":{
+               "columns":["Weather_Condition"],
+                "value": "Rain",
+                "regex": "False",
+                "to_replace": "Rain Shower"
             }
         },
         {
@@ -1093,6 +1298,12 @@
                 "to_replace": "Rain Showers"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Rain",
+                "regex": "False",
+                "to_replace": "Rain Showers"
+            },
+            "input_pyspark_pandas":{
                 "columns":["Weather_Condition"],
                 "value": "Rain",
                 "regex": "False",
@@ -1120,6 +1331,12 @@
                 "to_replace": "West"
             },
             "input_polars":{
+                "columns":["Wind_Direction"],
+                "value": "W",
+                "regex": "False",
+                "to_replace": "West"
+            },
+            "input_pyspark_pandas":{
                 "columns":["Wind_Direction"],
                 "value": "W",
                 "regex": "False",
@@ -1147,6 +1364,12 @@
                 "to_replace": "Variable"
             },
             "input_polars":{
+                "columns":["Wind_Direction"],
+                "value": "VAR",
+                "regex": "False",
+                "to_replace": "Variable"
+            },
+            "input_pyspark_pandas":{
                 "columns":["Wind_Direction"],
                 "value": "VAR",
                 "regex": "False",
@@ -1174,6 +1397,12 @@
                 "to_replace": "South"
             },
             "input_polars":{
+                "columns":["Wind_Direction"],
+                "value": "S",
+                "regex": "False",
+                "to_replace": "South"
+            },
+            "input_pyspark_pandas":{
                 "columns":["Wind_Direction"],
                 "value": "S",
                 "regex": "False",
@@ -1201,6 +1430,12 @@
                 "to_replace": "Calm"
             },
             "input_polars":{
+                "columns":["Wind_Direction"],
+                "value": "CALM",
+                "regex": "False",
+                "to_replace": "Calm"
+            },
+            "input_pyspark_pandas":{
                 "columns":["Wind_Direction"],
                 "value": "CALM",
                 "regex": "False",
@@ -1228,6 +1463,12 @@
                 "to_replace": "East"
             },
             "input_polars":{
+                "columns":["Wind_Direction"],
+                "value": "E",
+                "regex": "False",
+                "to_replace": "East"
+            },
+            "input_pyspark_pandas":{
                 "columns":["Wind_Direction"],
                 "value": "E",
                 "regex": "False",
@@ -1255,6 +1496,12 @@
                 "to_replace": "North"
             },
             "input_polars":{
+                "columns":["Wind_Direction"],
+                "value": "N",
+                "regex": "False",
+                "to_replace": "North"
+            },
+            "input_pyspark_pandas":{
                 "columns":["Wind_Direction"],
                 "value": "N",
                 "regex": "False",
@@ -1278,6 +1525,10 @@
             "input_polars":{
                 "value":"KBTR",
                 "columns":["Airport_Code"]
+            },
+            "input_pyspark_pandas":{
+                "value":"KBTR",
+                "columns":["Airport_Code"]
             }
         },
         {
@@ -1295,6 +1546,10 @@
                 "columns":["Wind_Direction"]
             },
             "input_polars":{
+                "value":"CALM",
+                "columns":["Wind_Direction"]
+            },
+            "input_pyspark_pandas":{
                 "value":"CALM",
                 "columns":["Wind_Direction"]
             }
@@ -1316,6 +1571,10 @@
             "input_polars":{
                 "value":"Day",
                 "columns":["Sunrise_Sunset"]
+            },
+            "input_pyspark_pandas":{
+                "value":"Day",
+                "columns":["Sunrise_Sunset"]
             }
         },
         {
@@ -1330,6 +1589,9 @@
                 "columns":"all"
             },
             "input_polars":{
+                "columns":"all"
+            },
+            "input_pyspark_pandas":{
                 "columns":"all"
             }
         },
@@ -1355,6 +1617,12 @@
                 "col_names": ["Zipcode_ok", "Zipcode_not_ok"]
             },
             "input_polars":{
+                "column":"Zipcode",
+                "sep": "-",
+                "splits": 2,
+                "col_names": ["Zipcode_ok", "Zipcode_not_ok"]
+            },
+            "input_pyspark_pandas":{
                 "column":"Zipcode",
                 "sep": "-",
                 "splits": 2,

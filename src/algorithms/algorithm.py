@@ -607,5 +607,21 @@ class AbstractAlgorithm(abc.ABC):
     def perc_null_values(self):
         pass
 
+    @abc.abstractmethod
+    def look_for_cases(self, col1, col2, col3, col4):
+        pass
+
+    @abc.abstractmethod
+    def plot_geo(self,frame,i):
+        pass
+
+    @abc.abstractmethod
+    def simple_imputer(self, columns):
+        pass
+
+    @abc.abstractmethod
+    def pca(self, data_pca, n_dim=3):
+        pass
+
     class Config:
         arbitrary_types_allowed = True
