@@ -1,13 +1,11 @@
-import contextlib
-from os import fchdir
+
 import unicodedata
 from typing import Union
 
 import geopandas
 import geoplot as gplt
 import geoplot.crs as gcrs
-import numpy as np
-from haversine import haversine
+
 import pandas as pd
 import polars as pl
 from src.algorithms.utils import timing
@@ -15,7 +13,6 @@ from src.datasets.dataset import Dataset
 
 from src.algorithms.algorithm import AbstractAlgorithm
 
-from sklearn.impute import SimpleImputer
 from sklearn.decomposition import PCA
 
 
