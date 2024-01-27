@@ -847,4 +847,6 @@ class PolarsBench(AbstractAlgorithm):
         pass
 
     def perc_null_values(self):
-        pass
+        for column in self.df_.columns:
+            print(f'{column}: {self.df_.collect().select(pl.col(column)).null_count()}, ('
+                  f'{self.df_.collect().select(pl.col(column)).null_count()/len(self.df_.collect())*100}%)')
