@@ -18,14 +18,14 @@
                 "sep": ",",
                 "format": "csv"
             },
-            "input_dask":{
-                "sep": ","
-            },
             "input_pyspark_pandas":{
                 "sep": ",",
                 "format": "csv"
             },
             "input_modin_ray":{
+
+            },
+            "input_modin_dask": {
 
             }
         },
@@ -69,7 +69,10 @@
             "input_pyspark_pandas":{
                 "query":"(Start_Lat == End_Lat) and (Start_Lng == End_Lng)"
             },
-            "input_dask":{
+            "input_modin_dask":{
+                "query": "(Start_Lat == End_Lat) & (Start_Lng == End_Lng)"
+            },
+            "input_modin_ray":{
                 "query": "(Start_Lat == End_Lat) & (Start_Lng == End_Lng)"
             }
         },
@@ -99,7 +102,11 @@
                 "col1": "End_Lat",
                 "col2": "End_Lng"
             },
-            "input_dask": {
+            "input_modin_dask": {
+                "col1": "End_Lat",
+                "col2": "End_Lng"
+            },
+            "input_modin_ray": {
                 "col1": "End_Lat",
                 "col2": "End_Lng"
             }
@@ -124,7 +131,10 @@
             "input_pyspark_pandas":{
                 "column":"ID"
             },
-            "input_dask":{
+            "input_modin_dask":{
+                "column":"ID"
+            },
+            "input_modin_ray":{
                 "column":"ID"
             }
         },
@@ -148,7 +158,10 @@
             "input_pyspark_pandas":{
                 "column":"Description"
             },
-            "input_dask":{
+            "input_modin_dask":{
+                "column":"Description"
+            },
+            "input_modin_ray":{
                 "column":"Description"
             }
         },
@@ -172,7 +185,10 @@
             "input_pyspark_pandas":{
                 "column":"Wind_Direction"
             },
-            "input_dask":{
+            "input_modin_dask":{
+                "column":"Wind_Direction"
+            },
+            "input_modin_ray":{
                 "column":"Wind_Direction"
             }
         },
@@ -196,7 +212,10 @@
             "input_pyspark_pandas": {
                 "column": "Airport_Code"
             },
-            "input_dask": {
+            "input_modin_dask": {
+                "column": "Airport_Code"
+            },
+            "input_modin_ray": {
                 "column": "Airport_Code"
             }
         },
@@ -219,6 +238,12 @@
             },
             "input_pyspark_pandas": {
                 "query": "`Precipitation(in)` == 0"
+            },
+            "input_modin_dask": {
+                "query": "'Precipitation(in)' == 0"
+            },
+            "input_modin_ray": {
+                "query": "'Precipitation(in)' == 0"
             }
         },
         {
@@ -254,6 +279,14 @@
             "input_pyspark_pandas": {
                 "col1": "Humidity(%)",
                 "col2": "Precipitation(in)"
+            },
+            "input_modin_dask": {
+                "col1": "Humidity(%)",
+                "col2": "Precipitation(in)"
+            },
+            "input_modin_ray": {
+                "col1": "Humidity(%)",
+                "col2": "Precipitation(in)"
             }
         },
         {
@@ -287,6 +320,14 @@
                 "col4":"Wind_Direction"
             },
             "input_pyspark_pandas": {
+                "col1": "Wind_Speed(mph)",
+                "col2": "Wind_Direction"
+            },
+            "input_modin_dask": {
+                "col1": "Wind_Speed(mph)",
+                "col2": "Wind_Direction"
+            },
+            "input_modin_ray": {
                 "col1": "Wind_Speed(mph)",
                 "col2": "Wind_Direction"
             }
@@ -322,6 +363,14 @@
                 "col4":"Wind_Chill(F)"
             },
             "input_pyspark_pandas": {
+                "col1": "Wind_Speed(mph)",
+                "col2": "Wind_Chill(F)"
+            },
+            "input_modin_dask": {
+                "col1": "Wind_Speed(mph)",
+                "col2": "Wind_Chill(F)"
+            },
+            "input_modin_ray": {
                 "col1": "Wind_Speed(mph)",
                 "col2": "Wind_Chill(F)"
             }
@@ -351,6 +400,14 @@
             "input_pyspark_pandas":{
                 "frac": true,
                 "num": 1
+            },
+            "input_modin_dask": {
+                "frac": true,
+                "num": 1
+            },
+            "input_modin_ray": {
+                "frac": true,
+                "num": 1
             }
         },
         {
@@ -372,6 +429,12 @@
             },
             "input_pyspark_pandas":{
                 "columns":["Weather_Condition"]
+            },
+            "input_modin_dask": {
+                "columns": ["Weather_Condition"]
+            },
+            "input_modin_ray": {
+                "columns": ["Weather_Condition"]
             }
         },
         {
@@ -466,6 +529,46 @@
                 ]
             },
             "input_pyspark_pandas":{
+                "frame": "gdfs_sample",
+                "i": "Severity",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            },
+            "input_modin_dask":{
+                "frame": "gdfs_sample",
+                "i": "Severity",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            },
+            "input_modin_ray":{
                 "frame": "gdfs_sample",
                 "i": "Severity",
                 "req_compile":[
@@ -596,6 +699,46 @@
                     "print(gdfs_sample)"
 
                 ]
+            },
+            "input_modin_dask":{
+                "frame": "gdfs_sample",
+                "i": "Temperature(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            },
+            "input_modin_ray":{
+                "frame": "gdfs_sample",
+                "i": "Temperature(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
             }
         },
         {
@@ -708,6 +851,46 @@
                     "print(gdfs_sample)"
 
                 ]
+            },
+            "input_modin_dask":{
+                "frame": "gdfs_sample",
+                "i": "Wind_Chill(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            },
+            "input_modin_ray":{
+                "frame": "gdfs_sample",
+                "i": "Wind_Chill(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import matplotlib.pyplot as plt",
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
+                    "print(gdfs_sample)"
+
+                ]
             }
         },
         {
@@ -741,6 +924,14 @@
             "input_pyspark_pandas": {
                 "column": "Start_Time",
                 "format": "%Y-%m-%d %H:%M:%S"
+            },
+            "input_modin_dask":{
+                "column":"Start_Time",
+                "format":"%Y-%m-%d %H:%M:%S"
+            },
+            "input_modin_ray":{
+                "column":"Start_Time",
+                "format":"%Y-%m-%d %H:%M:%S"
             }
         },
         {
@@ -762,6 +953,14 @@
                 "format": "%Y-%m-%d %H:%M:%S"
             },
             "input_pyspark_pandas": {
+                "column": "End_Time",
+                "format": "%Y-%m-%d %H:%M:%S"
+            },
+            "input_modin_dask": {
+                "column": "End_Time",
+                "format": "%Y-%m-%d %H:%M:%S"
+            },
+            "input_modin_ray": {
                 "column": "End_Time",
                 "format": "%Y-%m-%d %H:%M:%S"
             }
@@ -785,6 +984,14 @@
                 "format": "%Y-%m-%d %H:%M:%S"
             },
             "input_pyspark_pandas": {
+                "column": "Weather_Timestamp",
+                "format": "%Y-%m-%d %H:%M:%S"
+            },
+            "input_modin_dask": {
+                "column": "Weather_Timestamp",
+                "format": "%Y-%m-%d %H:%M:%S"
+            },
+            "input_modin_ray": {
                 "column": "Weather_Timestamp",
                 "format": "%Y-%m-%d %H:%M:%S"
             }
@@ -823,6 +1030,18 @@
                 "splits": 2,
                 "col_names": ["day", "hour"]
 
+            },
+            "input_modin_dask":{
+                "column":"Weather_Timestamp",
+                "sep": " ",
+                "splits": 2,
+                "col_names": ["day", "hour"]
+            },
+            "input_modin_ray":{
+                "column":"Weather_Timestamp",
+                "sep": " ",
+                "splits": 2,
+                "col_names": ["day", "hour"]
             }
         },
         {
@@ -840,6 +1059,12 @@
                 "columns": ["ID","Start_Time","End_Time", "Weather_Timestamp"]
             },
             "input_pyspark_pandas":{
+                "columns": ["ID","Start_Time","End_Time", "Weather_Timestamp"]
+            },
+            "input_modin_dask":{
+                "columns": ["ID","Start_Time","End_Time", "Weather_Timestamp"]
+            },
+            "input_modin_ray":{
                 "columns": ["ID","Start_Time","End_Time", "Weather_Timestamp"]
             }
         },
@@ -869,6 +1094,16 @@
                 "col_name":"abs_end_lng_change",
                 "columns":["End_Lng", "Start_Lng"],
                 "f":"(df['End_Lng'] - df['Start_Lng']).abs()"
+            },
+            "input_modin_dask":{
+                "col_name":"abs_end_lng_change",
+                "columns":["End_Lng", "Start_Lng"],
+                "f":"lambda row: abs(row['End_Lng'] - row['Start_Lng'])"
+            },
+            "input_modin_ray":{
+                "col_name":"abs_end_lng_change",
+                "columns":["End_Lng", "Start_Lng"],
+                "f":"lambda row: abs(row['End_Lng'] - row['Start_Lng'])"
             }
         },
         {
@@ -897,6 +1132,16 @@
                 "col_name":"abs_end_lat_change",
                 "columns":["End_Lat", "Start_Lat"],
                 "f":"(df['End_Lat'] - df['Start_Lat']).abs()"
+            },
+            "input_modin_dask":{
+                "col_name":"abs_end_lat_change",
+                "columns":["End_Lat", "Start_Lat"],
+                "f":"lambda row: abs(row['End_Lat'] - row['Start_Lat'])"
+            },
+            "input_modin_ray":{
+                "col_name":"abs_end_lat_change",
+                "columns":["End_Lat", "Start_Lat"],
+                "f":"lambda row: abs(row['End_Lat'] - row['Start_Lat'])"
             }
         },
         {
@@ -914,6 +1159,12 @@
                 "columns":["Temperature(F)","Wind_Chill(F)","Humidity(%)","Pressure(in)","Visibility(mi)","Wind_Speed(mph)","Precipitation(in)"]
             },
             "input_pyspark_pandas":{
+                "columns":["Temperature(F)","Wind_Chill(F)","Humidity(%)","Pressure(in)","Visibility(mi)","Wind_Speed(mph)","Precipitation(in)"]
+            },
+            "input_modin_dask":{
+                "columns":["Temperature(F)","Wind_Chill(F)","Humidity(%)","Pressure(in)","Visibility(mi)","Wind_Speed(mph)","Precipitation(in)"]
+            },
+            "input_modin_ray":{
                 "columns":["Temperature(F)","Wind_Chill(F)","Humidity(%)","Pressure(in)","Visibility(mi)","Wind_Speed(mph)","Precipitation(in)"]
             }
         },
@@ -988,6 +1239,34 @@
                     "accident_sample = accident_data[numerical].sample(frac= len(accident_data)/100 / len(accident_data))",
                     "data_pca = accident_sample.dropna()"
                 ]
+            },
+            "input_modin_dask":{
+                "data_pca":"data_pca",
+                "n_dim": 3,
+                "req_compile":[
+                    "data_pca"
+                ],
+                "extra_commands":[
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "numerical = ['Start_Lat', 'Start_Lng', 'End_Lat', 'End_Lng', 'Distance(mi)', 'Temperature(F)', 'Wind_Chill(F)', 'Humidity(%)', 'Pressure(in)', 'Visibility(mi)','Wind_Speed(mph)', 'Precipitation(in)']",
+                    "accident_sample = accident_data[numerical].sample(int(len(accident_data)/100))",
+                    "data_pca = (accident_sample - accident_sample.mean(axis=0)) / accident_sample.std(axis=0)"
+                ]
+            },
+            "input_modin_ray":{
+                "data_pca":"data_pca",
+                "n_dim": 3,
+                "req_compile":[
+                    "data_pca"
+                ],
+                "extra_commands":[
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "numerical = ['Start_Lat', 'Start_Lng', 'End_Lat', 'End_Lng', 'Distance(mi)', 'Temperature(F)', 'Wind_Chill(F)', 'Humidity(%)', 'Pressure(in)', 'Visibility(mi)','Wind_Speed(mph)', 'Precipitation(in)']",
+                    "accident_sample = accident_data[numerical].sample(int(len(accident_data)/100))",
+                    "data_pca = (accident_sample - accident_sample.mean(axis=0)) / accident_sample.std(axis=0)"
+                ]
             }
         },
         {
@@ -1029,6 +1308,18 @@
                 "value": "Thunderstorm",
                 "regex": "False",
                 "to_replace": "Thunder"
+            },
+            "input_modin_dask":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm",
+                "regex": false,
+                "to_replace": "Thunder"
+            },
+            "input_modin_ray":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm",
+                "regex": false,
+                "to_replace": "Thunder"
             }
         },
         {
@@ -1061,6 +1352,18 @@
                 "columns":["Weather_Condition"],
                 "value": "Thunderstorm",
                 "regex": "False",
+                "to_replace": "T-Storm"
+            },
+            "input_modin_dask":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm",
+                "regex": false,
+                "to_replace": "T-Storm"
+            },
+            "input_modin_ray":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm",
+                "regex": false,
                 "to_replace": "T-Storm"
             }
         },
@@ -1095,6 +1398,18 @@
                 "value": "Thunderstorm / Windy",
                 "regex": "False",
                 "to_replace": "T-Storm / Windy"
+            },
+            "input_modin_dask":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm / Windy",
+                "regex": false,
+                "to_replace": "T-Storm / Windy"
+            },
+            "input_modin_ray":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm / Windy",
+                "regex": false,
+                "to_replace": "T-Storm / Windy"
             }
         },
         {
@@ -1127,6 +1442,18 @@
                 "columns":["Weather_Condition"],
                 "value": "Thunderstorm / Windy",
                 "regex": "False",
+                "to_replace": "Thunder / Windy"
+            },
+            "input_modin_dask":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm / Windy",
+                "regex": false,
+                "to_replace": "Thunder / Windy"
+            },
+            "input_modin_ray":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm / Windy",
+                "regex": false,
                 "to_replace": "Thunder / Windy"
             }
         },
@@ -1161,6 +1488,18 @@
                 "value": "Heavy Rain",
                 "regex": "False",
                 "to_replace": "Heavy Rain Shower"
+            },
+            "input_modin_dask":{
+                "columns":["Weather_Condition"],
+                "value": "Heavy Rain",
+                "regex": false,
+                "to_replace": "Heavy Rain Shower"
+            },
+            "input_modin_ray":{
+                "columns":["Weather_Condition"],
+                "value": "Heavy Rain",
+                "regex": false,
+                "to_replace": "Heavy Rain Shower"
             }
         },
         {
@@ -1193,6 +1532,18 @@
                 "columns":["Weather_Condition"],
                 "value": "Heavy Rain",
                 "regex": "False",
+                "to_replace": "Heavy Rain Showers"
+            },
+            "input_modin_dask":{
+                "columns":["Weather_Condition"],
+                "value": "Heavy Rain",
+                "regex": false,
+                "to_replace": "Heavy Rain Showers"
+            },
+            "input_modin_ray":{
+                "columns":["Weather_Condition"],
+                "value": "Heavy Rain",
+                "regex": false,
                 "to_replace": "Heavy Rain Showers"
             }
         },
@@ -1227,6 +1578,18 @@
                 "value": "Light Rain",
                 "regex": "False",
                 "to_replace": "Light Rain Shower"
+            },
+            "input_modin_dask":{
+                "columns":["Weather_Condition"],
+                "value": "Light Rain",
+                "regex": false,
+                "to_replace": "Light Rain Shower"
+            },
+            "input_modin_ray":{
+                "columns":["Weather_Condition"],
+                "value": "Light Rain",
+                "regex": false,
+                "to_replace": "Light Rain Shower"
             }
         },
         {
@@ -1259,6 +1622,18 @@
                 "columns":["Weather_Condition"],
                 "value": "Light Rain",
                 "regex": "False",
+                "to_replace": "Light Rain Showers"
+            },
+            "input_modin_dask":{
+                "columns":["Weather_Condition"],
+                "value": "Light Rain",
+                "regex": false,
+                "to_replace": "Light Rain Showers"
+            },
+            "input_modin_ray":{
+                "columns":["Weather_Condition"],
+                "value": "Light Rain",
+                "regex": false,
                 "to_replace": "Light Rain Showers"
             }
         },
@@ -1293,6 +1668,18 @@
                 "value": "Rain",
                 "regex": "False",
                 "to_replace": "Rain Shower"
+            },
+            "input_modin_dask":{
+               "columns":["Weather_Condition"],
+                "value": "Rain",
+                "regex": false,
+                "to_replace": "Rain Shower"
+            },
+            "input_modin_ray":{
+               "columns":["Weather_Condition"],
+                "value": "Rain",
+                "regex": false,
+                "to_replace": "Rain Shower"
             }
         },
         {
@@ -1325,6 +1712,18 @@
                 "columns":["Weather_Condition"],
                 "value": "Rain",
                 "regex": "False",
+                "to_replace": "Rain Showers"
+            },
+            "input_modin_dask":{
+                "columns":["Weather_Condition"],
+                "value": "Rain",
+                "regex": false,
+                "to_replace": "Rain Showers"
+            },
+            "input_modin_ray":{
+                "columns":["Weather_Condition"],
+                "value": "Rain",
+                "regex": false,
                 "to_replace": "Rain Showers"
             }
         },
@@ -1359,6 +1758,18 @@
                 "value": "W",
                 "regex": "False",
                 "to_replace": "West"
+            },
+            "input_modin_dask":{
+                "columns":["Wind_Direction"],
+                "value": "W",
+                "regex": false,
+                "to_replace": "West"
+            },
+            "input_modin_ray":{
+                "columns":["Wind_Direction"],
+                "value": "W",
+                "regex": false,
+                "to_replace": "West"
             }
         },
         {
@@ -1391,6 +1802,18 @@
                 "columns":["Wind_Direction"],
                 "value": "VAR",
                 "regex": "False",
+                "to_replace": "Variable"
+            },
+            "input_modin_dask":{
+                "columns":["Wind_Direction"],
+                "value": "VAR",
+                "regex": false,
+                "to_replace": "Variable"
+            },
+            "input_modin_ray":{
+                "columns":["Wind_Direction"],
+                "value": "VAR",
+                "regex": false,
                 "to_replace": "Variable"
             }
         },
@@ -1425,6 +1848,18 @@
                 "value": "S",
                 "regex": "False",
                 "to_replace": "South"
+            },
+            "input_modin_dask":{
+                "columns":["Wind_Direction"],
+                "value": "S",
+                "regex": false,
+                "to_replace": "South"
+            },
+            "input_modin_ray":{
+                "columns":["Wind_Direction"],
+                "value": "S",
+                "regex": false,
+                "to_replace": "South"
             }
         },
         {
@@ -1457,6 +1892,18 @@
                 "columns":["Wind_Direction"],
                 "value": "CALM",
                 "regex": "False",
+                "to_replace": "Calm"
+            },
+            "input_modin_dask":{
+                "columns":["Wind_Direction"],
+                "value": "CALM",
+                "regex": false,
+                "to_replace": "Calm"
+            },
+            "input_modin_ray":{
+                "columns":["Wind_Direction"],
+                "value": "CALM",
+                "regex": false,
                 "to_replace": "Calm"
             }
         },
@@ -1491,6 +1938,18 @@
                 "value": "E",
                 "regex": "False",
                 "to_replace": "East"
+            },
+            "input_modin_dask":{
+                "columns":["Wind_Direction"],
+                "value": "E",
+                "regex": false,
+                "to_replace": "East"
+            },
+            "input_modin_ray":{
+                "columns":["Wind_Direction"],
+                "value": "E",
+                "regex": false,
+                "to_replace": "East"
             }
         },
         {
@@ -1523,6 +1982,18 @@
                 "columns":["Wind_Direction"],
                 "value": "N",
                 "regex": "False",
+                "to_replace": "North"
+            },
+            "input_modin_dask":{
+                "columns":["Wind_Direction"],
+                "value": "N",
+                "regex": false,
+                "to_replace": "North"
+            },
+            "input_modin_ray":{
+                "columns":["Wind_Direction"],
+                "value": "N",
+                "regex": false,
                 "to_replace": "North"
             }
         },
@@ -1545,6 +2016,14 @@
                 "columns":["Airport_Code"]
             },
             "input_pyspark_pandas":{
+                "value":"KBTR",
+                "columns":["Airport_Code"]
+            },
+            "input_modin_dask":{
+                "value":"KBTR",
+                "columns":["Airport_Code"]
+            },
+            "input_modin_ray":{
                 "value":"KBTR",
                 "columns":["Airport_Code"]
             }
@@ -1570,6 +2049,14 @@
             "input_pyspark_pandas":{
                 "value":"CALM",
                 "columns":["Wind_Direction"]
+            },
+            "input_modin_dask":{
+                "value":"CALM",
+                "columns":["Wind_Direction"]
+            },
+            "input_modin_ray":{
+                "value":"CALM",
+                "columns":["Wind_Direction"]
             }
         },
         {
@@ -1593,6 +2080,14 @@
             "input_pyspark_pandas":{
                 "value":"Day",
                 "columns":["Sunrise_Sunset"]
+            },
+            "input_modin_dask":{
+                "value":"Day",
+                "columns":["Sunrise_Sunset"]
+            },
+            "input_modin_ray":{
+                "value":"Day",
+                "columns":["Sunrise_Sunset"]
             }
         },
         {
@@ -1610,6 +2105,12 @@
                 "columns":"all"
             },
             "input_pyspark_pandas":{
+                "columns":"all"
+            },
+            "input_modin_dask":{
+                "columns":"all"
+            },
+            "input_modin_ray":{
                 "columns":"all"
             }
         },
@@ -1641,6 +2142,18 @@
                 "col_names": ["Zipcode_ok", "Zipcode_not_ok"]
             },
             "input_pyspark_pandas":{
+                "column":"Zipcode",
+                "sep": "-",
+                "splits": 2,
+                "col_names": ["Zipcode_ok", "Zipcode_not_ok"]
+            },
+            "input_modin_dask":{
+                "column":"Zipcode",
+                "sep": "-",
+                "splits": 2,
+                "col_names": ["Zipcode_ok", "Zipcode_not_ok"]
+            },
+            "input_modin_ray":{
                 "column":"Zipcode",
                 "sep": "-",
                 "splits": 2,

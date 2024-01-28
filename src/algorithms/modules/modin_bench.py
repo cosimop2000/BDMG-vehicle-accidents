@@ -1,5 +1,6 @@
 import re
 from typing import Union
+import numpy as np
 
 import os
 os.environ["RAY_SCHEDULER_EVENTS"] = "0"
@@ -12,6 +13,10 @@ from src.algorithms.utils import timing
 from src.datasets.dataset import Dataset
 from src.algorithms.algorithm import AbstractAlgorithm
 from haversine import haversine
+
+from sklearn.impute import SimpleImputer
+from sklearn.decomposition import PCA
+
 
 class ModinBench(AbstractAlgorithm):
     df_: Union[pd.DataFrame, Series]
@@ -159,6 +164,7 @@ class ModinBench(AbstractAlgorithm):
         """
         self.df_ = pd.DataFrame()
         return self.df_
+
     @timing
     def sort(self, columns, ascending=True):
         """
@@ -167,10 +173,12 @@ class ModinBench(AbstractAlgorithm):
         """
         if len(columns) > 1:
             print("Modin does not support multi-column sorting, only the first column will be used")
-            columns = columns[0] 
-        self.df_ = self.df_.sort_values(by=columns, ascending=ascending)
+            columns = columns[0]
+
+        self.df_[columns] = self.df_[columns].astype(str)
+        self.df_ = self.df_.sort_values(by=columns[0], ascending=ascending)
         #self.df_ = self.df_.sort_values(columns, ascending=ascending)
-        #return self.df_
+        return self.df_
     
     @timing
     def get_columns(self):
@@ -474,7 +482,7 @@ class ModinBench(AbstractAlgorithm):
         using the provided sep string as separator
         Col_names is a list of column names
         """
-        self.df_[col_names] = self.df_[column].str.split(sep, splits, expand=True)
+        self.df_[col_names] = self.df_[column].str.split(sep, n=splits, expand=True)
         return self.df_
 
     @timing
@@ -598,6 +606,7 @@ class ModinBench(AbstractAlgorithm):
         Regex is a boolean: if true, to_replace is interpreted as a regex
         Columns is a list of column names
         """
+
         self.df_[columns] = self.df_[columns].replace(
             to_replace=to_replace, value=value, regex=regex
         )
@@ -687,11 +696,18 @@ class ModinBench(AbstractAlgorithm):
 
     @timing
     def perc_null_values(self):
-        pass
+        print(len(self.df_))
+        for column in self.df_.columns:
+            print('{}: {} ({}%)'.format(column,pd.isnull(self.df_[column]).sum(),
+                                        (pd.isnull(self.df_[column]).sum()/len(self.df_))*100))
 
     @timing
-    def look_for_cases(self, col1, col2, col3, col4):
-        pass
+    def check_missing_values(self, col1, col2):
+        return self.df_[self.df_[col1].isna() & self.df_[col2].isna()]
+
+    @timing
+    def look_for_cases(self, col1, col2):
+        return self.df_[(self.df_[col1] == 0) & (self.df_[col2].isna())][[col1, col2]]
 
     @timing
     def plot_geo(self, frame, i):
@@ -699,7 +715,12 @@ class ModinBench(AbstractAlgorithm):
 
     @timing
     def simple_imputer(self, columns):
-        pass
+        imputer1 = SimpleImputer(missing_values=np.nan, strategy='median')
+        accident_data_median_fit = imputer1.fit_transform(self.df_[columns])
+        accident_data_median = imputer1.transform(accident_data_median_fit)
+
+        self.df_[columns] = pd.DataFrame(accident_data_median)
+        return self.df_
 
     @timing
     def pca(self, data_pca, n_dim=3):
