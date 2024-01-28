@@ -19,14 +19,13 @@
                 "format": "csv"
             },
             "input_dask":{
-
+                "sep": ","
             },
             "input_pyspark_pandas":{
                 "sep": ",",
                 "format": "csv"
             },
             "input_modin_ray":{
-                
 
             }
         },
@@ -69,6 +68,9 @@
             },
             "input_pyspark_pandas":{
                 "query":"(Start_Lat == End_Lat) and (Start_Lng == End_Lng)"
+            },
+            "input_dask":{
+                "query": "(Start_Lat == End_Lat) & (Start_Lng == End_Lng)"
             }
         },
         {
@@ -96,6 +98,10 @@
             "input_pyspark_pandas":{
                 "col1": "End_Lat",
                 "col2": "End_Lng"
+            },
+            "input_dask": {
+                "col1": "End_Lat",
+                "col2": "End_Lng"
             }
         },
         {
@@ -116,6 +122,9 @@
                 "column":"ID"
             },
             "input_pyspark_pandas":{
+                "column":"ID"
+            },
+            "input_dask":{
                 "column":"ID"
             }
         },
@@ -138,6 +147,9 @@
             },
             "input_pyspark_pandas":{
                 "column":"Description"
+            },
+            "input_dask":{
+                "column":"Description"
             }
         },
         {
@@ -159,6 +171,9 @@
             },
             "input_pyspark_pandas":{
                 "column":"Wind_Direction"
+            },
+            "input_dask":{
+                "column":"Wind_Direction"
             }
         },
         {
@@ -179,6 +194,9 @@
                 "column": "Airport_Code"
             },
             "input_pyspark_pandas": {
+                "column": "Airport_Code"
+            },
+            "input_dask": {
                 "column": "Airport_Code"
             }
         },

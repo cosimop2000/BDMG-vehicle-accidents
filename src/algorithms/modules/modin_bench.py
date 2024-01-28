@@ -684,8 +684,27 @@ class ModinBench(AbstractAlgorithm):
             return self.df_
         
         return self.df_.query(query)
-    
-        
+
+    @timing
+    def perc_null_values(self):
+        pass
+
+    @timing
+    def look_for_cases(self, col1, col2, col3, col4):
+        pass
+
+    @timing
+    def plot_geo(self, frame, i):
+        pass
+
+    @timing
+    def simple_imputer(self, columns):
+        pass
+
+    @timing
+    def pca(self, data_pca, n_dim=3):
+        pass
+
     def force_execution(self):
         pass
     

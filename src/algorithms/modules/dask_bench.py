@@ -688,6 +688,36 @@ class DaskBench(AbstractAlgorithm):
             return self.df_
         return self.df_.query(query, meta=self.df_.dtypes)
 
+    @timing
+    def perc_null_values(self):
+        pass
+        # total_len = self.df_['ID'].compute().count()
+        # print(total_len)
+        #
+        # for column in self.df_.columns:
+        #     null_count = self.df_[column].compute().isnull().sum()
+        #     print('{}: {} ({}%)'.format(column, null_count, (null_count / total_len) * 100))
+
+    @timing
+    def check_missing_values(self, col1, col2):
+        return self.df_[self.df_[col1].isna() & self.df_[col2].isna()]
+
+    @timing
+    def look_for_cases(self, col1, col2, col3, col4):
+        pass
+
+    @timing
+    def plot_geo(self, frame, i):
+        pass
+
+    @timing
+    def simple_imputer(self, columns):
+        pass
+
+    @timing
+    def pca(self, data_pca, n_dim=3):
+        pass
+
     def force_execution(self):
 
         #self.df_ = optimize(self.df_)
