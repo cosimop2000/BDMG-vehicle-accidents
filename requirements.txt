@@ -2,6 +2,7 @@ dask
 databricks==0.2
 distributed
 docker_py==1.10.6
+datatable
 h5py
 numpy
 pandas==1.5.1

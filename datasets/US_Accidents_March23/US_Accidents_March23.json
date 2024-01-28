@@ -508,6 +508,31 @@
 
                 ]
             },
+            "input_datatable":{
+                "frame": "gdfs_sample",
+                "i":  "Severity",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import pandas as pd",
+                    "import numpy as np",
+                    "from pyspark.sql import DataFrame, SparkSession",
+                    "from pyspark.sql.functions import col, expr, lit",
+                    "import matplotlib.pyplot as plt",
+                    "import pyspark.sql.functions as fn",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "l = len(gdf_severity)",
+                    "gdfs_sample = gdf_severity.sample(int(l/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            },
             "input_polars":{
                 "frame": "gdfs_sample",
                 "i": "Severity",
@@ -580,7 +605,7 @@
                     "import geoplot.crs as gcrs",
                     "import matplotlib.pyplot as plt",
                     "import pandas as pd",
-                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
                     "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
                     "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
                     "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
@@ -680,6 +705,31 @@
 
                 ]
             },
+            "input_datatable":{
+                "frame": "gdfs_sample",
+                "i":  "Temperature(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import pandas as pd",
+                    "import numpy as np",
+                    "from pyspark.sql import DataFrame, SparkSession",
+                    "from pyspark.sql.functions import col, expr, lit",
+                    "import matplotlib.pyplot as plt",
+                    "import pyspark.sql.functions as fn",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "l = len(gdf_severity)",
+                    "gdfs_sample = gdf_severity.sample(int(l/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            },
             "input_pyspark_pandas":{
                 "frame": "gdfs_sample",
                 "i": "Temperature(F)",
@@ -732,7 +782,7 @@
                     "import geoplot.crs as gcrs",
                     "import matplotlib.pyplot as plt",
                     "import pandas as pd",
-                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
                     "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
                     "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
                     "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
@@ -832,6 +882,31 @@
 
                 ]
             },
+            "input_datatable":{
+                "frame": "gdfs_sample",
+                "i": "Wind_Chill(F)",
+                "req_compile":[
+                    "frame"
+                ],
+                "extra_commands":[
+                    "import geopandas",
+                    "import geoplot as gplt",
+                    "import geoplot.crs as gcrs",
+                    "import pandas as pd",
+                    "import numpy as np",
+                    "from pyspark.sql import DataFrame, SparkSession",
+                    "from pyspark.sql.functions import col, expr, lit",
+                    "import matplotlib.pyplot as plt",
+                    "import pyspark.sql.functions as fn",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
+                    "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
+                    "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
+                    "l = len(gdf_severity)",
+                    "gdfs_sample = gdf_severity.sample(int(l/10))",
+                    "print(gdfs_sample)"
+
+                ]
+            },
             "input_pyspark_pandas":{
                 "frame": "gdfs_sample",
                 "i": "Wind_Chill(F)",
@@ -884,7 +959,7 @@
                     "import geoplot.crs as gcrs",
                     "import matplotlib.pyplot as plt",
                     "import pandas as pd",
-                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
                     "severity_locations = accident_data[['Temperature(F)','Wind_Chill(F)','Severity','Start_Lng','Start_Lat']]",
                     "gdf_severity = geopandas.GeoDataFrame(severity_locations, geometry=geopandas.points_from_xy(severity_locations.Start_Lng, severity_locations.Start_Lat))",
                     "gdfs_sample = gdf_severity.sample(int(len(gdf_severity)/10))",
@@ -921,6 +996,10 @@
                 "column": "Start_Time",
                 "format": "%Y-%m-%d %H:%M:%S"
             },
+            "input_datatable": {
+                "column": "Start_Time",
+                "format": "%Y-%m-%d %H:%M:%S"
+            },
             "input_pyspark_pandas": {
                 "column": "Start_Time",
                 "format": "%Y-%m-%d %H:%M:%S"
@@ -952,6 +1031,10 @@
                 "column": "End_Time",
                 "format": "%Y-%m-%d %H:%M:%S"
             },
+            "input_datatable": {
+                "column": "End_Time",
+                "format": "%Y-%m-%d %H:%M:%S"
+            },
             "input_pyspark_pandas": {
                 "column": "End_Time",
                 "format": "%Y-%m-%d %H:%M:%S"
@@ -980,6 +1063,10 @@
                 "format":"yyyy-MM-dd HH:mm:ss"
             },
             "input_polars": {
+                "column": "Weather_Timestamp",
+                "format": "%Y-%m-%d %H:%M:%S"
+            },
+            "input_datatable": {
                 "column": "Weather_Timestamp",
                 "format": "%Y-%m-%d %H:%M:%S"
             },
@@ -1024,6 +1111,12 @@
                 "splits": 2,
                 "col_names": ["day", "hour"]
             },
+            "input_datatable":{
+                "column":"Weather_Timestamp",
+                "sep": " ",
+                "splits": 2,
+                "col_names": ["day", "hour"]
+            },
             "input_pyspark_pandas":{
                 "column":"Weather_Timestamp",
                 "sep": " ",
@@ -1058,6 +1151,9 @@
             "input_polars":{
                 "columns": ["ID","Start_Time","End_Time", "Weather_Timestamp"]
             },
+            "input_datatable":{
+                "columns":["ID","Start_Time","End_Time", "Weather_Timestamp"]
+            },
             "input_pyspark_pandas":{
                 "columns": ["ID","Start_Time","End_Time", "Weather_Timestamp"]
             },
@@ -1086,6 +1182,11 @@
                 "f":"lambda x, y: abs(x - y)"
             },
             "input_polars":{
+                "col_name":"abs_end_lng_change",
+                "columns":["End_Lng"],
+                "f":"lambda x: abs(x)"
+            },
+            "input_datatable":{
                 "col_name":"abs_end_lng_change",
                 "columns":["End_Lng"],
                 "f":"lambda x: abs(x)"
@@ -1128,6 +1229,11 @@
                 "columns":["End_Lat"],
                 "f":"lambda x: abs(x)"
             },
+            "input_datatable":{
+                "col_name":"abs_end_lat_change",
+                "columns":["End_Lat"],
+                "f":"lambda x: abs(x)"
+            },
             "input_pyspark_pandas":{
                 "col_name":"abs_end_lat_change",
                 "columns":["End_Lat", "Start_Lat"],
@@ -1156,6 +1262,9 @@
                 "columns":["Temperature(F)","Wind_Chill(F)","Humidity(%)","Pressure(in)","Visibility(mi)","Wind_Speed(mph)","Precipitation(in)"]
             },
             "input_polars":{
+                "columns":["Temperature(F)","Wind_Chill(F)","Humidity(%)","Pressure(in)","Visibility(mi)","Wind_Speed(mph)","Precipitation(in)"]
+            },
+            "input_datatable":{
                 "columns":["Temperature(F)","Wind_Chill(F)","Humidity(%)","Pressure(in)","Visibility(mi)","Wind_Speed(mph)","Precipitation(in)"]
             },
             "input_pyspark_pandas":{
@@ -1226,6 +1335,20 @@
                     "data_pca = accident_sample.select([((pl.col(column) - accident_sample.select(pl.col(column).mean()).get_column(column).to_numpy()[0]) / accident_sample.select(pl.col(column).std()).get_column(column).to_numpy()[0]).alias(column) for column in accident_sample.columns])"
                 ]
             },
+            "input_datatable":{
+                "data_pca":"data_pca",
+                "n_dim": 3,
+                "req_compile":[
+                    "data_pca"
+                ],
+                "extra_commands":[
+                    "import pandas as pd",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
+                    "numerical = ['Start_Lat', 'Start_Lng', 'End_Lat', 'End_Lng', 'Distance(mi)', 'Temperature(F)', 'Wind_Chill(F)', 'Humidity(%)', 'Pressure(in)', 'Visibility(mi)','Wind_Speed(mph)', 'Precipitation(in)']",
+                    "accident_sample = accident_data[numerical].sample(int(len(accident_data)/100))",
+                    "data_pca = (accident_sample - accident_sample.mean(axis=0)) / accident_sample.std(axis=0)"
+                ]
+            },
             "input_pyspark_pandas":{
                 "data_pca":"data_pca",
                 "n_dim": 3,
@@ -1262,7 +1385,7 @@
                 ],
                 "extra_commands":[
                     "import pandas as pd",
-                    "accident_data = pd.read_csv(r'datasets/test/sample.csv')",
+                    "accident_data = pd.read_csv(r'datasets/US_Accidents_March23/sample.csv')",
                     "numerical = ['Start_Lat', 'Start_Lng', 'End_Lat', 'End_Lng', 'Distance(mi)', 'Temperature(F)', 'Wind_Chill(F)', 'Humidity(%)', 'Pressure(in)', 'Visibility(mi)','Wind_Speed(mph)', 'Precipitation(in)']",
                     "accident_sample = accident_data[numerical].sample(int(len(accident_data)/100))",
                     "data_pca = (accident_sample - accident_sample.mean(axis=0)) / accident_sample.std(axis=0)"
@@ -1298,6 +1421,12 @@
                 "to_replace": "Thunder"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm",
+                "regex": "False",
+                "to_replace": "Thunder"
+            },
+            "input_datatable":{
                 "columns":["Weather_Condition"],
                 "value": "Thunderstorm",
                 "regex": "False",
@@ -1343,6 +1472,12 @@
                 "to_replace": "T-Storm"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm",
+                "regex": "False",
+                "to_replace": "T-Storm"
+            },
+            "input_datatable":{
                 "columns":["Weather_Condition"],
                 "value": "Thunderstorm",
                 "regex": "False",
@@ -1388,6 +1523,12 @@
                 "to_replace": "T-Storm / Windy"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm / Windy",
+                "regex": "False",
+                "to_replace": "T-Storm / Windy"
+            },
+            "input_datatable":{
                 "columns":["Weather_Condition"],
                 "value": "Thunderstorm / Windy",
                 "regex": "False",
@@ -1433,6 +1574,12 @@
                 "to_replace": "Thunder / Windy"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Thunderstorm / Windy",
+                "regex": "False",
+                "to_replace": "Thunder / Windy"
+            },
+            "input_datatable":{
                 "columns":["Weather_Condition"],
                 "value": "Thunderstorm / Windy",
                 "regex": "False",
@@ -1478,6 +1625,12 @@
                 "to_replace": "Heavy Rain Shower"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Heavy Rain",
+                "regex": "False",
+                "to_replace": "Heavy Rain Shower"
+            },
+            "input_datatable":{
                 "columns":["Weather_Condition"],
                 "value": "Heavy Rain",
                 "regex": "False",
@@ -1523,6 +1676,12 @@
                 "to_replace": "Heavy Rain Showers"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Heavy Rain",
+                "regex": "False",
+                "to_replace": "Heavy Rain Showers"
+            },
+            "input_datatable":{
                 "columns":["Weather_Condition"],
                 "value": "Heavy Rain",
                 "regex": "False",
@@ -1568,6 +1727,12 @@
                 "to_replace": "Light Rain Shower"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Light Rain",
+                "regex": "False",
+                "to_replace": "Light Rain Shower"
+            },
+            "input_datatable":{
                 "columns":["Weather_Condition"],
                 "value": "Light Rain",
                 "regex": "False",
@@ -1613,6 +1778,12 @@
                 "to_replace": "Light Rain Showers"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Light Rain",
+                "regex": "False",
+                "to_replace": "Light Rain Showers"
+            },
+            "input_datatable":{
                 "columns":["Weather_Condition"],
                 "value": "Light Rain",
                 "regex": "False",
@@ -1659,6 +1830,12 @@
             },
             "input_polars":{
                "columns":["Weather_Condition"],
+                "value": "Rain",
+                "regex": "False",
+                "to_replace": "Rain Shower"
+            },
+            "input_datatable":{
+                "columns":["Weather_Condition"],
                 "value": "Rain",
                 "regex": "False",
                 "to_replace": "Rain Shower"
@@ -1703,6 +1880,12 @@
                 "to_replace": "Rain Showers"
             },
             "input_polars":{
+                "columns":["Weather_Condition"],
+                "value": "Rain",
+                "regex": "False",
+                "to_replace": "Rain Showers"
+            },
+            "input_datatable":{
                 "columns":["Weather_Condition"],
                 "value": "Rain",
                 "regex": "False",
@@ -1748,6 +1931,12 @@
                 "to_replace": "West"
             },
             "input_polars":{
+                "columns":["Wind_Direction"],
+                "value": "W",
+                "regex": "False",
+                "to_replace": "West"
+            },
+            "input_datatable":{
                 "columns":["Wind_Direction"],
                 "value": "W",
                 "regex": "False",
@@ -1793,6 +1982,12 @@
                 "to_replace": "Variable"
             },
             "input_polars":{
+                "columns":["Wind_Direction"],
+                "value": "VAR",
+                "regex": "False",
+                "to_replace": "Variable"
+            },
+            "input_datatable":{
                 "columns":["Wind_Direction"],
                 "value": "VAR",
                 "regex": "False",
@@ -1838,6 +2033,12 @@
                 "to_replace": "South"
             },
             "input_polars":{
+                "columns":["Wind_Direction"],
+                "value": "S",
+                "regex": "False",
+                "to_replace": "South"
+            },
+            "input_datatable":{
                 "columns":["Wind_Direction"],
                 "value": "S",
                 "regex": "False",
@@ -1883,6 +2084,12 @@
                 "to_replace": "Calm"
             },
             "input_polars":{
+                "columns":["Wind_Direction"],
+                "value": "CALM",
+                "regex": "False",
+                "to_replace": "Calm"
+            },
+            "input_datatable":{
                 "columns":["Wind_Direction"],
                 "value": "CALM",
                 "regex": "False",
@@ -1928,6 +2135,12 @@
                 "to_replace": "East"
             },
             "input_polars":{
+                "columns":["Wind_Direction"],
+                "value": "E",
+                "regex": "False",
+                "to_replace": "East"
+            },
+            "input_datatable":{
                 "columns":["Wind_Direction"],
                 "value": "E",
                 "regex": "False",
@@ -1973,6 +2186,12 @@
                 "to_replace": "North"
             },
             "input_polars":{
+                "columns":["Wind_Direction"],
+                "value": "N",
+                "regex": "False",
+                "to_replace": "North"
+            },
+            "input_datatable":{
                 "columns":["Wind_Direction"],
                 "value": "N",
                 "regex": "False",
@@ -2015,6 +2234,10 @@
                 "value":"KBTR",
                 "columns":["Airport_Code"]
             },
+            "input_datatable":{
+                "value":"KBTR",
+                "columns":["Airport_Code"]
+            },
             "input_pyspark_pandas":{
                 "value":"KBTR",
                 "columns":["Airport_Code"]
@@ -2043,6 +2266,10 @@
                 "columns":["Wind_Direction"]
             },
             "input_polars":{
+                "value":"CALM",
+                "columns":["Wind_Direction"]
+            },
+            "input_datatable":{
                 "value":"CALM",
                 "columns":["Wind_Direction"]
             },
@@ -2077,6 +2304,10 @@
                 "value":"Day",
                 "columns":["Sunrise_Sunset"]
             },
+            "input_datatable":{
+                "value":"Day",
+                "columns":["Sunrise_Sunset"]
+            },
             "input_pyspark_pandas":{
                 "value":"Day",
                 "columns":["Sunrise_Sunset"]
@@ -2102,6 +2333,9 @@
                 "columns":"all"
             },
             "input_polars":{
+                "columns":"all"
+            },
+            "input_datatable":{
                 "columns":"all"
             },
             "input_pyspark_pandas":{
@@ -2136,6 +2370,12 @@
                 "col_names": ["Zipcode_ok", "Zipcode_not_ok"]
             },
             "input_polars":{
+                "column":"Zipcode",
+                "sep": "-",
+                "splits": 2,
+                "col_names": ["Zipcode_ok", "Zipcode_not_ok"]
+            },
+            "input_datatable":{
                 "column":"Zipcode",
                 "sep": "-",
                 "splits": 2,

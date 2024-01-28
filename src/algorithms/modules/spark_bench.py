@@ -1022,44 +1022,23 @@ class SparkBench(AbstractAlgorithm):
 
     @timing
     def plot_geo(self,frame,i):
-        # Read GeoJSON file into a DataFrame
-        #contiguous_usa = self.sparkSession.read.json('datasets/US_Accidents_March23/contiguous-usa.geojson')
         contiguous_usa = geopandas.read_file(gplt.datasets.get_path('contiguous_usa'))
         ax = gplt.polyplot(contiguous_usa,projection=gcrs.AlbersEqualArea(),figsize=(20, 20))
         gplt.pointplot(frame, ax=ax, hue=frame[i], scale=frame[i], legend=True, legend_var='hue')
         
-        #fig, ax = plt.subplots(figsize=(20, 20))
-        #divider = make_axes_locatable(ax)
-        #cax = divider.append_axes("right", size="5%", pad=0.1)
-        # Plot the GeoDataFrame
-        #contiguous_usa.toPandas().plot(ax=ax, color='white', edgecolor='black')
-
-        # Plot points from frame
-        #frame.select(geometry_column, i).toPandas().plot(
-        #    ax=ax,
-        #    markersize=frame[i].toPandas(),
-        #    c=frame[i].toPandas(),
-        #    cmap="viridis",
-        #    legend=True,
-        #    cax=cax,
-        #)
         return frame
 
     @timing
     def simple_imputer(self, columns):
-        #imputer1 = SimpleImputer(missing_values=np.nan, strategy='median')
+
         c=columns
         imputer1 = Imputer(strategy='median', inputCols=columns, outputCols=c)
         model = imputer1.fit(self.df_)
         imputed_df = model.transform(self.df_)
 
-        #accident_data_median_fit = imputer1.fit_transform(self.df_[columns])
-        #accident_data_median = imputer1.transform(accident_data_median_fit)
         for col in columns: 
             imputed_df = imputed_df.drop(col).withColumnRenamed(f"{col}_imputed", col)
 
-        #self.df_[columns] = pd.DataFrame(accident_data_median)
-        #imputed_pandas_df = imputed_df.toPandas()
         return self.df_
 
     @timing
@@ -1082,34 +1061,4 @@ class SparkBench(AbstractAlgorithm):
 
         # Return the resulting DataFrame
         return accident_data_pca
-
-
-#gdf_severity = spark.read.parquet("path/to/your/parquet/file") --> frame
-#geometry_column = "geometry"
-#severity_column = "Severity" --> quello che gli passo come colonna ovvero i
-
-# Generate a sample DataFrame
-#gdfs_sample = gdf_severity.sample(withReplacement=False, fraction=0.1, seed=42)
-
-# Assuming 'contiguous_usa' is a GeoJSON file
-#contiguous_usa_path = "path/to/contiguous_usa.geojson"
-#contiguous_usa = spark.read.json(contiguous_usa_path)
-
-# Plotting
-#fig, ax = plt.subplots(figsize=(20, 20))
-#divider = make_axes_locatable(ax)
-#cax = divider.append_axes("right", size="5%", pad=0.1)
-
-# Plot the GeoDataFrame
-#contiguous_usa.toPandas().plot(ax=ax, color='white', edgecolor='black')
-
-# Plot points from 'gdfs_sample' DataFrame
-#gdfs_sample.select(geometry_column, severity_column).toPandas().plot(
-#    ax=ax,
-#    markersize=gdfs_sample[severity_column].toPandas(),
-#    c=gdfs_sample[severity_column].toPandas(),
-#    cmap="viridis",
-#    legend=True,
-#    cax=cax,
-#)
 

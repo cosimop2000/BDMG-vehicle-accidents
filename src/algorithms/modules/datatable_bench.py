@@ -19,6 +19,11 @@ import h5py
 from src.algorithms.utils import timing
 from src.datasets.dataset import Dataset
 from src.algorithms.algorithm import AbstractAlgorithm
+import geopandas
+import geoplot as gplt
+import geoplot.crs as gcrs
+from sklearn.impute import SimpleImputer
+from sklearn.decomposition import PCA
 
 
 class DataTableBench(AbstractAlgorithm):
@@ -495,7 +500,14 @@ class DataTableBench(AbstractAlgorithm):
         using the provided sep string as separator
         Col_names is a list of column names
         """
-        pass
+        split_data = self.df_[:, column].to_list()[0]
+        split_data = [str(x).split(sep, maxsplit=splits) for x in split_data]
+        split_data = [x + [''] * (splits + 1 - len(x)) for x in split_data]
+        new_cols = {name: [row[i] for row in split_data] for i, name in enumerate(col_names)}
+        for name, data in new_cols.items():
+            self.df_[name] = dt.Frame(data)
+        return self.df_
+        
 
     @timing
     def strip(self, columns, chars):
@@ -534,6 +546,7 @@ class DataTableBench(AbstractAlgorithm):
         Calculate the new column col_name by applying
         the function f to the whole dataframe
         """
+        pass
         if not columns:
             columns = self.df_.names
 
@@ -542,7 +555,9 @@ class DataTableBench(AbstractAlgorithm):
 
         import numpy as np
         arr = self.df_[:, columns].to_numpy()
-        self.df_[:, col_name] = np.apply_along_axis(f, 1, arr)
+        
+        new_col= np.apply_along_axis(f, 1, arr)
+        self.df_[:, col_name] =new_col
         
         return self.df_
 
@@ -741,6 +756,31 @@ class DataTableBench(AbstractAlgorithm):
         # es. looking for cases where Humidity is zero and Percipitation is null
         result = self.df_[(dt.f[col1] == 0) & dt.isna(dt.f[col2]), [col3, col4]]
         return result
+    
+    @timing
+    def plot_geo(self,frame,i):
+        contiguous_usa = geopandas.read_file(gplt.datasets.get_path('contiguous_usa'))
+        ax = gplt.polyplot(contiguous_usa,projection=gcrs.AlbersEqualArea(),figsize=(20, 20))
+        gplt.pointplot(frame, ax=ax, hue=frame[i], scale=frame[i], legend=True, legend_var='hue')
+        return frame
+    
+    @timing
+    def simple_imputer(self, columns):
+        dt=self.df_.to_pandas()
+        imputer1 = SimpleImputer(missing_values=np.nan, strategy='median')
+        accident_data_median_fit = imputer1.fit_transform(dt[columns])
+        accident_data_median = imputer1.transform(accident_data_median_fit)
+
+        dt[columns] = pd.DataFrame(accident_data_median)
+        return dt
+    
+    @timing
+    def pca(self, data_pca, n_dim=3):
+        # Create principal components
+        data_pca = data_pca.dropna()
+        pca = PCA(n_dim)
+        accident_data_pca = pca.fit_transform(data_pca)
+        return accident_data_pca
     
     def force_execution(self):
         self.df_.materialize()
