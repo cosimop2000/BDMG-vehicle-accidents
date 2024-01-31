@@ -168,9 +168,7 @@ class PandasBench(AbstractAlgorithm):
         """
         Check the uniqueness of all values contained in the provided column_name
         """
-        colum = self.df_[:, column]
-        is_unique = len(colum) == len(colum.unique())
-        return is_unique
+        return self.df_[column].is_unique
 
     @timing
     def delete_columns(self, columns):
