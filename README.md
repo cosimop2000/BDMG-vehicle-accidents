@@ -4,7 +4,8 @@ Authors: Ferrari Sara, Pavone Cosimo, Pederzoli Sara
 
 # Dataset
 
-TODO
+This dataset includes nationwide traffic crash information for all 49 US states. The dataset has been continously assembled since February 2016, using data from multiple sources, including several APIs that stream traffic incident data. These APIs capture traffic incidents reported by various entities, such as US and state departments of transportation, law enforcement agencies, traffic cameras and road network sensors. The dataset currently contains over 7 milion records. 
+
 
 # Procedure 
 
