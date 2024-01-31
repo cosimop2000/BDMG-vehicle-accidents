@@ -109,7 +109,7 @@
             "input_modin_ray": {
                 "col1": "End_Lat",
                 "col2": "End_Lng"
-            }
+            } 
         },
         {
             "method":"is_unique",
