@@ -33,7 +33,7 @@ python3 run_algorithm.py --algorithm <algorithm_name> --dataset <dataset_name> -
 ```
 
 # Result
-The result obtained are the following:
+The results obtained on a sample of 10000 are the following:
 
 1. The execution time for each command is the following:
    
